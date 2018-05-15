@@ -22,7 +22,7 @@ class BasicFramework extends JFrame {
 	private JSplitPane splitPaneOne, splitPaneTwo;
 	private JMenuBar MenuBar;
 	private JToolBar ToolBar;
-	private String[] labelStr = {"TEXT : ", "X : ", "Y : ", "W : ", "H : ", "Color : "};
+	private String[] labelStr = {"  TEXT : ", "  X : ", "  Y : ", "  W : ", "  H : ", "  Color : "};
 	private Font basicFont = new Font("basicFont", Font.PLAIN,15);
 	
 	private void CreateBar() {
