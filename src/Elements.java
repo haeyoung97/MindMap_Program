@@ -5,7 +5,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.FlowLayout;
 
-import javax.swing.JFrame;
+//import javax.swing.JFrame;
 
 
 import javax.swing.JButton;
@@ -14,41 +14,54 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
+//import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 
+
+class Elements {
+	Font basicFont = new Font("DialogInput", Font.PLAIN,20);
+	// Mindmap
+	JPanel mindMapPanel;
+	JPanel drawNodePanel;
+	JLabel [] Node;
+	// Attribute
+	public JPanel attributePanel;
+	JPanel attributeFieldPane;
+	String[] labelStr = {"  TEXT : ", "  X : ", "  Y : ", "  W : ", "  H : ", "  Color : "};
+	JLabel[] MindMapNode;
+	// Text
+	JTextArea textEditor = new JTextArea(30, 15);
+	public JPanel textEditorPanel;
+	
+}
+
 class Bar extends JMenuBar{
+	private Font basicFont = new Font("DialogInput", Font.BOLD,20);
+	
 	private JPanel menuPanel;
 	private JMenuBar MenuBar;		
 	private JToolBar ToolBar;
-	
+	private JMenu[] menuOp = new JMenu[6];
+	private JButton[] toolOp = new JButton[6];	
+	private String[] arrMenu = {"New", "Open", "Save", "Save As..", "Apply", "Change"};
 	
 	Bar(Container c) {
 		// menuBar & toolBar 구성
 		MenuBar = new JMenuBar();
 		ToolBar = new JToolBar("Tool Bar");
-		JMenu newMenu = new JMenu("New");
-		JMenu openMenu = new JMenu("Open");
-		JMenu saveMenu = new JMenu("Save");
-		JMenu saveAsMenu = new JMenu("Save As..");
-		JMenu applyMenu = new JMenu("Apply");
-		JMenu changeMenu = new JMenu("Change");
-		MenuBar.add(newMenu);
-		MenuBar.add(openMenu);
-		MenuBar.add(saveMenu);
-		MenuBar.add(saveAsMenu);
-		MenuBar.add(applyMenu);
-		MenuBar.add(changeMenu);
-		ToolBar.add(new JButton("New"));
-		ToolBar.add(new JButton("Open"));
-		ToolBar.add(new JButton("Save"));
-		ToolBar.add(new JButton("Save As.."));
-		ToolBar.add(new JButton("Apply"));
-		ToolBar.add(new JButton("Change"));
-		
+		for(int i = 0; i < menuOp.length; i++) {
+			menuOp[i] = new JMenu(arrMenu[i]);
+			menuOp[i].setFont(basicFont);
+			MenuBar.add(menuOp[i]);
+			toolOp[i] = new JButton(arrMenu[i]);
+			toolOp[i].setFont(basicFont);
+			ToolBar.add(toolOp[i]);
+			ToolBar.addSeparator();
+		}
+		ToolBar.setFloatable(false);
 		menuPanel = new JPanel();
 		menuPanel.setLayout(new GridLayout(2,1));
 		menuPanel.add(MenuBar);
@@ -59,29 +72,22 @@ class Bar extends JMenuBar{
 	
 }
 	
-class Mindmap {
-	JPanel mindMapPanel;
-	JPanel drawNodePanel;
-
-
-	JLabel [] Node;
-	
+class Mindmap extends Elements{
 	Mindmap(){		
 		mindMapPanel = new JPanel();
 		mindMapPanel.setLayout(new BorderLayout(10, 0));
 		JTextField mindMapEdit = new JTextField("Mind Map",40);
 		mindMapEdit.setEditable(false);
-//		mindMapEdit.setFont(basicFont);
-		mindMapEdit.setFont(new Font("basicFont", Font.PLAIN,15));
+		mindMapEdit.setFont(basicFont);
 		mindMapEdit.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		drawNodePanel = new JPanel();//추가
 		drawNodePanel.setLayout(new FlowLayout());
 		drawNodePanel.setBackground(Color.white);
-		
+//		mindMapPanel.add(drawNodePanel,BorderLayout.CENTER);
+//		
 		mindMapPanel.add(mindMapEdit, BorderLayout.NORTH);
 		mindMapPanel.add(drawNodePanel,BorderLayout.CENTER);
-//		mindMapPanel.add(drawNodePanel,BorderLayout.CENTER);
 		drawNodePanel.setVisible(true);
 	}
 	
@@ -94,23 +100,16 @@ class Mindmap {
 		System.out.println("dygh");
 	}
 	
-	
-		
+
 }
 
-class Attribute {
-
-	public JPanel attributePanel;
-	private JPanel attributeFieldPane;
-	private String[] labelStr = {"  TEXT : ", "  X : ", "  Y : ", "  W : ", "  H : ", "  Color : "};
-	private JLabel[] MindMapNode;
-	
+class Attribute extends Elements{
 	Attribute(Mindmap mindmapSection){
 		attributePanel = new JPanel();
 		attributePanel.setLayout(new BorderLayout(10, 0));
 		JTextField attributeEdit = new JTextField("Attribute Editor",15);
 		attributeEdit.setEditable(false);
-		attributeEdit.setFont(new Font("basicFont", Font.PLAIN,15)); //폰트
+		attributeEdit.setFont(basicFont); //폰트
 		attributeEdit.setHorizontalAlignment(SwingConstants.CENTER);
 		attributePanel.add(attributeEdit, BorderLayout.NORTH);
 		
@@ -121,10 +120,10 @@ class Attribute {
 		attributePanel.add(attributeFieldPane, BorderLayout.CENTER);
 		
 		JButton changeBtn = new JButton("변경");
-		changeBtn.addActionListener(new ButtonListener(attributeFieldPane,mindmapSection)); //버튼 이벤트
+//		changeBtn.addActionListener(new ButtonListener(attributeFieldPane,mindmapSection)); //버튼 이벤트
 		
 		
-		changeBtn.setFont(new Font("basicFont", Font.PLAIN,15)); //폰트
+		changeBtn.setFont(basicFont); //폰트
 		changeBtn.setHorizontalAlignment(SwingConstants.CENTER);
 		attributePanel.add(changeBtn, BorderLayout.SOUTH);
 	}
@@ -135,11 +134,11 @@ class Attribute {
 		for(int i=0;i<6;i++) {
 			labels[i] = new JLabel(labelStr[i]);
 			labels[i].setFocusable(false);
-			labels[i].setFont(new Font("basicFont", Font.PLAIN,15)); //폰트
+			labels[i].setFont(basicFont); //폰트
 			labels[i].setHorizontalAlignment(SwingConstants.LEFT);
 			attributeFieldPane.add(labels[i]);
-			fields[i] = new JTextField(6);
-			fields[i].setFont(new Font("basicFont", Font.PLAIN,15)); //폰트
+			fields[i] = new JTextField();
+			fields[i].setFont(basicFont); //폰트
 			if(i==0)
 				fields[i].setEditable(false);
 			fields[i].setHorizontalAlignment(SwingConstants.CENTER);
@@ -149,17 +148,16 @@ class Attribute {
 	}
 }
 
-class Text{
-	private JTextArea textEditor = new JTextArea(20, 15);
-	public JPanel textEditorPanel;
-	private JLabel[] MindMapNode;
+class Text extends Elements {
 	
 	Text(Mindmap mindmapSection){
 		textEditorPanel = new JPanel();
 		textEditorPanel.setLayout(new BorderLayout(10, 0));
 		JTextField textEdit = new JTextField("Text Editor",15);
 		textEdit.setEditable(false);
-		textEdit.setFont(new Font("basicFont", Font.PLAIN,15));//폰트
+		textEdit.setFont(basicFont);//폰트
+		textEditor.setFont(basicFont);//폰트
+		
 		textEdit.setHorizontalAlignment(SwingConstants.CENTER);
 		textEditorPanel.add(textEdit, BorderLayout.NORTH);
 		textEditor.setTabSize(2);
@@ -167,7 +165,7 @@ class Text{
 		
 		JButton applyBtn = new JButton("적용");			
 		
-		applyBtn.setFont(new Font("basicFont", Font.PLAIN,15)); //폰트
+		applyBtn.setFont(basicFont); //폰트
 		applyBtn.setHorizontalAlignment(SwingConstants.CENTER);
 		textEditorPanel.add(applyBtn, BorderLayout.SOUTH);
 
@@ -176,9 +174,3 @@ class Text{
 		
 	}
 }
-
-
-
-	
-	
-

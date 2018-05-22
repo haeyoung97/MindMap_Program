@@ -1,5 +1,4 @@
 
-
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -8,14 +7,17 @@ import javax.swing.JLabel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
+import java.awt.Font;
+//import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import java.util.StringTokenizer;
 
 
-class ButtonListener implements ActionListener{ //버튼 이벤트
+class ButtonListener implements ActionListener { //버튼 이벤트
+	private Font basicFont = new Font("DialogInput", Font.BOLD,20);
+	
 	private Object O;
 	private Mindmap mindmapSection;
 	//private JLabel [] MindMapNode;
@@ -23,7 +25,7 @@ class ButtonListener implements ActionListener{ //버튼 이벤트
 	private String [] valueArray=new String[6];			//attribute editor 값	-이 버튼이 실행될 때마다 새로운 객체 생기는 것이 찜찜함...
 	private String tmp=new String();
 	
-	
+//	JLabel [] Node;
 	
 	
 	ButtonListener(Object O,Mindmap mindmapSection) {
@@ -37,9 +39,7 @@ class ButtonListener implements ActionListener{ //버튼 이벤트
 		
 		if(Btn.getText().equals("적용")) { 		//Text Editor
 			int i=0; 							//while문 카운트
-			
 //			mindmapSection.drawNodePanel.removeAll();
-			
 			
 			buffer=new StringBuffer(((JTextArea)O).getText());
 		    tmp=buffer.toString();
@@ -58,6 +58,7 @@ class ButtonListener implements ActionListener{ //버튼 이벤트
 				System.out.println(member[i]);
 				mindmapSection.Node[i]=new JLabel(member[i]);				//MindMapNode배열 저장 OK
 				mindmapSection.Node[i].setOpaque(true);
+				mindmapSection.Node[i].setFont(basicFont);
 				mindmapSection.Node[i].setBackground(Color.CYAN);
 				mindmapSection.drawNodePanel.add(mindmapSection.Node[i]);					//여기가 문제... 출력이 ..안된다..
 				i++;
@@ -78,7 +79,6 @@ class ButtonListener implements ActionListener{ //버튼 이벤트
 				valueArray[i-1]=value[i-1].getText();
 				System.out.println(valueArray[i-1]); //0번째에는 현재 빈 공간. NAME부분.
 			}
-			
 			
 		}
 		
