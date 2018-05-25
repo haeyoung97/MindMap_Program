@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 //import javax.swing.JSplitPane;
@@ -19,10 +20,14 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
+import javax.swing.event.MenuListener;
 
 
-class Elements {
+class Elements extends JMenuBar{
 	Font basicFont = new Font("DialogInput", Font.PLAIN,20);
+	// Bar
+//	JMenu[] menuOp = new JMenu[6];
+	JButton[] toolOp = new JButton[6];
 	// Mindmap
 	JPanel mindMapPanel;
 	JPanel drawNodePanel;
@@ -38,29 +43,35 @@ class Elements {
 	
 }
 
-class Bar extends JMenuBar{
-	private Font basicFont = new Font("DialogInput", Font.BOLD,20);
-	
+class Bar extends Elements{
 	private JPanel menuPanel;
 	private JMenuBar MenuBar;		
 	private JToolBar ToolBar;
-	private JMenu[] menuOp = new JMenu[6];
-	private JButton[] toolOp = new JButton[6];	
 	private String[] arrMenu = {"New", "Open", "Save", "Save As..", "Apply", "Change"};
+	JMenu menu = new JMenu("Menu");
+	JMenuItem[] menuOp = new JMenuItem[6];
 	
-	Bar(Container c) {
+	Bar(Container c, Mindmap mindmapSection) {
 		// menuBar & toolBar 구성
 		MenuBar = new JMenuBar();
 		ToolBar = new JToolBar("Tool Bar");
+		
 		for(int i = 0; i < menuOp.length; i++) {
-			menuOp[i] = new JMenu(arrMenu[i]);
+			menuOp[i] = new JMenuItem(arrMenu[i]);
 			menuOp[i].setFont(basicFont);
-			MenuBar.add(menuOp[i]);
+			menu.add(menuOp[i]);
 			toolOp[i] = new JButton(arrMenu[i]);
 			toolOp[i].setFont(basicFont);
 			ToolBar.add(toolOp[i]);
 			ToolBar.addSeparator();
 		}
+		MenuBar.add(menu);
+		
+//		ButtonListener listener = new ButtonListener(textEditor, mindmapSection);
+//		
+//		menuOp[4].addActionListener(listener);  //버튼 이벤트  이상하다. mindMapPanel에서 막힌다. 행의 위치에 따라 다
+//		toolOp[4].addActionListener(listener);  //버튼 이벤트  이상하다. mindMapPanel에서 막힌다. 행의 위치에 따라 다
+
 		ToolBar.setFloatable(false);
 		menuPanel = new JPanel();
 		menuPanel.setLayout(new GridLayout(2,1));
@@ -70,6 +81,9 @@ class Bar extends JMenuBar{
 		c.add(menuPanel, BorderLayout.NORTH);
 	}
 	
+	JMenuItem getMenuItem(int index) {
+		return menuOp[index];
+	}
 }
 	
 class Mindmap extends Elements{
@@ -84,22 +98,11 @@ class Mindmap extends Elements{
 		drawNodePanel = new JPanel();//추가
 		drawNodePanel.setLayout(new FlowLayout());
 		drawNodePanel.setBackground(Color.white);
-//		mindMapPanel.add(drawNodePanel,BorderLayout.CENTER);
-//		
+
 		mindMapPanel.add(mindMapEdit, BorderLayout.NORTH);
 		mindMapPanel.add(drawNodePanel,BorderLayout.CENTER);
 		drawNodePanel.setVisible(true);
 	}
-	
-	void drawNodes() {
-		for(int i=0;i<Node.length;i++) {
-			System.out.println("cnt : " + i);
-			//drawNodePanel.add(Node[i]);
-			System.out.println("컴포수?~~"+drawNodePanel.getComponentCount());
-		}
-		System.out.println("dygh");
-	}
-	
 
 }
 
@@ -168,9 +171,15 @@ class Text extends Elements {
 		applyBtn.setFont(basicFont); //폰트
 		applyBtn.setHorizontalAlignment(SwingConstants.CENTER);
 		textEditorPanel.add(applyBtn, BorderLayout.SOUTH);
-
-		applyBtn.addActionListener(new ButtonListener(textEditor,mindmapSection));  //버튼 이벤트  이상하다. mindMapPanel에서 막힌다. 행의 위치에 따라 다
 		
+		ButtonListener listener = new ButtonListener(textEditor, mindmapSection);
+		
+		applyBtn.addActionListener(listener);  //버튼 이벤트  이상하다. mindMapPanel에서 막힌다. 행의 위치에 따라 다
+		
+		JMenuItem menuItem = getMenuItem(4);
+		menuItem.addActionListener(listener);  //버튼 이벤트  이상하다. mindMapPanel에서 막힌다. 행의 위치에 따라 다
+		toolOp[4].addActionListener(listener);  //버튼 이벤트  이상하다. mindMapPanel에서 막힌다. 행의 위치에 따라 다
+
 		
 	}
 }
@@ -198,7 +207,6 @@ class Data{
 class Tree{
 	Data start=null, last=null, obj=null;
 	
-	
 	int i=0;
 	
 	JLabel Make2Label(String value) {
@@ -207,15 +215,12 @@ class Tree{
 	
 	
 	void MakeTree(String [] member) {
-
 		int k=1;
 		for(int i=0;i<member.length;i++) {
-			if(start==null&&member[0].charAt(0)!='\t') { //첫 성분이 루트 (\t으로 시작 안한다.)
+			if(start==null && member[0].charAt(0)!='\t') { //첫 성분이 루트 (\t으로 시작 안한다.)
 				start=new Data(member[0]);
 				last=start;
 			}
-			
-			
 			else {
 				obj=new Data(member[i]);
 				
@@ -232,9 +237,7 @@ class Tree{
 				else if(nowTab-lastTab==1) { //자식노드 추가
 					obj.setParent(last);
 					last.setChild(obj);
-					
 				}
-				
 				else { //last가 마지막 자식, 새로 추가된 녀석은 ... last보다 높은 계층
 					while(true) {
 						last=last.getParent();
@@ -242,13 +245,11 @@ class Tree{
 							last.setSibling(obj);
 							break;
 						}
-						
-					}
-					
+					}	
 				}
 				k++;
 				last=obj;
-				System.out.println(k);
+				System.out.println("make tree ;  " + k);
 			}
 			
 		}
@@ -258,7 +259,8 @@ class Tree{
 	void print() {
 		int H=0;
 		Data k=start;
-		System.out.println(H+" "+k.toString());
+		System.out.println(start.toString());
+//		System.out.println(H+" "+k.toString());
 		while(true) {
 			
 			if(k.getChild()!=null) {

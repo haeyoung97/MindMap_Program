@@ -1,30 +1,13 @@
-//import java.lang.Class;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
-//import java.awt.Font;
-//import java.awt.GridLayout;
-import java.awt.Font;
 
-//import javax.swing.JButton;
 import javax.swing.JFrame;
-//import javax.swing.JLabel;
-//import javax.swing.JMenuBar;
-//import javax.swing.JPanel;
-//import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-//import javax.swing.JTextArea;
-//import javax.swing.JTextField;
-//import javax.swing.JToolBar;
-//import javax.swing.SwingConstants;
-//import javax.swing.JMenu;
-
-//import java.awt.event.ActionEvent;
 
 class BasicFramework extends JFrame {
 	
 	private JSplitPane splitPaneOne, splitPaneTwo;	
-//	private Bar menubar,toolbar;
 	private Mindmap mindmapSection;
 	private Attribute attributeSection;
 	private Text textSection;
@@ -37,10 +20,13 @@ class BasicFramework extends JFrame {
 		Container c = getContentPane();
 		c.setLayout(new BorderLayout());
 		
-		new Bar(c);		
+//		new Bar(c, mindmapSection);	
+//		new Bar(c);
 		mindmapSection=new Mindmap();
+//		new Bar(c, mindmapSection);
 		attributeSection=new Attribute(mindmapSection);
 		textSection=new Text(mindmapSection);
+		new Bar(c, mindmapSection);
 		
 		splitPaneOne = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		splitPaneTwo = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
