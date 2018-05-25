@@ -84,6 +84,9 @@ class Bar extends Elements{
 	JMenuItem getMenuItem(int index) {
 		return menuOp[index];
 	}
+	JButton getToolButton(int index) {
+		return toolOp[index];
+	}
 }
 	
 class Mindmap extends Elements{
@@ -153,7 +156,7 @@ class Attribute extends Elements{
 
 class Text extends Elements {
 	
-	Text(Mindmap mindmapSection){
+	Text(Mindmap mindmapSection,Bar b){
 		textEditorPanel = new JPanel();
 		textEditorPanel.setLayout(new BorderLayout(10, 0));
 		JTextField textEdit = new JTextField("Text Editor",15);
@@ -176,9 +179,10 @@ class Text extends Elements {
 		
 		applyBtn.addActionListener(listener);  //버튼 이벤트  이상하다. mindMapPanel에서 막힌다. 행의 위치에 따라 다
 		
-		JMenuItem menuItem = getMenuItem(4);
+		JMenuItem menuItem = b.getMenuItem(4);
+		JButton toolBtn = b.getToolButton(4);
 		menuItem.addActionListener(listener);  //버튼 이벤트  이상하다. mindMapPanel에서 막힌다. 행의 위치에 따라 다
-		toolOp[4].addActionListener(listener);  //버튼 이벤트  이상하다. mindMapPanel에서 막힌다. 행의 위치에 따라 다
+		toolBtn.addActionListener(listener);  //버튼 이벤트  이상하다. mindMapPanel에서 막힌다. 행의 위치에 따라 다
 
 		
 	}
