@@ -1,9 +1,12 @@
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.Container;
+import javax.swing.JLabel;
 
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
+
 
 class BasicFramework extends JFrame {
 	
@@ -52,9 +55,13 @@ class BasicFramework extends JFrame {
 	}
 }
 
+
+
+
 public class DrawMindMap {
 
 	public static void main(String[] args) {
+
 		new BasicFramework();
 		
 	}
