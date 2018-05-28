@@ -41,13 +41,16 @@ class ButtonListener implements ActionListener{ //버튼 이벤트
 				i++;
 			}
 			
-			tree.MakeTree(member); //트리만들기...
-			tree.print();
-			tree.AddLabel(mindmapSection.drawNodePanel);
-			mindmapSection.drawNodePanel.setVisible(false);
-			mindmapSection.drawNodePanel.setVisible(true);
+			if(tree.MakeTree(member)) {
+				tree.print();
+				tree.AddLabel(mindmapSection.drawNodePanel);
+				mindmapSection.drawNodePanel.setVisible(false);
+				mindmapSection.drawNodePanel.setVisible(true);
+				tree.Default();
+			}
+			
 				
-			tree.Default();
+			
 						
 		}
 		
