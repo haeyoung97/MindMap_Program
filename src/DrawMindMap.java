@@ -1,8 +1,6 @@
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.Container;
-import javax.swing.JLabel;
 
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
@@ -23,11 +21,8 @@ class BasicFramework extends JFrame {
 		Container c = getContentPane();
 		c.setLayout(new BorderLayout());
 		
-//		new Bar(c, mindmapSection);	
-//		new Bar(c);
-		mindmapSection=new Mindmap();
-//		new Bar(c, mindmapSection);
-		attributeSection=new Attribute(mindmapSection);
+		mindmapSection = new Mindmap();
+		attributeSection = new Attribute(mindmapSection);
 		Bar bar = new Bar(c, mindmapSection);
 		textSection = new Text(mindmapSection, bar);
 		
@@ -35,13 +30,11 @@ class BasicFramework extends JFrame {
 		splitPaneOne = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		splitPaneTwo = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
-//		splitPaneOne.setContinuousLayout(true); //연속적인 레이아웃 기능 활성화
 		splitPaneOne.setLeftComponent(textSection.textEditorPanel); //좌측 컴포넌트 장착
 		splitPaneOne.setRightComponent(splitPaneTwo); //우측 컴포넌트 장착
 		splitPaneOne.setDividerLocation(250); //디바이더(분리대) 위치 설정 
 		splitPaneOne.setDividerSize(10); //디바이더(분리대) 굵기 설정
 			
-//		splitPaneTwo.setContinuousLayout(true); //연속적인 레이아웃 기능 활성화
 		splitPaneTwo.setLeftComponent(mindmapSection.mindMapPanel); //좌측 컴포넌트 장착
 		splitPaneTwo.setRightComponent(attributeSection.attributePanel); //우측 컴포넌트 장착
 		splitPaneTwo.setDividerLocation(650); //디바이더(분리대) 위치 설정     
