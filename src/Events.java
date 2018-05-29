@@ -1,12 +1,13 @@
 
-//import javax.swing.JPanel;
+
+import javax.swing.JLabel;
 import javax.swing.JTextArea;
-//import javax.swing.JTextField;
-//import javax.swing.JButton;
+import javax.swing.JTextField;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.StringTokenizer;
 
 
@@ -14,7 +15,6 @@ class ButtonListener implements ActionListener{ //버튼 이벤트
 	private Object O;
 	private Mindmap mindmapSection;
 	private StringBuffer buffer; 						//text editor 값		-이 버튼이 실행될 때마다 새로운 객체 생기는 것이 찜찜함...
-//	private String [] valueArray=new String[6];			//attribute editor 값	-이 버튼이 실행될 때마다 새로운 객체 생기는 것이 찜찜함...
 	private String tmp=new String();
 	private Tree tree=new Tree(); //TREE추가
 	
@@ -47,11 +47,7 @@ class ButtonListener implements ActionListener{ //버튼 이벤트
 				mindmapSection.drawNodePanel.setVisible(false);
 				mindmapSection.drawNodePanel.setVisible(true);
 				tree.Default();
-			}
-			
-				
-			
-						
+			}						
 		}
 		
 //		else if(Btn.getText().equals("변경")) { //Attribute Editor 
@@ -67,6 +63,33 @@ class ButtonListener implements ActionListener{ //버튼 이벤트
 		
 	}
 }
+
+
+class JLabelListener extends MouseAdapter {
+//	private JTextField[] valueArray = new JTextField[6];			//attribute editor 값	-이 버튼이 실행될 때마다 새로운 객체 생기는 것이 찜찜함...
+//	private JTextField[] fields;			//attribute editor 값	-이 버튼이 실행될 때마다 새로운 객체 생기는 것이 찜찜함...
+	
+	public JLabelListener() {
+		
+	}
+
+	public void mousePressed(MouseEvent e) {
+		JLabel lb = (JLabel)e.getSource();
+		String name = lb.getText();
+		int x = e.getX();
+		int y = e.getY();
+		int lbX = lb.getWidth()/2; 	// width
+		int lbY = lb.getHeight()/2; // height
+//		fields[0] = new JTextField(name);
+//		fields[1] = new JTextField(x);
+//		fields[2] = new JTextField(y);
+//		fields[3] = new JTextField(lbX);
+//		fields[4] = new JTextField(lbY);
+//		fields[5] = new JTextField();
+		System.out.println("test name : " + name + " test X : " + x + " test Y : "+y);
+	}
+}
+
 
 class SaveButtonListener implements ActionListener{
 
