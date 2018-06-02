@@ -4,8 +4,8 @@ import java.awt.Container;
 
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
-////////////·ê·ç?????????//asdfasdfadf///////////
 
+//gg
 class BasicFramework extends JFrame {
 	
 	private JSplitPane splitPaneOne, splitPaneTwo;	
