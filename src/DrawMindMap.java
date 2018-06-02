@@ -5,7 +5,7 @@ import java.awt.Container;
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
 
-//aaff 
+//aaff마지막확인 
 class BasicFramework extends JFrame {
 	
 	private JSplitPane splitPaneOne, splitPaneTwo;	
