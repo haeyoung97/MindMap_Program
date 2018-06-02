@@ -95,7 +95,13 @@ class Mindmap extends Elements{
 		mindMapPanel.add(mindMapEdit, BorderLayout.NORTH);
 		mindMapPanel.add(new JScrollPane(drawNodePanel),BorderLayout.CENTER);
 		drawNodePanel.setVisible(true);
+		Mouser mouser=new Mouser(drawNodePanel);
+		drawNodePanel.addMouseListener(mouser);
+		drawNodePanel.addMouseMotionListener(mouser);
+		
 	}
+	
+
 
 }
 
@@ -163,7 +169,7 @@ class Text extends Elements {
 		textEditorPanel.add(applyBtn, BorderLayout.SOUTH);
 		
 		ButtonListener listener = new ButtonListener(textEditor, mindmapSection);
-		
+		NewButtonListener listener2=new NewButtonListener(mindmapSection.drawNodePanel,textEditor);
 		applyBtn.addActionListener(listener);  //버튼 이벤트  이상하다. mindMapPanel에서 막힌다. 행의 위치에 따라 다
 		
 		JMenuItem menuItem = b.getMenuItem(4);
@@ -171,6 +177,10 @@ class Text extends Elements {
 		menuItem.addActionListener(listener);  //버튼 이벤트  이상하다. mindMapPanel에서 막힌다. 행의 위치에 따라 다
 		toolBtn.addActionListener(listener);  //버튼 이벤트  이상하다. mindMapPanel에서 막힌다. 행의 위치에 따라 다
 
-		
+		JMenuItem menuItem2 = b.getMenuItem(0);
+		JButton toolBtn2 = b.getToolButton(0);
+		menuItem2.addActionListener(listener2);  //버튼 이벤트  이상하다. mindMapPanel에서 막힌다. 행의 위치에 따라 다
+		toolBtn2.addActionListener(listener2);  //
+
 	}
 }
