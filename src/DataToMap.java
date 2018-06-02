@@ -35,10 +35,17 @@ class Data{
 }
 
 class MakeToLabel extends Elements {
+	private JPanel panel;
 	private Color[] labelColor = {Color.MAGENTA, Color.ORANGE, Color.GREEN, Color.CYAN, Color.RED, Color.BLUE,  Color.PINK};
 	Color getColor(int h) {return labelColor[h];}
-
-	private JLabelListener labelListen = new JLabelListener();
+//	private JLabelListener labelListen = new JLabelListener(panel);
+	private JLabelListener labelListen;
+	
+	MakeToLabel(JPanel panel){
+		this.panel=panel;
+		labelListen=new JLabelListener(panel);
+	}
+	
 
 	JLabel Make2Label(Data k) {
 		JLabel lb = new JLabel(k.toString(), SwingConstants.CENTER);
@@ -50,14 +57,23 @@ class MakeToLabel extends Elements {
 		lb.setFont(basicFont);
 	    lb.setOpaque(true);
 	    lb.addMouseListener(labelListen);
+		lb.addMouseMotionListener(labelListen);
 		return lb;
 	}
 }
 
 class Tree extends MakeToLabel{
+	Tree(JPanel panel) {
+		super(panel);
+		// TODO Auto-generated constructor stub
+	}
+
 	Data start=null, last=null, obj=null;
 	private int rootX, rootY;
 	int i=0;
+	JPanel panel;
+	
+
 
 	boolean MakeTree(String [] member) {
 		int k=1;
