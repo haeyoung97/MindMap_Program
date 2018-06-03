@@ -2,8 +2,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -17,14 +17,17 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 
+
+
+
+
 class Elements extends JMenuBar{
 	Font basicFont = new Font("DialogInput", Font.PLAIN,20);
 	// Bar
-//	JMenu[] menuOp = new JMenu[6];
 	JButton[] toolOp = new JButton[6];
 	// Mindmap
 	JPanel mindMapPanel;
-	JPanel drawNodePanel;
+	JDrawPanel drawNodePanel;
 	JLabel [] Node;
 	// Attribute
 	public JPanel attributePanel;
@@ -37,6 +40,8 @@ class Elements extends JMenuBar{
 	public JPanel textEditorPanel;
 	
 }
+
+
 
 class Bar extends Elements{
 	private JPanel menuPanel;
@@ -80,6 +85,10 @@ class Bar extends Elements{
 }
 	
 class Mindmap extends Elements{
+	JLabel P,C;
+	
+	
+	
 	Mindmap(){		
 		mindMapPanel = new JPanel();
 		mindMapPanel.setLayout(new BorderLayout(10, 0));
@@ -88,14 +97,22 @@ class Mindmap extends Elements{
 		mindMapEdit.setFont(basicFont);
 		mindMapEdit.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		drawNodePanel = new JPanel();//추가
+		drawNodePanel = new JDrawPanel();//추가
 		drawNodePanel.setLayout(null);
 		drawNodePanel.setBackground(Color.white);
 
+
 		mindMapPanel.add(mindMapEdit, BorderLayout.NORTH);
 		mindMapPanel.add(new JScrollPane(drawNodePanel),BorderLayout.CENTER);
+	
+		Mouser mouser=new Mouser(drawNodePanel);
+		drawNodePanel.addMouseListener(mouser);
+		drawNodePanel.addMouseMotionListener(mouser);
 		drawNodePanel.setVisible(true);
+		
 	}
+	
+
 
 }
 
@@ -163,7 +180,7 @@ class Text extends Elements {
 		textEditorPanel.add(applyBtn, BorderLayout.SOUTH);
 		
 		ButtonListener listener = new ButtonListener(textEditor, mindmapSection);
-		
+		NewButtonListener listener2=new NewButtonListener(mindmapSection.drawNodePanel,textEditor);
 		applyBtn.addActionListener(listener);  //버튼 이벤트  이상하다. mindMapPanel에서 막힌다. 행의 위치에 따라 다
 		
 		JMenuItem menuItem = b.getMenuItem(4);
@@ -171,6 +188,10 @@ class Text extends Elements {
 		menuItem.addActionListener(listener);  //버튼 이벤트  이상하다. mindMapPanel에서 막힌다. 행의 위치에 따라 다
 		toolBtn.addActionListener(listener);  //버튼 이벤트  이상하다. mindMapPanel에서 막힌다. 행의 위치에 따라 다
 
-		
+		JMenuItem menuItem2 = b.getMenuItem(0);
+		JButton toolBtn2 = b.getToolButton(0);
+		menuItem2.addActionListener(listener2);  //버튼 이벤트  이상하다. mindMapPanel에서 막힌다. 행의 위치에 따라 다
+		toolBtn2.addActionListener(listener2);  //
+
 	}
 }
