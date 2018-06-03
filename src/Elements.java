@@ -2,6 +2,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
@@ -16,13 +17,17 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 
+
+
+
+
 class Elements extends JMenuBar{
 	Font basicFont = new Font("DialogInput", Font.PLAIN,20);
 	// Bar
 	JButton[] toolOp = new JButton[6];
 	// Mindmap
 	JPanel mindMapPanel;
-	JPanel drawNodePanel;
+	JDrawPanel drawNodePanel;
 	JLabel [] Node;
 	// Attribute
 	public JPanel attributePanel;
@@ -35,6 +40,8 @@ class Elements extends JMenuBar{
 	public JPanel textEditorPanel;
 	
 }
+
+
 
 class Bar extends Elements{
 	private JPanel menuPanel;
@@ -78,6 +85,10 @@ class Bar extends Elements{
 }
 	
 class Mindmap extends Elements{
+	JLabel P,C;
+	
+	
+	
 	Mindmap(){		
 		mindMapPanel = new JPanel();
 		mindMapPanel.setLayout(new BorderLayout(10, 0));
@@ -86,16 +97,18 @@ class Mindmap extends Elements{
 		mindMapEdit.setFont(basicFont);
 		mindMapEdit.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		drawNodePanel = new JPanel();//추가
+		drawNodePanel = new JDrawPanel();//추가
 		drawNodePanel.setLayout(null);
 		drawNodePanel.setBackground(Color.white);
 
+
 		mindMapPanel.add(mindMapEdit, BorderLayout.NORTH);
 		mindMapPanel.add(new JScrollPane(drawNodePanel),BorderLayout.CENTER);
-		drawNodePanel.setVisible(true);
+	
 		Mouser mouser=new Mouser(drawNodePanel);
 		drawNodePanel.addMouseListener(mouser);
 		drawNodePanel.addMouseMotionListener(mouser);
+		drawNodePanel.setVisible(true);
 		
 	}
 	

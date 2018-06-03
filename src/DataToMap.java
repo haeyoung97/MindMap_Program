@@ -1,10 +1,131 @@
 import java.awt.Color;
+import java.awt.Graphics;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+
+class JDrawPanel extends JPanel{
+	JLabel P,C;
+	
+	JDrawPanel(){
+		super();
+		System.out.println("생서왕뇰!");
+	}
+	
+	void getLabels2drawing(JLabel P,JLabel C) {System.out.println("평화?"); this.P=P; this.C=C;	}
+	
+//	JDrawing(JLabel P,JLabel C) {this.P=P; this.C=C;}
+	
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		System.out.println("평화!");
+		int	width,height,startAngle, arcAngle;
+
+//		super.paintComponent(g);
+		if(this.P==null||this.C==null) {
+			return;
+		}
+		
+		System.out.println("////"+P.getText());
+		System.out.println(C.getText());
+		width=P.getWidth()*2;
+		height=P.getHeight()*2;
+		
+		int x,y;
+		
+		
+		g.setColor(Color.RED);
+			JLabel k=this.C;
+			x=C.getLocation().x;
+			y=C.getLocation().y;
+			if(x<P.getLocation().x) {
+				if(y<P.getLocation().y) {
+					startAngle=0;
+					arcAngle=90;
+					x=x-200+C.getSize().width/2;
+					y=y+C.getSize().height/2;
+					
+				}
+				else {
+					startAngle=90;
+					arcAngle=90;
+					y=y-200+C.getSize().height/2;	
+					x=x+C.getSize().width/2;
+				}
+			}
+			else {
+				x=P.getLocation().x;
+				y=P.getLocation().y;
+				if(P.getLocation().y<y) {
+					x=2*x-P.getLocation().x+P.getSize().width/2;
+					y=y-height+P.getSize().height/2;
+					
+					startAngle=0;
+					arcAngle=-90;
+				}
+				else {
+					startAngle=180;
+					arcAngle=90;
+					x=P.getLocation().x+C.getSize().width/2;
+					y=P.getLocation().y-200+C.getSize().height/2;
+				}
+			}
+			
+			g.drawArc(x, y,width,height,startAngle, arcAngle);
+		
+		//	public void DrawingLine(Graphics g) {
+//		System.out.println("I'm drawing");
+//		int	width,height,startAngle, arcAngle;
+//		
+//		width=200*2;
+//		height=200*2;
+//		
+//		int x,y;
+//		
+//		super.paintComponent(g);
+//		g.setColor(Color.RED);
+//			JLabel k=this.C;
+//			x=C.getLocation().x;
+//			y=C.getLocation().y;
+//			if(x<P.getLocation().x) {
+//				if(y<P.getLocation().y) {
+//					startAngle=0;
+//					arcAngle=90;
+//					x=x-200+C.getSize().width/2;
+//					y=y+C.getSize().height/2;
+//					
+//				}
+//				else {
+//					startAngle=90;
+//					arcAngle=90;
+//					y=y-200+C.getSize().height/2;	
+//					x=x+C.getSize().width/2;
+//				}
+//			}
+//			else {
+//				x=P.getLocation().x;
+//				y=P.getLocation().y;
+//				if(P.getLocation().y<y) {
+//					x=2*x-P.getLocation().x+P.getSize().width/2;
+//					y=y-height+P.getSize().height/2;
+//					
+//					startAngle=0;
+//					arcAngle=-90;
+//				}
+//				else {
+//					startAngle=180;
+//					arcAngle=90;
+//					x=P.getLocation().x+C.getSize().width/2;
+//					y=P.getLocation().y-200+C.getSize().height/2;
+//				}
+//			}
+//			
+//			g.drawArc(x, y,width,height,startAngle, arcAngle);
+	}
+}
 
 class Data{
 	private Data child;		//자식
@@ -47,6 +168,8 @@ class MakeToLabel extends Elements {
 //	private JLabelListener labelListen = new JLabelListener(panel);
 	private JLabelListener labelListen;
 	
+//	new JDrawing(new JLabel("A"),new JLabel("B"));
+	
 	MakeToLabel(JPanel panel){
 		this.panel=panel;
 		labelListen=new JLabelListener(panel);
@@ -74,9 +197,11 @@ class Tree extends MakeToLabel{
 	Data start=null, last=null, obj=null;
 	private int rootX, rootY;
 	int i=0;
-	JPanel panel;
+	JDrawPanel panel;
 	
-	Tree(JPanel panel) {
+	JLabel rootLabel;
+	
+	Tree(JDrawPanel panel) {
 		super(panel);
 	}
 
@@ -141,6 +266,9 @@ class Tree extends MakeToLabel{
 	void print() {
 		Data k=start;
 		System.out.println(k.getHeight()+" "+start.toString() + "    " + getSiblingIndex(k));
+		
+		
+		
 		while(true) {
 			if(k.getChild()!=null) {
 				k=k.getChild();
@@ -179,10 +307,9 @@ class Tree extends MakeToLabel{
 
 	int getRootY(){	return this.rootY; }
 	
-	void AddLabel(JPanel Panel) {
+	void AddLabel(JDrawPanel Panel) {
 		Data k=start;
 		
-		JLabel rootLabel;
 		rootLabel = Make2Label(k);
 		Panel.add(rootLabel);
 
@@ -202,10 +329,15 @@ class Tree extends MakeToLabel{
 		int cnt = 0;
 		int height = nowK.getHeight();
 		
+		
 		while(k.getHeight() != height) {
+	
 			k = k.getChild();
-		}
-		if(k.getSibling() == null)
+			if(k== null) { //////////////////////////////////이부분에서 자꾸 이상한 에러떠서 대충 끼워맞춰 수정함; 확인해조 이상업슨지..
+				System.out.println("sibling is null"); 		//a
+				return cnt--;}								// 	b
+		}													//	c	
+		if(k.getSibling() == null)							//	 	ee   //이렇게 되거나 또다른 상황에서도 에러나는거.. 
 			return cnt;
 		cnt++;
 		
@@ -219,16 +351,18 @@ class Tree extends MakeToLabel{
 		return cnt;
 	}
 
-	void ChildAddLabel(JPanel Panel, int x, int y, Data k, int s){
+	void ChildAddLabel(JDrawPanel Panel, int x, int y, Data k, int s){
 		if(k == last){
 			JLabel childLabel;
 			childLabel = Make2Label(last);
-			Panel.add(childLabel);
+			Panel.add(childLabel);/////////////////////라벨올리기
+			
 			
 			childLabel.setLocation(10, 10);
 			return;
 		}
 		else if(k.getChild() != null) {  /// 자식은 1사분면에 그려진다
+			
 			k = k.getChild();
 			if(getSiblingIndex(k) == 1 && s == 3) {
 				x -= x/2;
@@ -249,12 +383,19 @@ class Tree extends MakeToLabel{
 
 			JLabel childLabel;
 			childLabel = Make2Label(k);
-			Panel.add(childLabel);
+			Panel.add(childLabel);////////////////////////////////라벨올리기
 			
 			childLabel.setLocation(x, y);
 			
+//			if(rootLabel!=null || childLabel!=null) {
+//				System.out.println(.getText()+" ______ "+childLabel.getText());
+//				panel.getLabels2drawing(rootLabel,childLabel);}
+//			
+			
+			
 			System.out.println("242 #######@@@@x : " + x + " y : " + y);
 			ChildAddLabel(Panel, x, y, k, 1);
+
 		}
 		else if(k.getSibling() != null){
 			k = k.getSibling();
@@ -375,6 +516,13 @@ class Tree extends MakeToLabel{
 		}
 
 	}
+	
+	
+	
+	
+	
+	
+	
 
 	void Default() {
 		start=null;
