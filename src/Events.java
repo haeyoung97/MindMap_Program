@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import java.awt.Component;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -41,6 +42,9 @@ class ButtonListener implements ActionListener{ //버튼 이벤트
 //	private Tree tree=new Tree(mindmapSection.drawNodePanel); //TREE추가
 	private Tree tree;
 	
+//	private JPanel panel4line;
+	
+	
 	
 	ButtonListener(Object O,Mindmap mindmapSection) {
 			this.O=O;
@@ -67,6 +71,16 @@ class ButtonListener implements ActionListener{ //버튼 이벤트
 			if(tree.MakeTree(member)) {
 				tree.print();
 				tree.AddLabel(mindmapSection.drawNodePanel);
+				
+				mindmapSection.drawNodePanel.getLabels2drawing((JLabel)mindmapSection.drawNodePanel.getComponent(0), (JLabel)mindmapSection.drawNodePanel.getComponent(1));
+//				mindmapSection.drawNodePanel.DrawingLine(g);
+				
+				
+				///////////////////////선 그리기.../////////////////
+				
+				
+				
+				
 				mindmapSection.drawNodePanel.setVisible(false);
 				mindmapSection.drawNodePanel.setVisible(true);
 				tree.Default();
@@ -91,7 +105,7 @@ class ButtonListener implements ActionListener{ //버튼 이벤트
 class JLabelListener extends MouseAdapter {
 //	private JTextField[] valueArray = new JTextField[6];			//attribute editor 값	-이 버튼이 실행될 때마다 새로운 객체 생기는 것이 찜찜함...
 //	private JTextField[] fields;			//attribute editor 값	-이 버튼이 실행될 때마다 새로운 객체 생기는 것이 찜찜함...
-	private JLabel label;
+	private JLabel label,Plabel;
 	private boolean isDragged;
 	private JPanel panel;
 	private int x,y;
@@ -103,6 +117,7 @@ class JLabelListener extends MouseAdapter {
 
 	public void mousePressed(MouseEvent e) {
 		JLabel lb = (JLabel)e.getSource();
+		System.out.println("***루루ㅜ");
 		String name = lb.getText();
 		x = e.getX();
 		y = e.getY();
@@ -134,6 +149,11 @@ class JLabelListener extends MouseAdapter {
 		//마우스 버튼이 릴리즈되면 드래그 모드 종료
 		isDragged = false;
 		System.out.println("FALSE");
+		
+		
+		
+		
+		
 	}
 	
 	public void mouseDragged(MouseEvent e){///////////////////////////////////////////////
