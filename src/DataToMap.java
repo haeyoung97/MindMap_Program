@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 
 import javax.swing.JLabel;
@@ -170,7 +171,7 @@ class MakeToLabel extends Elements {
 	
 //	new JDrawing(new JLabel("A"),new JLabel("B"));
 	
-	MakeToLabel(JPanel panel){
+	MakeToLabel(JDrawPanel panel){
 		this.panel=panel;
 		labelListen=new JLabelListener(panel);
 	}
@@ -196,6 +197,7 @@ class MakeToLabel extends Elements {
 class Tree extends MakeToLabel{
 	Data start=null, last=null, obj=null;
 	private int rootX, rootY;
+	private int totalH;
 	int i=0;
 	JDrawPanel panel;
 	
@@ -204,10 +206,11 @@ class Tree extends MakeToLabel{
 	Tree(JDrawPanel panel) {
 		super(panel);
 	}
-
+	
 	boolean MakeTree(String [] member) {
 		int k=1;
 		int h=0;
+		
 		for(int i=0;i<member.length;i++) {
 			if(start==null && member[0].charAt(0)!='\t') { //첫 성분이 루트 (\t으로 시작 안한다.)
 				start=new Data(member[0]);
@@ -235,6 +238,7 @@ class Tree extends MakeToLabel{
 					else if(nowTab-lastTab==1) { //자식노드 추가
 						obj.setParent(last);
 						obj.setHeight(last.getHeight()+1);
+						setTotalH(obj.getHeight());
 						last.setChild(obj);
 					}
 					else { //last가 마지막 자식, 새로 추가된 녀석은 ... last보다 높은 계층
@@ -307,12 +311,18 @@ class Tree extends MakeToLabel{
 
 	int getRootY(){	return this.rootY; }
 	
+	void setTotalH(int totalH) {
+		if(this.totalH < totalH)
+			this.totalH = totalH;
+	}
+	
 	void AddLabel(JDrawPanel Panel) {
+		Panel.setSize(new Dimension(600*totalH/2, 400*totalH/2));
+		System.out.println(600*totalH/2 + "@@@@@@"+  400*totalH/2);
 		Data k=start;
-		
 		rootLabel = Make2Label(k);
 		Panel.add(rootLabel);
-
+		
 		setRootX(Panel);
 		setRootY(Panel);
 		k.setX(getRootX());
@@ -335,7 +345,8 @@ class Tree extends MakeToLabel{
 			k = k.getChild();
 			if(k== null) { //////////////////////////////////이부분에서 자꾸 이상한 에러떠서 대충 끼워맞춰 수정함; 확인해조 이상업슨지..
 				System.out.println("sibling is null"); 		//a
-				return cnt--;}								// 	b
+				return cnt--;								// 	b
+			}								
 		}													//	c	
 		if(k.getSibling() == null)							//	 	ee   //이렇게 되거나 또다른 상황에서도 에러나는거.. 
 			return cnt;
@@ -357,12 +368,10 @@ class Tree extends MakeToLabel{
 			childLabel = Make2Label(last);
 			Panel.add(childLabel);/////////////////////라벨올리기
 			
-			
 			childLabel.setLocation(10, 10);
 			return;
 		}
-		else if(k.getChild() != null) {  /// 자식은 1사분면에 그려진다
-			
+		if(k.getChild() != null) {  /// 자식은 1사분면에 그려진다
 			k = k.getChild();
 			if(getSiblingIndex(k) == 1 && s == 3) {
 				x -= x/2;
@@ -379,19 +388,18 @@ class Tree extends MakeToLabel{
 			else {
 				x += x/2;
 				y -= y/2;
-			}			
-
+			}
 			JLabel childLabel;
 			childLabel = Make2Label(k);
 			Panel.add(childLabel);////////////////////////////////라벨올리기
-			
+			k.setX(x);
+			k.setY(y);
 			childLabel.setLocation(x, y);
 			
 //			if(rootLabel!=null || childLabel!=null) {
 //				System.out.println(.getText()+" ______ "+childLabel.getText());
 //				panel.getLabels2drawing(rootLabel,childLabel);}
 //			
-			
 			
 			System.out.println("242 #######@@@@x : " + x + " y : " + y);
 			ChildAddLabel(Panel, x, y, k, 1);
@@ -401,17 +409,17 @@ class Tree extends MakeToLabel{
 			k = k.getSibling();
 			if(getSiblingIndex(k) != 0) {
 				if((getSiblingIndex(k) == 2 && (s == 1 || s == 2 )) || (getSiblingIndex(k) == 1 && s == 3)) { // 2사분면에 그리자
-					x = x - Math.abs((x-getRootX()))*2/3;
+					x = x - Math.abs((x-getRootX()))*2;
 //					y = y - Math.abs((getRootY(Panel)-y))*2/3;
 					s = 2;
 				}
 				else if((getSiblingIndex(k) == 3 && s == 2 ) || (getSiblingIndex(k) == 2 && (s == 3 || s == 4 ))) { // 3사분면에 그리자
 //					x = x - Math.abs((x-getRootX(Panel)))/2;
-					y = y + Math.abs((y-getRootY()))*2/3;
+					y = y + Math.abs((y-getRootY()))*2;
 					s = 3;
 				}
 				else if(getSiblingIndex(k) == 3 && (s == 1 || s == 2 || s == 3)) { // 4사분면에 그리자
-					x = x + Math.abs((x-getRootX()))*2/3;
+					x = x + Math.abs((x-getRootX()))*2;
 //					y = y + Math.abs((y-getRootY(Panel)))/2;
 					s = 4;
 				}

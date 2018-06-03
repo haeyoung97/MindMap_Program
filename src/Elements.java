@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -16,8 +17,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
-
-
 
 
 
@@ -85,9 +84,6 @@ class Bar extends Elements{
 }
 	
 class Mindmap extends Elements{
-	JLabel P,C;
-	
-	
 	
 	Mindmap(){		
 		mindMapPanel = new JPanel();
@@ -100,15 +96,16 @@ class Mindmap extends Elements{
 		drawNodePanel = new JDrawPanel();//Ãß°¡
 		drawNodePanel.setLayout(null);
 		drawNodePanel.setBackground(Color.white);
-
+		drawNodePanel.setPreferredSize(new Dimension(5000, 5000));
 
 		mindMapPanel.add(mindMapEdit, BorderLayout.NORTH);
-		mindMapPanel.add(new JScrollPane(drawNodePanel),BorderLayout.CENTER);
-	
+		mindMapPanel.add(new JScrollPane(drawNodePanel,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS),BorderLayout.CENTER);
+		
 		Mouser mouser=new Mouser(drawNodePanel);
 		drawNodePanel.addMouseListener(mouser);
 		drawNodePanel.addMouseMotionListener(mouser);
 		drawNodePanel.setVisible(true);
+		mindMapPanel.setVisible(true);
 		
 	}
 	
