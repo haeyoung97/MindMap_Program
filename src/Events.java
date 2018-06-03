@@ -1,9 +1,7 @@
 
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;

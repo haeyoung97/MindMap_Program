@@ -3,7 +3,6 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -20,7 +19,6 @@ import javax.swing.SwingConstants;
 class Elements extends JMenuBar{
 	Font basicFont = new Font("DialogInput", Font.PLAIN,20);
 	// Bar
-//	JMenu[] menuOp = new JMenu[6];
 	JButton[] toolOp = new JButton[6];
 	// Mindmap
 	JPanel mindMapPanel;

@@ -4,15 +4,14 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-//import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
-//import javax.swing.border.LineBorder;
 
 class Data{
 	private Data child;		//ÀÚ½Ä
 	private Data sibling;	//ÇüÁ¦
 	private Data parent;	//ºÎ¸ð
 	private String value;	//½ÇÁ¦°ª
+	private int x, y;
 	private int h;
 
 	public Data(String value) {this.value=value; child=null; sibling=null; parent=null;}
@@ -32,6 +31,13 @@ class Data{
 	int getHeight() {return this.h;}
 	
 	String getValue() { return value.trim(); }
+	
+	void setX(int x) { this.x = x; }
+	void setY(int y) { this.y = y; }
+	
+	int getX() { return x; }
+	int getY() { return y; }
+	
 }
 
 class MakeToLabel extends Elements {
@@ -55,6 +61,8 @@ class MakeToLabel extends Elements {
 //		lb.setBorder(new LineBorder(getColor(k.getHeight()), 5, true));
 		lb.setBorder(new EmptyBorder(5,10,5,10));
 		lb.setFont(basicFont);
+//		lb.setSize(k.toString().length()*20, 35);
+		lb.setSize(100, 35);
 	    lb.setOpaque(true);
 	    lb.addMouseListener(labelListen);
 		lb.addMouseMotionListener(labelListen);
@@ -63,17 +71,14 @@ class MakeToLabel extends Elements {
 }
 
 class Tree extends MakeToLabel{
-	Tree(JPanel panel) {
-		super(panel);
-		// TODO Auto-generated constructor stub
-	}
-
 	Data start=null, last=null, obj=null;
 	private int rootX, rootY;
 	int i=0;
 	JPanel panel;
 	
-
+	Tree(JPanel panel) {
+		super(panel);
+	}
 
 	boolean MakeTree(String [] member) {
 		int k=1;
@@ -93,7 +98,7 @@ class Tree extends MakeToLabel{
 
 					//¿©±â¼­ °èÃþ±¸Á¶ ºÐ·ù. \t·Î ½ÃÀÛÇÒ °ÍÀÌ´Ù...¸¸¾à \t·Î ½ÃÀÛÇÏÁö ¾Ê´Â´Ù¸é »õ·Î¿î Æ®¸®°¡ »ý±â´Â °Í , ÇöÀç´Â °í·Á X
 					if(obj.toString().charAt(0)!='\t') {
-						JOptionPane.showMessageDialog(null, "obj.toString().charAt(0)!='\\t'", "ï¿½ï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½", JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(null, "obj.toString().charAt(0)!='\\t'", "·çÆ®°¡ 2°³", JOptionPane.WARNING_MESSAGE);
 						this.Default();
 						return false;
 					}
@@ -135,15 +140,15 @@ class Tree extends MakeToLabel{
 
 	void print() {
 		Data k=start;
-		System.out.println(k.getHeight()+" "+start.toString());
+		System.out.println(k.getHeight()+" "+start.toString() + "    " + getSiblingIndex(k));
 		while(true) {
 			if(k.getChild()!=null) {
 				k=k.getChild();
-				System.out.println(k.getHeight()+" "+k.toString());
+				System.out.println(k.getHeight()+" "+k.toString()+ "    " + getSiblingIndex(k));
 			}
 			else if(k.getSibling()!=null) {
 				k=k.getSibling();
-				System.out.println(k.getHeight()+" "+k.toString());
+				System.out.println(k.getHeight()+" "+k.toString()+ "    " + getSiblingIndex(k));
 			}
 			else {
 				if(k==last) {
@@ -153,7 +158,7 @@ class Tree extends MakeToLabel{
 					k=k.getParent();
 					if(k.getSibling()!=null) {
 						k=k.getSibling();
-						System.out.println(k.getHeight()+" "+k.toString());
+						System.out.println(k.getHeight()+" "+k.toString()+ "    " + getSiblingIndex(k));
 						break;
 					}
 				}
@@ -170,32 +175,25 @@ class Tree extends MakeToLabel{
 		this.rootY = Panel.getSize().height/2-Panel.getComponent(0).getHeight()/2;
 	}
 	
-	int getRootX(){
-		return this.rootX;
-	}
+	int getRootX(){ return this.rootX; }
 
-	int getRootY(){
-		return this.rootY;
-	}
+	int getRootY(){	return this.rootY; }
 	
 	void AddLabel(JPanel Panel) {
-
 		Data k=start;
 		
 		JLabel rootLabel;
 		rootLabel = Make2Label(k);
 		Panel.add(rootLabel);
 
-		rootLabel.setSize(k.toString().length()*20, 30);
-		
 		setRootX(Panel);
 		setRootY(Panel);
-		int x = getRootX();
-		int y = getRootY();
-
-		rootLabel.setLocation(x, y);
-		System.out.println("181@@@@x : " + x + " y : " + y);
-		ChildAddLabel(Panel, x, y, k, 0);
+		k.setX(getRootX());
+		k.setY(getRootY());
+		
+		rootLabel.setLocation(k.getX(), k.getY());
+		System.out.println("181@@@@x : " + k.getX() + " y : " + k.getY());
+		ChildAddLabel(Panel, k.getX(), k.getY(), k, 0);
 
 	}
 	
@@ -207,14 +205,16 @@ class Tree extends MakeToLabel{
 		while(k.getHeight() != height) {
 			k = k.getChild();
 		}
+		if(k.getSibling() == null)
+			return cnt;
+		cnt++;
 		
-		while(k.getValue() != nowK.getValue()) {
+		while(!k.getValue().equals(nowK.getValue())) {
 			cnt++;
-			if(k.getSibling() != null) {
-				k = k.getSibling();				
+			k = k.getSibling();
+			if(k.getSibling() == null) {
+				break;	
 			}
-			else
-				break;
 		}
 		return cnt;
 	}
@@ -224,8 +224,7 @@ class Tree extends MakeToLabel{
 			JLabel childLabel;
 			childLabel = Make2Label(last);
 			Panel.add(childLabel);
-			childLabel.setSize(k.toString().length()*20, 30);
-
+			
 			childLabel.setLocation(10, 10);
 			return;
 		}
@@ -251,8 +250,7 @@ class Tree extends MakeToLabel{
 			JLabel childLabel;
 			childLabel = Make2Label(k);
 			Panel.add(childLabel);
-			childLabel.setSize(k.toString().length()*20, 30);
-
+			
 			childLabel.setLocation(x, y);
 			
 			System.out.println("242 #######@@@@x : " + x + " y : " + y);
@@ -280,7 +278,6 @@ class Tree extends MakeToLabel{
 				JLabel childLabel;
 				childLabel = Make2Label(k);
 				Panel.add(childLabel);
-				childLabel.setSize(k.toString().length()*20, 30);
 				childLabel.setLocation(x, y);
 				
 				System.out.println("270 *********#######@@@@x : " + x + " y : " + y);
@@ -322,7 +319,6 @@ class Tree extends MakeToLabel{
 					JLabel childLabel;
 					childLabel = Make2Label(k);
 					Panel.add(childLabel);
-					childLabel.setSize(k.toString().length()*20, 30);
 					childLabel.setLocation(x, y);
 					System.out.println("298 ++++++++*********#######@@@@x : " + x + " y : " + y);
 					ChildAddLabel(Panel, x, y, k, s);
@@ -370,7 +366,6 @@ class Tree extends MakeToLabel{
 				JLabel childLabel;
 				childLabel = Make2Label(k);
 				Panel.add(childLabel);
-				childLabel.setSize(k.toString().length()*20, 30);
 				childLabel.setLocation(x, y);
 				System.out.println("331 /////////////++++++++*********#######@@@@x : " + x + " y : " + y);
 				ChildAddLabel(Panel, x, y, k, s);
