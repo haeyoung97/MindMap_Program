@@ -1,8 +1,6 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Point;
-import java.util.Vector;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -11,127 +9,122 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 class JDrawPanel extends JPanel{
-	private Data P,C;
-	private Point location=new Point();
-	private Point size=new Point();
-	private Point angle=new Point();
-	
-	private Vector<Point> vlocation=new Vector<Point>();
-	private Vector<Point> vsize=new Vector<Point>();
-	private Vector<Point> vangle=new Vector<Point>();
+	JLabel P,C;
 	
 	JDrawPanel(){
 		super();
 		System.out.println("생서왕뇰!");
-
 	}
 	
-	void reset() {vlocation=new Vector<Point>(); vsize=new Vector<Point>(); vangle=new Vector<Point>();}
+	void getLabels2drawing(JLabel P,JLabel C) {System.out.println("평화?"); this.P=P; this.C=C;	}
 	
-	void getLabels2drawing(Data P,Data C) {
-		
-		System.out.println("평화?"); this.P=P; this.C=C;	
+//	JDrawing(JLabel P,JLabel C) {this.P=P; this.C=C;}
+	
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
 		System.out.println("평화!");
-		int	width,height,startAngle, arcAngle,Fx,Fy;
+		int	width,height,startAngle, arcAngle;
+
+//		super.paintComponent(g);
 		if(this.P==null||this.C==null) {
 			return;
 		}
 		
-		int px=P.getX();
-		int py=P.getY();		
-		int x=C.getX();
-		int y=C.getY();
-		int L=P.getLabel().getWidth();
-		int H=P.getLabel().getHeight();//고정//
+		System.out.println("////"+P.getText());
+		System.out.println(C.getText());
+		width=P.getWidth()*2;
+		height=P.getHeight()*2;
+		
+		int x,y;
 		
 		
-			if(x<px) {
-				if(y<py) {
+		g.setColor(Color.RED);
+			JLabel k=this.C;
+			x=C.getLocation().x;
+			y=C.getLocation().y;
+			if(x<P.getLocation().x) {
+				if(y<P.getLocation().y) {
 					startAngle=0;
 					arcAngle=90;
-				
-					width=(px-x)*2;
-					height=(py-y)*2;
-					Fx=px-width;
-					Fy=py-height/2;
+					x=x-200+C.getSize().width/2;
+					y=y+C.getSize().height/2;
 					
-					System.out.println("그림2 "+P.getValue()+"의 자식: "+C.getValue());
 				}
 				else {
 					startAngle=90;
 					arcAngle=90;
-					width=(px-x)*2;
-					height=(y-py)*2;
-					Fx=x;
-					Fy=py;
-					
-					System.out.println("그림3 "+P.getValue()+"의 자식: "+C.getValue());
+					y=y-200+C.getSize().height/2;	
+					x=x+C.getSize().width/2;
 				}
-				
 			}
 			else {
-				
-				if(py<y) {
-					startAngle=180;
-					arcAngle=90;
-					width=(x-px)*2;
-					height=(y-py)*2;
-					Fx=px;
-					Fy=py-height/2;
+				x=P.getLocation().x;
+				y=P.getLocation().y;
+				if(P.getLocation().y<y) {
+					x=2*x-P.getLocation().x+P.getSize().width/2;
+					y=y-height+P.getSize().height/2;
 					
-					System.out.println("그림4 "+P.getValue()+"의 자식: "+C.getValue());
+					startAngle=0;
+					arcAngle=-90;
 				}
 				else {
-					startAngle=270;
+					startAngle=180;
 					arcAngle=90;
-					width=(x-px)*2+L;
-					height=(py-y)*2-H;
-					Fx=px-width/2;
-					Fy=y-height/2;
-					
-					System.out.println("그림1 "+P.getValue()+"의 자식: "+C.getValue());
+					x=P.getLocation().x+C.getSize().width/2;
+					y=P.getLocation().y-200+C.getSize().height/2;
 				}
-	
 			}
 			
-			System.out.println("이상하다 "+Fx+ " "+ startAngle);
-			
-			location.setLocation(Fx,Fy);
-			System.out.println("진짜노이해 ㅠㅠㅠㅠ "+Fx+ " "+ Fy);
-			System.out.println("왜 동일한 값?? "+location.getLocation());
-			angle.setLocation(startAngle,arcAngle);
-			size.setLocation(width, height);
-			vlocation.add(location.getLocation());
-			vsize.add(size.getLocation());
-			vangle.add(angle.getLocation());
-			
-			for(int i=0; i<vlocation.size(); i++) {
-				System.out.println("으에에ㅔㄱ"+i);
-				 Point s = vlocation.elementAt(i);
-				 Point e = vsize.elementAt(i);
-				 Point a= vangle.elementAt(i);
-				 System.out.println((int)s.getX()+ " "+(int)s.getY()+ " "+(int)e.getX()+ " "+(int)e.getY()+" "+(int)a.getX()+" "+ (int)a.getY());
-//				 g.drawArc((int)s.getX(), (int)s.getY(),(int)e.getX(),(int)e.getY(),(int)a.getX(), (int)a.getY());
-			}
-			
-//			repaint();
+			g.drawArc(x, y,width,height,startAngle, arcAngle);
 		
-		}
-	
-	public void paintComponent(Graphics g) {
-		
-		super.paintComponent(g);
-		g.setColor(Color.black);
-		System.out.println("//***?"+vlocation.size());
-		
-		
-		for(int i=0; i<vlocation.size(); i++) {
-			 Point s = vlocation.elementAt(i);
-			 Point e = vsize.elementAt(i);
-			 Point a= vangle.elementAt(i);
-			 System.out.println((int)s.getX()+ " "+(int)s.getY()+ " "+(int)e.getX()+ " "+(int)e.getY()+" "+(int)a.getX()+" "+ (int)a.getY());
-			 g.drawArc((int)s.getX(), (int)s.getY(),(int)e.getX(),(int)e.getY(),(int)a.getX(), (int)a.getY());
-		}
+		//	public void DrawingLine(Graphics g) {
+//		System.out.println("I'm drawing");
+//		int	width,height,startAngle, arcAngle;
+//		
+//		width=200*2;
+//		height=200*2;
+//		
+//		int x,y;
+//		
+//		super.paintComponent(g);
+//		g.setColor(Color.RED);
+//			JLabel k=this.C;
+//			x=C.getLocation().x;
+//			y=C.getLocation().y;
+//			if(x<P.getLocation().x) {
+//				if(y<P.getLocation().y) {
+//					startAngle=0;
+//					arcAngle=90;
+//					x=x-200+C.getSize().width/2;
+//					y=y+C.getSize().height/2;
+//					
+//				}
+//				else {
+//					startAngle=90;
+//					arcAngle=90;
+//					y=y-200+C.getSize().height/2;	
+//					x=x+C.getSize().width/2;
+//				}
+//			}
+//			else {
+//				x=P.getLocation().x;
+//				y=P.getLocation().y;
+//				if(P.getLocation().y<y) {
+//					x=2*x-P.getLocation().x+P.getSize().width/2;
+//					y=y-height+P.getSize().height/2;
+//					
+//					startAngle=0;
+//					arcAngle=-90;
+//				}
+//				else {
+//					startAngle=180;
+//					arcAngle=90;
+//					x=P.getLocation().x+C.getSize().width/2;
+//					y=P.getLocation().y-200+C.getSize().height/2;
+//				}
+//			}
+//			
+//			g.drawArc(x, y,width,height,startAngle, arcAngle);
 	}
 }
 
@@ -142,16 +135,9 @@ class Data{
 	private String value;	//실제값
 	private int x, y, s;	// 좌표, 차원
 	private int h;
-	private JLabel label;
 
 	public Data(String value) {this.value=value; child=null; sibling=null; parent=null;}
 
-	public JLabel getLabel() {return label;}
-	
-	public void setLabel(JLabel label) {this.label=label;}
-
-	
-	
 	public void setChild(Data obj) {child=obj;}
 	public Data getChild() {return child;}
 
@@ -223,7 +209,6 @@ class Tree extends MakeToLabel{
 	
 	Tree(JDrawPanel panel) {
 		super(panel);
-		this.panel=panel;
 	}
 	
 	boolean MakeTree(String [] member) {
@@ -268,7 +253,6 @@ class Tree extends MakeToLabel{
 							if(last.toString().lastIndexOf('\t')==obj.toString().lastIndexOf('\t')) {
 								last.setSibling(obj);
 								obj.setHeight(last.getHeight());
-								obj.setParent(last.getParent());
 								break;
 							}
 						}
@@ -339,7 +323,6 @@ class Tree extends MakeToLabel{
 		
 		Data k=start;
 		rootLabel = Make2Label(k);
-		start.setLabel(rootLabel);
 		Panel.add(rootLabel);
 		
 		setRootX(Panel);
@@ -413,10 +396,7 @@ class Tree extends MakeToLabel{
 	}
 
 	void ChildAddLabel(JDrawPanel Panel, int x, int y, Data k, int s){
-		
-		
 		System.out.println("전달받은 값 : " + x + "__" + y + "__" + s + "____total__" + totalH);
-//		panel.getLabels2drawing(k.getParent(),k);
 //		if(k == last){
 //			JLabel childLabel;
 //			childLabel = Make2Label(last);
@@ -443,13 +423,9 @@ class Tree extends MakeToLabel{
 			JLabel childLabel;
 			childLabel = Make2Label(k);
 			Panel.add(childLabel);////////////////////////////////라벨올리기
-			k.setLabel(childLabel);
 			k.setX(x);
 			k.setY(y);
-			childLabel.setLocation(x, y);			
-			
-			System.out.println(k.getParent().getValue()+ " "+ k.getValue());
-//			panel.getLabels2drawing(k.getParent(),k);
+			childLabel.setLocation(x, y);
 			
 //			if(rootLabel!=null || childLabel!=null) {
 //				System.out.println(.getText()+" ______ "+childLabel.getText());
@@ -486,21 +462,14 @@ class Tree extends MakeToLabel{
 			JLabel childLabel;
 			childLabel = Make2Label(k);
 			Panel.add(childLabel);
-			k.setLabel(childLabel);
 			k.setX(x);
 			k.setY(y);
 			childLabel.setLocation(x, y);
-			System.out.println(k.getParent().getValue()+ " "+ k.getValue());
-			
-//			panel.getLabels2drawing(k.getParent(),k);
-			
 			k.setS(s);
 			ChildAddLabel(Panel, x, y, k, s);
-			
 		}
 		else{
 			if(k == last) {
-				panel.repaint();
 				System.out.println("last 끝");
 				return;
 			}
@@ -543,7 +512,6 @@ class Tree extends MakeToLabel{
 				JLabel childLabel;
 				childLabel = Make2Label(k);
 				Panel.add(childLabel);
-				k.setLabel(childLabel);
 				k.setX(x);
 				k.setY(y);
 				k.setS(s);
@@ -551,14 +519,9 @@ class Tree extends MakeToLabel{
 				if(k == last) {
 					 return;
 				}
-				
-//				panel.getLabels2drawing(k.getParent(),k);
-				
-				
 				ChildAddLabel(Panel, x, y, k, s);
 			}
 		}
-		panel.getLabels2drawing(k.getParent(),k);
 	}
 	
 
