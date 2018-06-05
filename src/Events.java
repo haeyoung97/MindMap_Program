@@ -56,6 +56,11 @@ class ButtonListener implements ActionListener{ //버튼 이벤트
 		if(e.getActionCommand().equals("적용") || e.getActionCommand().equals("Apply")) { 		//Text Editor
 			int i=0; 							//while문 카운트
 			mindmapSection.drawNodePanel.removeAll();
+//			mindmapSection.drawNodePanel.setBackground(arg0);
+//			JDrawPanel tmpP=new JDrawPanel();
+//			mindmapSection.drawNodePanel=tmpP;
+			
+			mindmapSection.drawNodePanel.reset();
 			
 			buffer=new StringBuffer(((JTextArea)O).getText());
 		    tmp=buffer.toString();
@@ -72,7 +77,8 @@ class ButtonListener implements ActionListener{ //버튼 이벤트
 				tree.print();
 				tree.AddLabel(mindmapSection.drawNodePanel);
 				
-				mindmapSection.drawNodePanel.getLabels2drawing((JLabel)mindmapSection.drawNodePanel.getComponent(0), (JLabel)mindmapSection.drawNodePanel.getComponent(1));
+				
+//				mindmapSection.drawNodePanel.getLabels2drawing((JLabel)mindmapSection.drawNodePanel.getComponent(0), (JLabel)mindmapSection.drawNodePanel.getComponent(1));
 //				mindmapSection.drawNodePanel.DrawingLine(g);
 				
 				
