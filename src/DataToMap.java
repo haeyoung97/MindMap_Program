@@ -354,7 +354,7 @@ class Tree extends MakeToLabel{
 		
 		if(k == last)
 			return;
-		ChildAddLabel(Panel, k.getX(), k.getY(), k, 0);
+		ChildAddLabel(Panel, k);
 
 	}
 	
@@ -391,7 +391,7 @@ class Tree extends MakeToLabel{
 				}
 			}
 			if(k.getHeight() == nowK.getHeight()) {
-				if(k.getParent().getValue().equals(nowK.getParent().getValue())) {
+				if(k.getParent() == nowK.getParent()) {
 					break;
 				}
 			}
@@ -402,7 +402,7 @@ class Tree extends MakeToLabel{
 		}	
 		cnt++;
 		
-		while(!k.getValue().equals(nowK.getValue())) {
+		while(k != nowK) {
 			cnt++;
 			k = k.getSibling();
 			if(k.getSibling() == null) {
@@ -411,156 +411,126 @@ class Tree extends MakeToLabel{
 		}
 		return cnt;
 	}
-
-	void ChildAddLabel(JDrawPanel Panel, int x, int y, Data k, int s){
-		
-		
-		System.out.println("전달받은 값 : " + x + "__" + y + "__" + s + "____total__" + totalH);
-//		panel.getLabels2drawing(k.getParent(),k);
-//		if(k == last){
-//			JLabel childLabel;
-//			childLabel = Make2Label(last);
-//			Panel.add(childLabel);/////////////////////라벨올리기
-//			
-//			childLabel.setLocation(10, 10);
-//			return;
-//		}
-		if(k.getChild() != null) {  /// 자식은 1사분면에 그려진다
-			k = k.getChild();
-			if((getSiblingIndex(k) == 1 || getSiblingIndex(k) == 0) && k.getParent().getS() == 3) {
-				System.out.println("123456789123456789"+k.getValue());
-				x = k.getParent().getX();
-				y = k.getParent().getY();
-				x -= 400*(1-k.getHeight()/100)/2;
-				y -= 300*(1-k.getHeight()/100)/2;
-				s = 2;
+	
+	Data showSibling(JPanel Panel, Data k) {
+		int x, y, s;
+		if(k.getParent() == start) {
+			x = getRootX();
+			y = getRootY();
+			s = 0;
+			k = k.getSibling();
+		}
+		else {
+			System.out.println("test : " + k.getValue() + "____" + k.getSibling());
+			x = k.getParent().getX();
+			y = k.getParent().getY();
+			s = k.getParent().getS();
+			k = k.getSibling();		
+		}
+		if(getSiblingIndex(k) == 2) {
+			x -= 400*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
+			if(s == 0 || s == 1 || s == 2) {
+				y -= 300*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
+				k.setS(2);
+			}
+			else if(s == 4 || s == 3){
+				y += 300*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
+				k.setS(3);
+			}
+		}
+		else if(getSiblingIndex(k) == 3) {
+			y += 300*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
+			if(s == 0 || s == 2 || s == 3) {
+				x -= 400*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
+				if(s == 2 || s == 0)
+					k.setS(3);
+				else
+					k.setS(4);
 			}
 			else {
-				x += 400*(1-k.getHeight()/100)/2;
-				y -= 300*(1-k.getHeight()/100)/2;
-				s = 1;
+				x += 400*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
+				k.setS(4);
 			}
-			JLabel childLabel;
-			childLabel = Make2Label(k);
-			Panel.add(childLabel);////////////////////////////////라벨올리기
-			k.setLabel(childLabel);
-			k.setX(x);
-			k.setY(y);
-			childLabel.setLocation(x, y);			
-			
-			System.out.println(k.getParent().getValue()+ " "+ k.getValue());
-//			panel.getLabels2drawing(k.getParent(),k);
-			
-//			if(rootLabel!=null || childLabel!=null) {
-//				System.out.println(.getText()+" ______ "+childLabel.getText());
-//				panel.getLabels2drawing(rootLabel,childLabel);}
-			k.setS(1);
-			ChildAddLabel(Panel, x, y, k, s);
+		}
+		else { // getSiblingIndex(k) == 4
+			x += 400*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
+			y += 300*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
+			k.setS(4);
+		}
+		JLabel childLabel;
+		childLabel = Make2Label(k);
+		Panel.add(childLabel);////////////////////////////////라벨올리기
+		k.setX(x);
+		k.setY(y);
+		
+		childLabel.setLocation(x, y);
+		return k;
+	}
 
-		}
-		else if(k.getSibling() != null){
-			k = k.getSibling();
-			if((getSiblingIndex(k) == 2 && (s == 1 )) || (getSiblingIndex(k) == 1 && s == 3)) { // 2사분면에 그리자
-				x = x - 400*(1-k.getHeight()/100);
-				s = 2;
-			}
-			else if((getSiblingIndex(k) == 3 && s == 2 ) || (getSiblingIndex(k) == 2 && (s == 3 || s == 4 || s == 2 ))) { // 3사분면에 그리자
-				System.out.println("너냐!!!!");
-				y = y + 300*(1-k.getHeight()/100)*(totalH+1 - k.getHeight());
-				if(getSiblingIndex(k) == 3) {
-					if(s != 2) {
-						x = x + 400*(1-k.getHeight()/100);
-						s = 4;
-					}
-				}
-				else
-					s = 3;
-			}
-			else if(getSiblingIndex(k) == 3 && (s == 1 || s == 2 || s == 3)) { // 4사분면에 그리자
-				x = x + 400*(1-k.getHeight()/100);
-				s = 4;
-			}
-			else if(getSiblingIndex(k) == 4) {
-				x = x + 400*(1-k.getHeight()/100);
-			}
-			JLabel childLabel;
-			childLabel = Make2Label(k);
-			Panel.add(childLabel);
-			k.setLabel(childLabel);
-			k.setX(x);
-			k.setY(y);
-			childLabel.setLocation(x, y);
-			System.out.println(k.getParent().getValue()+ " "+ k.getValue());
-			
-//			panel.getLabels2drawing(k.getParent(),k);
-			
-			k.setS(s);
-			ChildAddLabel(Panel, x, y, k, s);
-			
-		}
-		else{
+	void ChildAddLabel(JPanel Panel, Data k){
+		
+		while(true) {
 			if(k == last) {
-				panel.repaint();
-				System.out.println("last 끝");
-				return;
+				break;
 			}
-
-			k = k.getParent();
-			x = k.getX();
-			y = k.getY();
-			s = k.getS();
-			
-			System.out.println(k.getValue() +"_____"+getSiblingIndex(k.getSibling()) + "____" + x + "____" + y + "____" + s  );
-			
-			if(k.getSibling() != null){
-				k = k.getSibling();
-				if(getSiblingIndex(k) == 1 && (s == 0 || s == 2 || s == 1 || s == 4)) {
-					x = x - 400*(1-k.getHeight()/100);
+			else if(k.getChild() != null) {
+				int x, y, s;
+				k = k.getChild();
+				if(k.getParent() == start) {
+					x = getRootX();
+					y = getRootY();
+					s = 0;
 				}
-				if((getSiblingIndex(k) == 2 || getSiblingIndex(k) == 3 ) && (s == 0 || s == 2 || s == 1 || s == 4)) {
-					System.out.println("걸리나요오오오옹!!!");
-					if(getSiblingIndex(k) == 3) {
-						y = y + 300*(1-k.getHeight()/100);
-					}
-					else
-						x = x - 400*(1-k.getHeight()/100);
-					
-//					if(s == 4) {
-//						s++;
-//					}
+				else {
+					x = k.getParent().getX();
+					y = k.getParent().getY();
+					s = k.getParent().getS();
 				}
-				if(getSiblingIndex(k) == 3 && (s == 0 || s == 3 || s == 4 || s == 1)) {
-					x = x + 400*(1-k.getHeight()/100);
-					if(s == 1) {
-						s++;
-					}
+				if(s == 0 || s == 1 || s == 2 || s == 4 ) {
+					x += 400*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
+					y -= 300*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
+					k.setS(1);
 				}
-				if(getSiblingIndex(k) == 4) {
-					x = x + 400*(1-k.getHeight()/100);
+				else {
+					x -= 400*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
+					y -= 300*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
+					k.setS(2);
 				}
-				s++;
-				// k를 그리고 나서 함수 호출
+				
 				JLabel childLabel;
 				childLabel = Make2Label(k);
-				Panel.add(childLabel);
-				k.setLabel(childLabel);
+				Panel.add(childLabel);////////////////////////////////라벨올리기
 				k.setX(x);
 				k.setY(y);
-				k.setS(s);
+				
 				childLabel.setLocation(x, y);
-				if(k == last) {
-					 return;
-				}
 				
 //				panel.getLabels2drawing(k.getParent(),k);
 				
+			}
+			else if(k.getSibling() != null) {
+				k = showSibling(Panel, k);	
+			}
+			else {
+				if(k == last)
+					break;
+				while(true) {
+					k = k.getParent();
+					if(k.getSibling() != null) {
+						k = showSibling(Panel, k);
+						if(k == last)
+							return;
+						break;
+					}
+					if(k == start) {
+						break;
+					}
+				}
 				
-				ChildAddLabel(Panel, x, y, k, s);
 			}
 		}
-		panel.getLabels2drawing(k.getParent(),k);
+//		panel.getLabels2drawing(k.getParent(),k);
 	}
-	
 
 	void Default() {
 		start=null;
