@@ -1,3 +1,4 @@
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -62,4 +63,5 @@ public class DrawMindMap {
 		new BasicFramework();
 		
 	}
+
 }
