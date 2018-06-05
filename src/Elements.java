@@ -96,7 +96,7 @@ class Mindmap extends Elements{
 		drawNodePanel = new JDrawPanel();//Ãß°¡
 		drawNodePanel.setLayout(null);
 		drawNodePanel.setBackground(Color.white);
-		drawNodePanel.setPreferredSize(new Dimension(5000, 5000));
+//		drawNodePanel.setPreferredSize(new Dimension(5000, 5000));
 
 		mindMapPanel.add(mindMapEdit, BorderLayout.NORTH);
 		mindMapPanel.add(new JScrollPane(drawNodePanel,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS),BorderLayout.CENTER);
