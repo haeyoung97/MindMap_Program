@@ -462,8 +462,9 @@ class Tree extends MakeToLabel{
 		Panel.add(childLabel);////////////////////////////////라벨올리기
 		k.setX(x);
 		k.setY(y);
-		
+		k.setLabel(childLabel);
 		childLabel.setLocation(x, y);
+		panel.getLabels2drawing(k.getParent(),k);
 		return k;
 	}
 
@@ -502,10 +503,10 @@ class Tree extends MakeToLabel{
 				Panel.add(childLabel);////////////////////////////////라벨올리기
 				k.setX(x);
 				k.setY(y);
-				
+				k.setLabel(childLabel);
 				childLabel.setLocation(x, y);
 				
-//				panel.getLabels2drawing(k.getParent(),k);
+				panel.getLabels2drawing(k.getParent(),k);
 				
 			}
 			else if(k.getSibling() != null) {
