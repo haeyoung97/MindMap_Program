@@ -41,29 +41,31 @@ class JDrawPanel extends JPanel{
 		int py=P.getY();		
 		int x=C.getX();
 		int y=C.getY();
-		int L=P.getLabel().getWidth();
-		int H=P.getLabel().getHeight();//고정//
+		int pL=P.getLabel().getWidth();
+		int pH=P.getLabel().getHeight();//고정//
+		int cL=C.getLabel().getWidth();
+		int cH=C.getLabel().getHeight();
 		
-		
+		if(P.getHeight()%2==0) {		
 			if(x<px) {
 				if(y<py) {
 					startAngle=0;
 					arcAngle=90;
 				
-					width=(px-x)*2;
-					height=(py-y)*2;
-					Fx=px-width;
-					Fy=py-height/2;
+					width=(px+pL/2-(x+cL))*2;
+					height=(py-(y+cH/2))*2;
+					Fx=px+pL/2-width;
+					Fy=y+cH/2;
 					
 					System.out.println("그림2 "+P.getValue()+"의 자식: "+C.getValue());
 				}
 				else {
 					startAngle=90;
 					arcAngle=90;
-					width=(px-x)*2;
-					height=(y-py)*2;
-					Fx=x;
-					Fy=py;
+					width=(px-x-cL/2)*2;
+					height=(y-(py+pH/2))*2;
+					Fx=x+cL/2;
+					Fy=py+pH/2;
 					
 					System.out.println("그림3 "+P.getValue()+"의 자식: "+C.getValue());
 				}
@@ -74,49 +76,112 @@ class JDrawPanel extends JPanel{
 				if(py<y) {
 					startAngle=180;
 					arcAngle=90;
-					width=(x-px)*2;
-					height=(y-py)*2;
-					Fx=px;
-					Fy=py-height/2;
+					width=(x-px-pL/2)*2;
+					height=(y+cH/2-py-pH)*2;
+					Fx=px+pL/2;
+					Fy=y+cH/2-height;
 					
 					System.out.println("그림4 "+P.getValue()+"의 자식: "+C.getValue());
 				}
 				else {
 					startAngle=270;
 					arcAngle=90;
-					width=(x-px)*2+L;
-					height=(py-y)*2-H;
-					Fx=px-width/2;
-					Fy=y-height/2;
+					width=(x+cL/2-px-pL)*2;
+					height=(py+pH/2-y-cH)*2;
+					Fx=x+cL/2-width;
+					Fy=py+pH/2-height;
 					
 					System.out.println("그림1 "+P.getValue()+"의 자식: "+C.getValue());
 				}
 	
 			}
 			
-			System.out.println("이상하다 "+Fx+ " "+ startAngle);
-			
-			location.setLocation(Fx,Fy);
-			System.out.println("진짜노이해 ㅠㅠㅠㅠ "+Fx+ " "+ Fy);
-			System.out.println("왜 동일한 값?? "+location.getLocation());
-			angle.setLocation(startAngle,arcAngle);
-			size.setLocation(width, height);
-			vlocation.add(location.getLocation());
-			vsize.add(size.getLocation());
-			vangle.add(angle.getLocation());
-			
-			for(int i=0; i<vlocation.size(); i++) {
-				System.out.println("으에에ㅔㄱ"+i);
-				 Point s = vlocation.elementAt(i);
-				 Point e = vsize.elementAt(i);
-				 Point a= vangle.elementAt(i);
-				 System.out.println((int)s.getX()+ " "+(int)s.getY()+ " "+(int)e.getX()+ " "+(int)e.getY()+" "+(int)a.getX()+" "+ (int)a.getY());
-//				 g.drawArc((int)s.getX(), (int)s.getY(),(int)e.getX(),(int)e.getY(),(int)a.getX(), (int)a.getY());
-			}
-			
+
 //			repaint();
 		
 		}
+		
+		
+		else { //P의 계층 % 2==1
+			System.out.println("ㅁㅇ람넝리ㅏ머라ㅣㅓㅁㄴ이ㅏ렁니ㅓ라멍ㄹ");
+			if(x<px) {
+				if(y<py) {
+					startAngle=180;
+					arcAngle=90;
+					width=(px-(x+cL/2))*2;
+					height=(py-(y+cH/2))*2;
+					Fx=x+cL/2;
+					Fy=py+pH/2-height;
+					System.out.println("그림2 "+P.getValue()+"의 자식: "+C.getValue());
+				}
+				else {
+					startAngle=270;
+					arcAngle=90;
+					width=(px+pL/2-(x+cL))*2;
+					height=(y+cH/2-(py+pH))*2;
+					Fx=px+pL/2-width;
+					Fy=y+cH/2-height;
+					System.out.println("그림3 "+P.getValue()+"의 자식: "+C.getValue());
+				}
+				
+			}
+			else {
+				
+				if(py<y) {
+
+					startAngle=0;
+					arcAngle=90;
+				
+					width=(x+cL/2-(px+pL))*2;
+					height=(y-(py+pH/2))*2;
+					Fx=x+cL/2-width;
+					Fy=py+pH/2;
+					
+					System.out.println("그림4 "+P.getValue()+"의 자식: "+C.getValue());
+				}
+				else {
+
+					startAngle=90;
+					arcAngle=90;
+					width=(x-(px+pL/2))*2;
+					height=(py-(y+cH/2))*2;
+					Fx=px+pL/2;
+					Fy=y+cH/2;
+					
+					System.out.println("그림1 "+P.getValue()+"의 자식: "+C.getValue());
+				}
+	
+			}
+			
+			
+			
+			
+		}
+		
+		System.out.println("이상하다 "+Fx+ " "+ startAngle);
+		
+		location.setLocation(Fx,Fy);
+		System.out.println("진짜노이해 ㅠㅠㅠㅠ "+Fx+ " "+ Fy);
+		System.out.println("왜 동일한 값?? "+location.getLocation());
+		angle.setLocation(startAngle,arcAngle);
+		size.setLocation(width, height);
+		vlocation.add(location.getLocation());
+		vsize.add(size.getLocation());
+		vangle.add(angle.getLocation());
+		
+		for(int i=0; i<vlocation.size(); i++) {
+			System.out.println("으에에ㅔㄱ"+i);
+			 Point s = vlocation.elementAt(i);
+			 Point e = vsize.elementAt(i);
+			 Point a= vangle.elementAt(i);
+			 System.out.println((int)s.getX()+ " "+(int)s.getY()+ " "+(int)e.getX()+ " "+(int)e.getY()+" "+(int)a.getX()+" "+ (int)a.getY());
+		}
+		
+		
+		
+		
+		
+	}
 	
 	public void paintComponent(Graphics g) {
 		

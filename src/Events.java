@@ -25,10 +25,12 @@ class NewButtonListener implements ActionListener{
 	public void actionPerformed(ActionEvent e2) {
 		drawNodePanel.removeAll();
 		textarea.setText("");
+		((JDrawPanel) drawNodePanel).reset();
 		drawNodePanel.setVisible(false);
 		drawNodePanel.setVisible(true);
 		textarea.setVisible(false);
 		textarea.setVisible(true);
+		
 		System.out.println("*******new");
 	}
 }
