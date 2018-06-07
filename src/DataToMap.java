@@ -8,6 +8,7 @@ import java.util.Vector;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
@@ -230,7 +231,7 @@ class Data{
 	private Data parent;	//부모
 	private String value;	//실제값
 	private int x, y, s;	// 좌표, 차원
-	private int h;
+	private int h, nodeH, nodeW;
 	private JLabel label;
 
 	public Data(String value) {this.value=value; child=null; sibling=null; parent=null;}
@@ -239,8 +240,6 @@ class Data{
 	
 	public void setLabel(JLabel label) {this.label=label;}
 
-	
-	
 	public void setChild(Data obj) {child=obj;}
 	public Data getChild() {return child;}
 
@@ -254,6 +253,7 @@ class Data{
 
 	void setHeight(int h) {this.h=h;}
 	int getHeight() {return this.h;}
+	String getStrHeight() {return "" + this.h;}
 	
 	String getValue() { return value.trim(); }
 	
@@ -262,6 +262,18 @@ class Data{
 	
 	int getX() { return x; }
 	int getY() { return y; }
+	
+	String getStrX() { return ""+x; }
+	String getStrY() { return ""+y; }
+	
+	void setH(int nodeH) { this.nodeH = nodeH; }
+	void setW(int nodeW) { this.nodeW = nodeW; }
+	
+	String getStrH() { return ""+nodeH; }
+	String getStrW() { return ""+nodeW; }
+	
+//	void setColor(int nodeH) { this.nodeH = nodeH; }
+//	String getStrH() { return ""+nodeH; }
 	
 	void setS(int s) { this.s = s; }
 	
@@ -378,6 +390,14 @@ class Tree extends MakeToLabel{
 		}
 		return true;
 	}
+	
+	public Data getStart() {
+		return this.start;
+	}
+	
+	public Data getLast() {
+		return this.last;
+	}
 
 	void print() {
 		Data k=start;
@@ -438,6 +458,8 @@ class Tree extends MakeToLabel{
 		setRootY(Panel);
 		k.setX(getRootX());
 		k.setY(getRootY());
+		k.setH(rootLabel.getHeight());
+		k.setW(rootLabel.getWidth());
 		k.setS(0);
 		
 		rootLabel.setLocation(k.getX(), k.getY());
@@ -450,7 +472,7 @@ class Tree extends MakeToLabel{
 
 	}
 	
-	int getSiblingIndex(Data nowK) {
+	private int getSiblingIndex(Data nowK) {
 		Data k = start;
 		int cnt = 0;
 		int height = nowK.getHeight();
@@ -504,7 +526,7 @@ class Tree extends MakeToLabel{
 		return cnt;
 	}
 	
-	Data showSibling(JPanel Panel, Data k) {
+	private Data showSibling(JPanel Panel, Data k) {
 		int x, y, s;
 		if(k.getParent() == start) {
 			x = getRootX();
@@ -554,13 +576,15 @@ class Tree extends MakeToLabel{
 		Panel.add(childLabel);////////////////////////////////라벨올리기
 		k.setX(x);
 		k.setY(y);
+		k.setH(childLabel.getHeight());
+		k.setW(childLabel.getWidth());
 		k.setLabel(childLabel);
 		childLabel.setLocation(x, y);
 		panel.getLabels2drawing(k.getParent(),k);
 		return k;
 	}
 
-	void ChildAddLabel(JPanel Panel, Data k){
+	private void ChildAddLabel(JPanel Panel, Data k){
 		
 		while(true) {
 			if(k == last) {
@@ -595,6 +619,8 @@ class Tree extends MakeToLabel{
 				Panel.add(childLabel);////////////////////////////////라벨올리기
 				k.setX(x);
 				k.setY(y);
+				k.setH(childLabel.getHeight());
+				k.setW(childLabel.getWidth());
 				k.setLabel(childLabel);
 				childLabel.setLocation(x, y);
 				

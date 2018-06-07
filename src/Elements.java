@@ -37,6 +37,7 @@ class Elements extends JMenuBar{
 	// Text
 	JTextArea textEditor = new JTextArea(30, 15);
 	public JPanel textEditorPanel;
+	SaveButtonListener saveListener = new SaveButtonListener();
 	
 }
 
@@ -73,6 +74,13 @@ class Bar extends Elements{
 		menuPanel.add(ToolBar);
 		
 		c.add(menuPanel, BorderLayout.NORTH);
+		
+		
+//		OpenButtonListener openListener = new OpenButtonListener();
+//		
+//		// Open 버튼
+//		menuOp[1].addActionListener(openListener); 
+//		toolOp[1].addActionListener(openListener);  
 	}
 	
 	JMenuItem getMenuItem(int index) {
@@ -101,15 +109,13 @@ class Mindmap extends Elements{
 		mindMapPanel.add(mindMapEdit, BorderLayout.NORTH);
 		mindMapPanel.add(new JScrollPane(drawNodePanel,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS),BorderLayout.CENTER);
 		
-		Mouser mouser=new Mouser(drawNodePanel);
-		drawNodePanel.addMouseListener(mouser);
-		drawNodePanel.addMouseMotionListener(mouser);
+//		Mouser mouser=new Mouser(drawNodePanel);
+//		drawNodePanel.addMouseListener(mouser);
+//		drawNodePanel.addMouseMotionListener(mouser);
 		drawNodePanel.setVisible(true);
 		mindMapPanel.setVisible(true);
 		
 	}
-	
-
 
 }
 
@@ -126,18 +132,18 @@ class Attribute extends Elements{
 		// attribute Pane TextField 구성
 		attributeFieldPane = new JPanel();
 		attributeFieldPane.setLayout(new GridLayout(6, 2, 10, 5));
-		SetingAttributeField();	//6개의 텍스트필드 구성
+		SettingAttributeField();	//6개의 텍스트필드 구성
 		attributePanel.add(attributeFieldPane, BorderLayout.CENTER);
 		
 		JButton changeBtn = new JButton("변경");
-//		changeBtn.addActionListener(new ButtonListener(attributeFieldPane,mindmapSection)); //버튼 이벤트
+		changeBtn.addActionListener(new ButtonListener(attributeFieldPane,mindmapSection)); //버튼 이벤트
 		
 		changeBtn.setFont(basicFont); //폰트
 		changeBtn.setHorizontalAlignment(SwingConstants.CENTER);
 		attributePanel.add(changeBtn, BorderLayout.SOUTH);
 	}
 	
-	private void SetingAttributeField() {
+	private void SettingAttributeField() {
 		JLabel[] labels = new JLabel[6];
 		for(int i=0;i<6;i++) {
 			labels[i] = new JLabel(labelStr[i]);
@@ -157,7 +163,7 @@ class Attribute extends Elements{
 
 class Text extends Elements {
 	
-	Text(Mindmap mindmapSection,Bar b){
+	Text(Mindmap mindmapSection, Bar b){
 		textEditorPanel = new JPanel();
 		textEditorPanel.setLayout(new BorderLayout(10, 0));
 		JTextField textEdit = new JTextField("Text Editor",15);
@@ -176,19 +182,36 @@ class Text extends Elements {
 		applyBtn.setHorizontalAlignment(SwingConstants.CENTER);
 		textEditorPanel.add(applyBtn, BorderLayout.SOUTH);
 		
-		ButtonListener listener = new ButtonListener(textEditor, mindmapSection);
-		NewButtonListener listener2=new NewButtonListener(mindmapSection.drawNodePanel,textEditor);
-		applyBtn.addActionListener(listener);  //버튼 이벤트  이상하다. mindMapPanel에서 막힌다. 행의 위치에 따라 다
-		
-		JMenuItem menuItem = b.getMenuItem(4);
-		JButton toolBtn = b.getToolButton(4);
-		menuItem.addActionListener(listener);  //버튼 이벤트  이상하다. mindMapPanel에서 막힌다. 행의 위치에 따라 다
-		toolBtn.addActionListener(listener);  //버튼 이벤트  이상하다. mindMapPanel에서 막힌다. 행의 위치에 따라 다
-
-		JMenuItem menuItem2 = b.getMenuItem(0);
-		JButton toolBtn2 = b.getToolButton(0);
-		menuItem2.addActionListener(listener2);  //버튼 이벤트  이상하다. mindMapPanel에서 막힌다. 행의 위치에 따라 다
-		toolBtn2.addActionListener(listener2);  //
+		ButtonListener applyListener = new ButtonListener(textEditor, mindmapSection, b, saveListener);
+		NewButtonListener newListener=new NewButtonListener(mindmapSection.drawNodePanel,textEditor);
+		OpenButtonListener openListener = new OpenButtonListener(textEditor, mindmapSection);
+//		
+		// 적용 버튼
+		applyBtn.addActionListener(applyListener); 
+		JMenuItem menuItemApply = b.getMenuItem(4);
+		JButton toolBtnApply = b.getToolButton(4);
+		menuItemApply.addActionListener(applyListener);  
+		toolBtnApply.addActionListener(applyListener);  
+		// New 버튼
+		JMenuItem menuItemNew = b.getMenuItem(0);
+		JButton toolBtnNew = b.getToolButton(0);
+		menuItemNew.addActionListener(newListener); 
+		toolBtnNew.addActionListener(newListener);  
+		// Save 버튼
+		JMenuItem menuItemSave = b.getMenuItem(2);
+		JButton toolBtnSave = b.getToolButton(2);
+		menuItemSave.addActionListener(saveListener); 
+		toolBtnSave.addActionListener(saveListener);  
+		// Save As... 버튼
+		JMenuItem menuItemSaveAs = b.getMenuItem(3);
+		JButton toolBtnSaveAs = b.getToolButton(3);
+		menuItemSaveAs.addActionListener(saveListener); 
+		toolBtnSaveAs.addActionListener(saveListener);  
+		// Open 버튼
+		JMenuItem menuItemOpen = b.getMenuItem(1);
+		JButton toolBtnOpen = b.getToolButton(1);
+		menuItemOpen.addActionListener(openListener); 
+		toolBtnOpen.addActionListener(openListener);  
 
 	}
 }
