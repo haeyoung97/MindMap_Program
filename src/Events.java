@@ -85,55 +85,58 @@ class updateLine{
 	
 	
 	
-	void modifybyP(int h,Point pointl,Point points) {
-		if(h%2==0) {
+	void modifybyP(int h,int s,Point pointl,Point points) {
+		if(h%2==1) {
+			
+			System.out.println("ㅏㅏㅏ\nㅏㅏㅏㅏ");
 			switch(s) {
 				case 1:
+					pointl.setLocation(offX+pointl.getX(),pointl.getY());
+					points.setLocation(-offX*2+points.getX(),offY*2+points.getY());          
+					break;///OKOKOKOKOKO
+				case 2:
 					pointl.setLocation(pointl.getX(),-offY+pointl.getY());
 					points.setLocation(offX*2+points.getX(),offY*2+points.getY());
 					break;
-				case 2:
+				case 3:
+					pointl.setLocation(-offX+pointl.getX(),offY*2+pointl.getY());
+					points.setLocation(offX*2+points.getX(),-offY*2+points.getY());
+					break;
+				case 4:
 					pointl.setLocation(offX*2+pointl.getX(),offY+pointl.getY());
 					points.setLocation(-offX*2+points.getX(),-offY*2+points.getY());
-					break;
-				case 3:
-					pointl.setLocation(offX+pointl.getX(),pointl.getY());
-					points.setLocation(-offX*2+points.getX(),offY*2+points.getY());
-					break;
-				case 4:
-					points.setLocation(offX*2+points.getX(),-offY*2+points.getY());
-					pointl.setLocation(-offX+pointl.getX(),offY*2+pointl.getY());
+					
 
 					break;
 			}
 		}
-		else {
-			switch(s) {
-				case 4:
-					pointl.setLocation(pointl.getX(),offY+pointl.getY());
-					points.setLocation(offX*2+points.getX(),-offY*2+points.getY());
-					System.out.println("1");
-
-					break;
-				case 2:
-					pointl.setLocation(offX+pointl.getX(),offY*2+pointl.getY());
-					points.setLocation(-offX*2+points.getX(),-offY*2+points.getY());
-					System.out.println("2");
-					break;
-				case 3:
-					pointl.setLocation(offX*2+pointl.getX(),-offY+pointl.getY());
-					points.setLocation(-offX*2+points.getX(),offY*2+points.getY());
-					System.out.println("3");
-					break;
-				case 1:
-					pointl.setLocation(-offX+pointl.getX(),pointl.getY());
-					points.setLocation(offX*2+points.getX(),offY*2+points.getY());
-					System.out.println("4");						
-					break;
-			}
-		}
-		
-		
+//		else {
+//			switch(s) {
+//				case 4:
+//					pointl.setLocation(pointl.getX(),offY+pointl.getY());
+//					points.setLocation(offX*2+points.getX(),-offY*2+points.getY());
+//					System.out.println("1");
+//
+//					break;
+//				case 2:
+//					pointl.setLocation(offX+pointl.getX(),offY*2+pointl.getY());
+//					points.setLocation(-offX*2+points.getX(),-offY*2+points.getY());
+//					System.out.println("2");
+//					break;
+//				case 3:
+//					pointl.setLocation(offX*2+pointl.getX(),-offY+pointl.getY());
+//					points.setLocation(-offX*2+points.getX(),offY*2+points.getY());
+//					System.out.println("3");
+//					break;
+//				case 1:
+//					pointl.setLocation(-offX+pointl.getX(),pointl.getY());
+//					points.setLocation(offX*2+points.getX(),offY*2+points.getY());
+//					System.out.println("4");						
+//					break;
+//			}
+//		}
+//		
+//		
 		
 		
 		
@@ -144,23 +147,27 @@ class updateLine{
 
 
 	void modifychildren(ArrayList<Data> childs, ArrayList<Point> childLinesLc, ArrayList<Point> childLinesSz) {
-		int h=0;
+		int h=childs.get(0).getParent().getHeight();
 		System.out.println("이즈엠티?"+ childs.isEmpty());
 		System.out.println(childs.size());
-//		
-//		
-//		for(int i=0;i<childs.size();i++) {
-//			modifybyP(h,childpointl.get(i),childpoints.get(i));
+////		
+////		
+		for(int i=0;i<childs.size();i++) {
+//			System.out.println(h+'\n'+childs.get(i).getValue()+" "+childpointl.get(i)+" "+childpoints.get(i));
+//			System.out.println(h);
+//			System.out.println(childs.get(i).getValue());
+//			System.out.println(childLinesLc.get(i));
+//			System.out.println(childLinesSz.get(i));
+			modifybyP(h,childs.get(i).getS(),childLinesLc.get(i),childLinesSz.get(i));
 //			
 			
 			
 			
-			
-			
-			
-			
-			
-//		}
+		}
+//		
+		
+		
+		
 		
 //		}
 //		if(parent.getHeight()%2==0) {
@@ -178,8 +185,9 @@ class updateLine{
 //					points.setLocation(-offX*2+points.getX(),offY*2+points.getY());
 //					break;
 //				case 4:
-//					points.setLocation(offX*2+points.getX(),-offY*2+points.getY());
 //					pointl.setLocation(-offX+pointl.getX(),offY*2+pointl.getY());
+//					points.setLocation(offX*2+points.getX(),-offY*2+points.getY());
+//					
 //
 //					break;
 //			}
@@ -350,6 +358,9 @@ class JLabelListener extends MouseAdapter {
 		label = (JLabel)e.getSource();
 		child=null;
 		parent=null;
+		childLinesLc.clear();
+		childLinesSz.clear();
+		
 		i=0;
 		s=0;
 		childs.clear();
@@ -402,31 +413,36 @@ class JLabelListener extends MouseAdapter {
 //			System.out.println(v.get(cnt));
 		}
 		
-		
-		//자식들 저장//
-		tmpChild=child.getChild();
-		childs.add(tmpChild);
-		if(tmpChild!=null) {	
-			while(true) {
-
-				if(tmpChild.getSibling()==null) {
-					break;
+		if(child.getChild()!=null) {
+			//자식들 저장//
+			tmpChild=child.getChild();
+			childs.add(tmpChild);
+			if(tmpChild!=null) {	
+				while(true) {
+	
+					if(tmpChild.getSibling()==null) {
+						break;
+					}
+					tmpChild=tmpChild.getSibling();
+					
+					childs.add(tmpChild);
+					childLinesLc.add(vl.get(cnt4child));
+					childLinesSz.add(vs.get(cnt4child));
+					System.out.println("차일즈카운트 : "+cnt4child);
+					System.out.println("차일드네임스 : "+tmpChild.getValue());
+	
+					cnt4child++;
 				}
-				tmpChild=tmpChild.getSibling();
-				
-				childs.add(tmpChild);
-				childLinesLc.add(vl.get(cnt4child));
-				childLinesSz.add(vs.get(cnt4child));
-				System.out.println("차일즈카운트 : "+cnt4child);
-				System.out.println("차일드네임스 : "+tmpChild.getValue());
-
-				cnt4child++;
-				
-						
 			}
-		}
+			childLinesLc.add(vl.get(cnt4child));
+			childLinesSz.add(vs.get(cnt4child));
+			
+			for(int i=0;i<childs.size();i++) {
+				System.out.println("name + "+childs.get(i).getValue());
+			}
+			System.out.println(childs.size()+"호롤롤");
 
-		
+		}
 
 		
 		x = e.getX();
@@ -470,7 +486,10 @@ class JLabelListener extends MouseAdapter {
 			updateLine ul=new updateLine(offX,offY,pointl,points);
 			
 			ul.separate(s, pointl, points,parent);
-			ul.modifychildren(childs,childLinesLc,childLinesSz);
+			if(childs.size()!=0) {
+				ul.modifychildren(childs,childLinesLc,childLinesSz);
+				
+			}
 		
 //			if(parent.getHeight()%2==0) {
 //				switch(s) {
