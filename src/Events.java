@@ -1,6 +1,9 @@
+import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 import java.awt.Component;
 import java.awt.Graphics;
@@ -79,10 +82,6 @@ class updateLine{
 			}
 		}
 	}
-	
-	
-	
-	
 	
 	
 	void modifybyP(int h,int s,Point pointl,Point points) {
@@ -256,63 +255,92 @@ class NewButtonListener implements ActionListener{
 	}
 }
 
-class ButtonListener implements ActionListener{ //버튼 이벤트
+//class ListenElements{
+//	Tree tree;
+//}
+
+class ButtonListener extends Elements implements ActionListener { //버튼 이벤트
 	private Object O;
 	private Mindmap mindmapSection;
 	private StringBuffer buffer; 						//text editor 값		-이 버튼이 실행될 때마다 새로운 객체 생기는 것이 찜찜함...
 	private String tmp=new String();
 //	private Tree tree=new Tree(mindmapSection.drawNodePanel); //TREE추가
 	private Tree tree;
-	
+	private Bar b;
+	private SaveButtonListener saveListener;
+//	
 //	private JPanel panel4line;
 	
+	ButtonListener(Object O, Mindmap mindmapSection) {
+		this.O=O;
+		this.mindmapSection=mindmapSection;	//연결 OK
+		this.tree = new Tree(mindmapSection.drawNodePanel);
+		this.saveListener = saveListener;
+}
 	
-	
-	ButtonListener(Object O,Mindmap mindmapSection) {
+	ButtonListener(Object O, Mindmap mindmapSection, Bar b, SaveButtonListener saveListener) {
 			this.O=O;
 			this.mindmapSection=mindmapSection;	//연결 OK
-			this.tree=new Tree(mindmapSection.drawNodePanel);
+			this.tree = new Tree(mindmapSection.drawNodePanel);
+			this.saveListener = saveListener;
+			this.b = b;
 	}
 	
+	void ApplyButtonFunc() {
+		int i=0; 							//while문 카운트
+		mindmapSection.drawNodePanel.removeAll();
+//		mindmapSection.drawNodePanel.setBackground(arg0);
+//		JDrawPanel tmpP=new JDrawPanel();
+//		mindmapSection.drawNodePanel=tmpP;
+		
+		mindmapSection.drawNodePanel.reset();
+		
+		buffer=new StringBuffer(((JTextArea)O).getText());
+	    tmp=buffer.toString();
+		StringTokenizer st=new StringTokenizer(tmp,"\n");	//st에 문자열에서 개행+문자로 된 애들 기준으로 자르기.
+		String [] member=new String[st.countTokens()];
+		
+		
+		while(st.hasMoreTokens()) {							//member배열에 \n기준으로 값 저장. (\t유효)
+			member[i]=st.nextToken();
+			i++;
+		}
+		
+		if(tree.MakeTree(member)) {
+			tree.print();
+			tree.AddLabel(mindmapSection.drawNodePanel);
+	
+//			mindmapSection.drawNodePanel.getLabels2drawing((JLabel)mindmapSection.drawNodePanel.getComponent(0), (JLabel)mindmapSection.drawNodePanel.getComponent(1));
+//			mindmapSection.drawNodePanel.DrawingLine(g);
+		
+			///////////////////////선 그리기.../////////////////
+
+			mindmapSection.drawNodePanel.setVisible(false);
+			mindmapSection.drawNodePanel.setVisible(true);
+			tree.Default();
+		}
+		
+	}
+		
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand().equals("적용") || e.getActionCommand().equals("Apply")) { 		//Text Editor
-			int i=0; 							//while문 카운트
-			mindmapSection.drawNodePanel.removeAll();
-//			mindmapSection.drawNodePanel.setBackground(arg0);
-//			JDrawPanel tmpP=new JDrawPanel();
-//			mindmapSection.drawNodePanel=tmpP;
+			ApplyButtonFunc();
+			// Save 버튼
+			JMenuItem menuItemSave = b.getMenuItem(2);
+			JButton toolBtnSave = b.getToolButton(2);
+			menuItemSave.removeActionListener(saveListener); 
+			toolBtnSave.removeActionListener(saveListener); 
+			// SaveAs 버튼
+			JMenuItem menuItemSaveAs = b.getMenuItem(3);
+			JButton toolBtnSaveAs = b.getToolButton(3);
+			menuItemSaveAs.removeActionListener(saveListener); 
+			toolBtnSaveAs.removeActionListener(saveListener); 
 			
-			mindmapSection.drawNodePanel.reset();
-			
-			buffer=new StringBuffer(((JTextArea)O).getText());
-		    tmp=buffer.toString();
-			StringTokenizer st=new StringTokenizer(tmp,"\n");	//st에 문자열에서 개행+문자로 된 애들 기준으로 자르기.
-			String [] member=new String[st.countTokens()];
-			
-			
-			while(st.hasMoreTokens()) {							//member배열에 \n기준으로 값 저장. (\t유효)
-				member[i]=st.nextToken();
-				i++;
-			}
-			
-			if(tree.MakeTree(member)) {
-				tree.print();
-				tree.AddLabel(mindmapSection.drawNodePanel);
-				
-				
-//				mindmapSection.drawNodePanel.getLabels2drawing((JLabel)mindmapSection.drawNodePanel.getComponent(0), (JLabel)mindmapSection.drawNodePanel.getComponent(1));
-//				mindmapSection.drawNodePanel.DrawingLine(g);
-				
-				
-				///////////////////////선 그리기.../////////////////
-				
-				
-				
-				
-				mindmapSection.drawNodePanel.setVisible(false);
-				mindmapSection.drawNodePanel.setVisible(true);
-				tree.Default();
-			}						
+			saveListener = new SaveButtonListener(tree.getStart(), tree.getLast());
+			menuItemSave.addActionListener(saveListener); 
+			toolBtnSave.addActionListener(saveListener); 
+			menuItemSaveAs.addActionListener(saveListener); 
+			toolBtnSaveAs.addActionListener(saveListener); 						
 		}
 		
 //		else if(Btn.getText().equals("변경")) { //Attribute Editor 
@@ -345,8 +373,10 @@ class JLabelListener extends MouseAdapter {
 	private ArrayList<Point> childLinesLc,childLinesSz;
 	private int offX,offY;
 	
+	private JTextField[] fields;
+	
 	public JLabelListener(JDrawPanel panel) {
-		this.panel=panel;
+		this.panel=panel; 
 		childs=new ArrayList<Data>();
 		childLinesLc=new ArrayList<Point>();
 		childLinesSz=new ArrayList<Point>();
@@ -563,65 +593,61 @@ class JLabelListener extends MouseAdapter {
 		}
 	}
 	
-}
-
-
-class SaveButtonListener implements ActionListener{
-
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-}
-
-
-
-class Mouser extends MouseAdapter{
-
-	boolean isDragged;
-	int offX=0, offY=0;
-	JPanel panel;
-	Component []labels;
-	Component label;
-	
-	Mouser(JPanel drawNodePanel){
-		this.panel=drawNodePanel;
-		labels=panel.getComponents();
-	}
-	
-	public void mousePressed(MouseEvent me){/////////////////////////////////////////////////
-
-		System.out.println(panel.getComponentCount());
-		
-		for(int i=0;i<panel.getComponentCount();i++) {
-			if((me.getX()>panel.getComponent(i).getX() &&me.getX()<(panel.getComponent(i).getWidth()+panel.getComponent(i).getX()))&&(me.getY()>panel.getComponent(i).getY()&&me.getY()<(panel.getComponent(i).getHeight()+panel.getComponent(i).getY()))){
-
-				System.out.println("포함이오~~");
-				offX = me.getX() - panel.getComponent(i).getLocation().x;
-				offY = me.getY() - panel.getComponent(i).getLocation().y;
-				this.label=panel.getComponent(i);
-				isDragged = true;
-			}
-		System.out.println(me.getX()+" "+me.getY());
-		}
-	}
-
-	public void mouseReleased(MouseEvent me){//////////////////////////////////////////////
-		//마우스 버튼이 릴리즈되면 드래그 모드 종료
-		isDragged = false;
-		System.out.println("FALSE");
-	}
-	public void mouseDragged(MouseEvent me){///////////////////////////////////////////////
-		
-		if(isDragged){
-
-			label.setLocation(me.getX()-offX,me.getY()-offY);
-			panel.setVisible(false);
-			panel.setVisible(true);
-
-			System.out.println("MOOOVE");
-		}
+	public void mouseClicked(MouseEvent e) {
+//		JLabel lb = (JLabel) e.getSource();
+//		fields[0].setText(lb.toString());
+//		fields[1].setText(""+lb.getX());
+//		fields[2].setText(""+lb.getY());
+//		fields[3].setText(""+lb.getWidth());
+//		fields[4].setText(""+lb.getHeight());
+//		fields[5].setText(lb.toString());
 	}
 }
+
+//class Mouser extends MouseAdapter{
+//
+//	boolean isDragged;
+//	int offX=0, offY=0;
+//	JPanel panel;
+//	Component []labels;
+//	Component label;
+//	
+//	Mouser(JPanel drawNodePanel){
+//		this.panel=drawNodePanel;
+//		labels=panel.getComponents();
+//	}
+//	
+//	public void mousePressed(MouseEvent me){/////////////////////////////////////////////////
+//
+//		System.out.println(panel.getComponentCount());
+//		
+//		for(int i=0;i<panel.getComponentCount();i++) {
+//			if((me.getX()>panel.getComponent(i).getX() &&me.getX()<(panel.getComponent(i).getWidth()+panel.getComponent(i).getX()))&&(me.getY()>panel.getComponent(i).getY()&&me.getY()<(panel.getComponent(i).getHeight()+panel.getComponent(i).getY()))){
+//
+//				System.out.println("포함이오~~");
+//				offX = me.getX() - panel.getComponent(i).getLocation().x;
+//				offY = me.getY() - panel.getComponent(i).getLocation().y;
+//				this.label=panel.getComponent(i);
+//				isDragged = true;
+//			}
+//		System.out.println(me.getX()+" "+me.getY());
+//		}
+//	}
+//
+//	public void mouseReleased(MouseEvent me){//////////////////////////////////////////////
+//		//마우스 버튼이 릴리즈되면 드래그 모드 종료
+//		isDragged = false;
+//		System.out.println("FALSE");
+//	}
+//	public void mouseDragged(MouseEvent me){///////////////////////////////////////////////
+//		
+//		if(isDragged){
+//
+//			label.setLocation(me.getX()-offX,me.getY()-offY);
+//			panel.setVisible(false);
+//			panel.setVisible(true);
+//
+//			System.out.println("MOOOVE");
+//		}
+//	}
+//}
