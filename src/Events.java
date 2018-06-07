@@ -276,8 +276,8 @@ class JLabelListener extends MouseAdapter {
 						System.out.println("2");
 						break;
 					case 3:
-						pointl.setLocation(-offX+pointl.getX(),pointl.getY());
-						points.setLocation(offX*2+points.getX(),offY+points.getY());
+						pointl.setLocation(offX*2+pointl.getX(),-offY+pointl.getY());
+						points.setLocation(-offX*2+points.getX(),offY*2+points.getY());
 						System.out.println("3");
 						break;
 					case 1:
