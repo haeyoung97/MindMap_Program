@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.JLabel;
@@ -19,16 +20,25 @@ class JDrawPanel extends JPanel{
 	private Vector<Point> vlocation=new Vector<Point>();
 	private Vector<Point> vsize=new Vector<Point>();
 	private Vector<Point> vangle=new Vector<Point>();
+	private ArrayList<Data> datas;
+	
+//	private Data [] datas;
 	
 	JDrawPanel(){
 		super();
 		System.out.println("생서왕뇰!");
+		datas=new ArrayList<Data>();
+		System.out.println(datas.isEmpty());
 
 	}
 	
 	void reset() {vlocation=new Vector<Point>(); vsize=new Vector<Point>(); vangle=new Vector<Point>();}
+	Vector<Point> getVlocation() {return vlocation;}
+	Vector<Point> getVsize() {return vsize;}
+	
 	
 	void getLabels2drawing(Data P,Data C) {
+
 		
 		System.out.println("평화?"); this.P=P; this.C=C;	
 		System.out.println("평화!");
@@ -103,7 +113,6 @@ class JDrawPanel extends JPanel{
 		
 		
 		else { //P의 계층 % 2==1
-			System.out.println("ㅁㅇ람넝리ㅏ머라ㅣㅓㅁㄴ이ㅏ렁니ㅓ라멍ㄹ");
 			if(x<px) {
 				if(y<py) {
 					startAngle=180;
@@ -160,21 +169,17 @@ class JDrawPanel extends JPanel{
 		
 		System.out.println("이상하다 "+Fx+ " "+ startAngle);
 		
-		location.setLocation(Fx,Fy);
-		System.out.println("진짜노이해 ㅠㅠㅠㅠ "+Fx+ " "+ Fy);
-		System.out.println("왜 동일한 값?? "+location.getLocation());
-		angle.setLocation(startAngle,arcAngle);
+		location.setLocation(Fx,Fy);		angle.setLocation(startAngle,arcAngle);
 		size.setLocation(width, height);
 		vlocation.add(location.getLocation());
 		vsize.add(size.getLocation());
 		vangle.add(angle.getLocation());
 		
 		for(int i=0; i<vlocation.size(); i++) {
-			System.out.println("으에에ㅔㄱ"+i);
 			 Point s = vlocation.elementAt(i);
 			 Point e = vsize.elementAt(i);
 			 Point a= vangle.elementAt(i);
-			 System.out.println((int)s.getX()+ " "+(int)s.getY()+ " "+(int)e.getX()+ " "+(int)e.getY()+" "+(int)a.getX()+" "+ (int)a.getY());
+
 		}
 		
 		
@@ -182,6 +187,8 @@ class JDrawPanel extends JPanel{
 		
 		
 	}
+	
+	ArrayList<Data> getArray(){return datas;}
 	
 	public void paintComponent(Graphics g) {
 		
@@ -299,6 +306,8 @@ class Tree extends MakeToLabel{
 			if(start==null && member[0].charAt(0)!='\t') { //첫 성분이 루트 (\t으로 시작 안한다.)
 				start=new Data(member[0]);
 				start.setHeight(0);
+//				System.out.println(panel.getArray().isEmpty());
+				panel.getArray().add(start);
 				last=start;
 			}
 			else {
@@ -339,6 +348,7 @@ class Tree extends MakeToLabel{
 						}
 					}
 					k++;
+					panel.getArray().add(obj);
 					last=obj;
 					System.out.println("make tree ;  " + k);
 				}
