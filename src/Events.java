@@ -110,33 +110,35 @@ class updateLine{
 					break;
 			}
 		}
-//		else {
-//			switch(s) {
-//				case 4:
-//					pointl.setLocation(pointl.getX(),offY+pointl.getY());
-//					points.setLocation(offX*2+points.getX(),-offY*2+points.getY());
-//					System.out.println("1");
-//
-//					break;
-//				case 2:
-//					pointl.setLocation(offX+pointl.getX(),offY*2+pointl.getY());
-//					points.setLocation(-offX*2+points.getX(),-offY*2+points.getY());
-//					System.out.println("2");
-//					break;
-//				case 3:
-//					pointl.setLocation(offX*2+pointl.getX(),-offY+pointl.getY());
-//					points.setLocation(-offX*2+points.getX(),offY*2+points.getY());
-//					System.out.println("3");
-//					break;
-//				case 1:
-//					pointl.setLocation(-offX+pointl.getX(),pointl.getY());
-//					points.setLocation(offX*2+points.getX(),offY*2+points.getY());
-//					System.out.println("4");						
-//					break;
-//			}
-//		}
-//		
-//		
+		else {
+			
+			switch(s) {
+				case 4:
+					pointl.setLocation(pointl.getX(),pointl.getY());
+					points.setLocation(points.getX(),points.getY());
+					System.out.println("1");
+					System.out.println("¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©");
+
+					break;
+				case 2:
+					pointl.setLocation(pointl.getX(),pointl.getY());
+					points.setLocation(points.getX(),points.getY());
+					System.out.println("2");
+					break;
+				case 3:
+					pointl.setLocation(pointl.getX(),pointl.getY());
+					points.setLocation(points.getX(),points.getY());
+					System.out.println("3");
+					break;
+				case 1:
+					pointl.setLocation(pointl.getX(),pointl.getY());
+					points.setLocation(points.getX(),points.getY());
+					System.out.println("4");						
+					break;
+			}
+		}
+		
+		
 		
 		
 		
