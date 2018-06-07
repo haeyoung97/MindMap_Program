@@ -13,6 +13,214 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
+class updateLine{
+	private int offX,offY;
+	private Point pointl, points;
+	private ArrayList<Point> childpointl;
+	private ArrayList<Point> childpoints;
+	private Data parent, child;
+	private JLabel Plabel, label;
+	private int s;
+	private ArrayList<Data> childs;
+	
+	updateLine(int offX,int offY, Point pointl, Point points){
+		this.offX=offX;
+		this.offY=offY;
+		this.pointl=pointl;
+		this.points=points;
+	}
+	
+	void separate(int s, Point pointl, Point points,Data parent) {		
+		this.s=s;
+		if(parent.getHeight()%2==0) {
+			switch(s) {
+				case 1:
+					pointl.setLocation(pointl.getX(),-offY+pointl.getY());
+					points.setLocation(offX*2+points.getX(),offY*2+points.getY());
+					break;
+				case 2:
+					pointl.setLocation(offX*2+pointl.getX(),offY+pointl.getY());
+					points.setLocation(-offX*2+points.getX(),-offY*2+points.getY());
+					break;
+				case 3:
+					pointl.setLocation(offX+pointl.getX(),pointl.getY());
+					points.setLocation(-offX*2+points.getX(),offY*2+points.getY());
+					break;
+				case 4:
+					points.setLocation(offX*2+points.getX(),-offY*2+points.getY());
+					pointl.setLocation(-offX+pointl.getX(),offY*2+pointl.getY());
+
+					break;
+			}
+		}
+		else {
+			switch(s) {
+				case 4:
+					pointl.setLocation(pointl.getX(),offY+pointl.getY());
+					points.setLocation(offX*2+points.getX(),-offY*2+points.getY());
+					System.out.println("1");
+
+					break;
+				case 2:
+					pointl.setLocation(offX+pointl.getX(),offY*2+pointl.getY());
+					points.setLocation(-offX*2+points.getX(),-offY*2+points.getY());
+					System.out.println("2");
+					break;
+				case 3:
+					pointl.setLocation(offX*2+pointl.getX(),-offY+pointl.getY());
+					points.setLocation(-offX*2+points.getX(),offY*2+points.getY());
+					System.out.println("3");
+					break;
+				case 1:
+					pointl.setLocation(-offX+pointl.getX(),pointl.getY());
+					points.setLocation(offX*2+points.getX(),offY*2+points.getY());
+					System.out.println("4");						
+					break;
+			}
+		}
+	}
+	
+	
+	
+	
+	
+	
+	void modifybyP(int h,Point pointl,Point points) {
+		if(h%2==0) {
+			switch(s) {
+				case 1:
+					pointl.setLocation(pointl.getX(),-offY+pointl.getY());
+					points.setLocation(offX*2+points.getX(),offY*2+points.getY());
+					break;
+				case 2:
+					pointl.setLocation(offX*2+pointl.getX(),offY+pointl.getY());
+					points.setLocation(-offX*2+points.getX(),-offY*2+points.getY());
+					break;
+				case 3:
+					pointl.setLocation(offX+pointl.getX(),pointl.getY());
+					points.setLocation(-offX*2+points.getX(),offY*2+points.getY());
+					break;
+				case 4:
+					points.setLocation(offX*2+points.getX(),-offY*2+points.getY());
+					pointl.setLocation(-offX+pointl.getX(),offY*2+pointl.getY());
+
+					break;
+			}
+		}
+		else {
+			switch(s) {
+				case 4:
+					pointl.setLocation(pointl.getX(),offY+pointl.getY());
+					points.setLocation(offX*2+points.getX(),-offY*2+points.getY());
+					System.out.println("1");
+
+					break;
+				case 2:
+					pointl.setLocation(offX+pointl.getX(),offY*2+pointl.getY());
+					points.setLocation(-offX*2+points.getX(),-offY*2+points.getY());
+					System.out.println("2");
+					break;
+				case 3:
+					pointl.setLocation(offX*2+pointl.getX(),-offY+pointl.getY());
+					points.setLocation(-offX*2+points.getX(),offY*2+points.getY());
+					System.out.println("3");
+					break;
+				case 1:
+					pointl.setLocation(-offX+pointl.getX(),pointl.getY());
+					points.setLocation(offX*2+points.getX(),offY*2+points.getY());
+					System.out.println("4");						
+					break;
+			}
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+	}
+
+
+	void modifychildren(ArrayList<Data> childs, ArrayList<Point> childLinesLc, ArrayList<Point> childLinesSz) {
+		int h=0;
+		System.out.println("이즈엠티?"+ childs.isEmpty());
+		System.out.println(childs.size());
+//		
+//		
+//		for(int i=0;i<childs.size();i++) {
+//			modifybyP(h,childpointl.get(i),childpoints.get(i));
+//			
+			
+			
+			
+			
+			
+			
+			
+			
+//		}
+		
+//		}
+//		if(parent.getHeight()%2==0) {
+//			switch(s) {
+//				case 1:
+//					pointl.setLocation(pointl.getX(),-offY+pointl.getY());
+//					points.setLocation(offX*2+points.getX(),offY*2+points.getY());
+//					break;
+//				case 2:
+//					pointl.setLocation(offX*2+pointl.getX(),offY+pointl.getY());
+//					points.setLocation(-offX*2+points.getX(),-offY*2+points.getY());
+//					break;
+//				case 3:
+//					pointl.setLocation(offX+pointl.getX(),pointl.getY());
+//					points.setLocation(-offX*2+points.getX(),offY*2+points.getY());
+//					break;
+//				case 4:
+//					points.setLocation(offX*2+points.getX(),-offY*2+points.getY());
+//					pointl.setLocation(-offX+pointl.getX(),offY*2+pointl.getY());
+//
+//					break;
+//			}
+//		}
+//		/////////////////////////////////////////////////////////////////////////////////
+//		
+//		else {
+//			switch(s) {
+//				case 4:
+//					pointl.setLocation(pointl.getX(),offY+pointl.getY());
+//					points.setLocation(offX*2+points.getX(),-offY*2+points.getY());
+//					System.out.println("1");
+//
+//					break;
+//				case 2:
+//					pointl.setLocation(offX+pointl.getX(),offY*2+pointl.getY());
+//					points.setLocation(-offX*2+points.getX(),-offY*2+points.getY());
+//					System.out.println("2");
+//					break;
+//				case 3:
+//					pointl.setLocation(offX*2+pointl.getX(),-offY+pointl.getY());
+//					points.setLocation(-offX*2+points.getX(),offY*2+points.getY());
+//					System.out.println("3");
+//					break;
+//				case 1:
+//					pointl.setLocation(-offX+pointl.getX(),pointl.getY());
+//					points.setLocation(offX*2+points.getX(),offY*2+points.getY());
+//					System.out.println("4");						
+//					break;
+//			}
+//		}
+//		
+//	}
+	
+	
+	
+	}
+}
+
+
+
 class NewButtonListener implements ActionListener{
 	JPanel drawNodePanel;
 	Tree t;
@@ -122,24 +330,29 @@ class JLabelListener extends MouseAdapter {
 	private int x,y;
 	private Point pointl,points;
 	private Vector<Point> vl,vs;
-	private int cnt,i,s;
-	private ArrayList<Data> datas;
+	private int cnt,i,s,cnt4child;
+	private ArrayList<Data> datas,childs;
+	private ArrayList<Point> childLinesLc,childLinesSz;
 	private int offX,offY;
 	
 	public JLabelListener(JDrawPanel panel) {
 		this.panel=panel;
+		childs=new ArrayList<Data>();
+		childLinesLc=new ArrayList<Point>();
+		childLinesSz=new ArrayList<Point>();
+		
 //		System.out.println(panel.getName());
 	}
 
 	public void mousePressed(MouseEvent e) {
 		datas=panel.getArray();
-		
+		Data tmpChild;
 		label = (JLabel)e.getSource();
 		child=null;
 		parent=null;
 		i=0;
 		s=0;
-		
+		childs.clear();
 		
 //		panel.getArray().get(i).getParent().getValue()
 		
@@ -149,57 +362,72 @@ class JLabelListener extends MouseAdapter {
 					return;
 				}
 				cnt=i;
-				child=datas.get(i);
+				child=datas.get(cnt);
 				parent=child.getParent();
+				
+				cnt4child=cnt;
+				
 				for(int j=0;j<panel.getComponentCount();j++) {
-					System.out.println(parent.getValue());
+//					System.out.println(parent.getValue());
+					
 					if(parent.toString()==((JLabel)panel.getComponent(j)).getText()){
 						System.out.println("ㅌ"+((JLabel)panel.getComponent(j)).getText());
 						Plabel=(JLabel)(panel.getComponent(j));
-						break;
-					}
+						break; //for for
+					}				
 				}
 				
-				if(label.getX()<Plabel.getX()) {
-					if(label.getY()<Plabel.getY()) {
-						s=2;
-//						System.out.println("그림2 "+P.getValue()+"의 자식: "+C.getValue());
-					}
-					else {
-						s=3;
-//						System.out.println("그림3 "+P.getValue()+"의 자식: "+C.getValue());
-					}
-					
-				}
-				else {
-					if(label.getY()<Plabel.getY()) {
-						s=4;
-//						System.out.println("그림4 "+P.getValue()+"의 자식: "+C.getValue());
-					}
-					else {
-						s=1;
-//						System.out.println("그림1 "+P.getValue()+"의 자식: "+C.getValue());
-					}
-		
-				}
+				s=panel.checkS(label.getX(),label.getY(),Plabel.getX(),Plabel.getY());
+//				
+//				if(label.getX()<Plabel.getX()) {
+//					if(label.getY()<Plabel.getY()) {s=2;}
+//					else {s=3;}
+//				}
+//				else {
+//					if(label.getY()<Plabel.getY()) {s=4;}
+//					else {s=1;}		
+//				}
 				break;
 			}
 			i++;
 		}
 		cnt--;
+		
 		System.out.println("값은 바로바로 "+cnt);
 		vl=panel.getVlocation();
 		vs=panel.getVsize();
 		if(cnt>=0) {
 			points=vs.get(cnt);
 			pointl=vl.get(cnt);
-			
-
-			
-			
 //			System.out.println(v.get(cnt));
 		}
 		
+		
+		//자식들 저장//
+		tmpChild=child.getChild();
+		childs.add(tmpChild);
+		if(tmpChild!=null) {	
+			while(true) {
+
+				if(tmpChild.getSibling()==null) {
+					break;
+				}
+				tmpChild=tmpChild.getSibling();
+				
+				childs.add(tmpChild);
+				childLinesLc.add(vl.get(cnt4child));
+				childLinesSz.add(vs.get(cnt4child));
+				System.out.println("차일즈카운트 : "+cnt4child);
+				System.out.println("차일드네임스 : "+tmpChild.getValue());
+
+				cnt4child++;
+				
+						
+			}
+		}
+
+		
+
 		
 		x = e.getX();
 		y = e.getY();
@@ -238,55 +466,60 @@ class JLabelListener extends MouseAdapter {
 		if(isDragged && i!=0){
 			offX=e.getX()-x;
 			offY=e.getY()-y;
-			
-			if(parent.getHeight()%2==0) {
-				switch(s) {
-					case 1:
-						pointl.setLocation(pointl.getX(),-offY+pointl.getY());
-						points.setLocation(offX*2+points.getX(),offY*2+points.getY());
-						break;
-					case 2:
-						pointl.setLocation(offX*2+pointl.getX(),offY+pointl.getY());
-						points.setLocation(-offX*2+points.getX(),-offY*2+points.getY());
-						break;
-					case 3:
-						pointl.setLocation(offX+pointl.getX(),pointl.getY());
-						points.setLocation(-offX*2+points.getX(),offY*2+points.getY());
-						break;
-					case 4:
-						points.setLocation(offX*2+points.getX(),-offY*2+points.getY());
-						pointl.setLocation(-offX+pointl.getX(),offY*2+pointl.getY());
-	
-						break;
-				}
-			}
-			/////////////////////////////////////////////////////////////////////////////////
-			
-			else {
-				switch(s) {
-					case 4:
-						pointl.setLocation(pointl.getX(),offY+pointl.getY());
-						points.setLocation(offX*2+points.getX(),-offY*2+points.getY());
-						System.out.println("1");
 
-						break;
-					case 2:
-						pointl.setLocation(offX+pointl.getX(),offY*2+pointl.getY());
-						points.setLocation(-offX*2+points.getX(),-offY*2+points.getY());
-						System.out.println("2");
-						break;
-					case 3:
-						pointl.setLocation(offX*2+pointl.getX(),-offY+pointl.getY());
-						points.setLocation(-offX*2+points.getX(),offY*2+points.getY());
-						System.out.println("3");
-						break;
-					case 1:
-						pointl.setLocation(-offX+pointl.getX(),pointl.getY());
-						points.setLocation(offX*2+points.getX(),offY*2+points.getY());
-						System.out.println("4");						
-						break;
-				}
-			}
+			updateLine ul=new updateLine(offX,offY,pointl,points);
+			
+			ul.separate(s, pointl, points,parent);
+			ul.modifychildren(childs,childLinesLc,childLinesSz);
+		
+//			if(parent.getHeight()%2==0) {
+//				switch(s) {
+//					case 1:
+//						pointl.setLocation(pointl.getX(),-offY+pointl.getY());
+//						points.setLocation(offX*2+points.getX(),offY*2+points.getY());
+//						break;
+//					case 2:
+//						pointl.setLocation(offX*2+pointl.getX(),offY+pointl.getY());
+//						points.setLocation(-offX*2+points.getX(),-offY*2+points.getY());
+//						break;
+//					case 3:
+//						pointl.setLocation(offX+pointl.getX(),pointl.getY());
+//						points.setLocation(-offX*2+points.getX(),offY*2+points.getY());
+//						break;
+//					case 4:
+//						points.setLocation(offX*2+points.getX(),-offY*2+points.getY());
+//						pointl.setLocation(-offX+pointl.getX(),offY*2+pointl.getY());
+//	
+//						break;
+//				}
+//			}
+//			/////////////////////////////////////////////////////////////////////////////////
+//			
+//			else {
+//				switch(s) {
+//					case 4:
+//						pointl.setLocation(pointl.getX(),offY+pointl.getY());
+//						points.setLocation(offX*2+points.getX(),-offY*2+points.getY());
+//						System.out.println("1");
+//
+//						break;
+//					case 2:
+//						pointl.setLocation(offX+pointl.getX(),offY*2+pointl.getY());
+//						points.setLocation(-offX*2+points.getX(),-offY*2+points.getY());
+//						System.out.println("2");
+//						break;
+//					case 3:
+//						pointl.setLocation(offX*2+pointl.getX(),-offY+pointl.getY());
+//						points.setLocation(-offX*2+points.getX(),offY*2+points.getY());
+//						System.out.println("3");
+//						break;
+//					case 1:
+//						pointl.setLocation(-offX+pointl.getX(),pointl.getY());
+//						points.setLocation(offX*2+points.getX(),offY*2+points.getY());
+//						System.out.println("4");						
+//						break;
+//				}
+//			}
 			
 
 			

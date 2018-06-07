@@ -21,8 +21,7 @@ class JDrawPanel extends JPanel{
 	private Vector<Point> vsize=new Vector<Point>();
 	private Vector<Point> vangle=new Vector<Point>();
 	private ArrayList<Data> datas;
-	
-//	private Data [] datas;
+	private ArrayList<Integer> group4s=new ArrayList<Integer>();
 	
 	JDrawPanel(){
 		super();
@@ -32,9 +31,27 @@ class JDrawPanel extends JPanel{
 
 	}
 	
+	
+	int checkS(int x,int y, int px, int py) {
+		int s;
+		if(x<px) {
+			if(y<py) {s=2;}
+			else {s=3;}
+		}
+		else {
+			if(y<py) {s=4;}
+			else {s=1;}		
+		}
+		
+		return s;
+	}
+	
+	
 	void reset() {vlocation=new Vector<Point>(); vsize=new Vector<Point>(); vangle=new Vector<Point>();}
 	Vector<Point> getVlocation() {return vlocation;}
 	Vector<Point> getVsize() {return vsize;}
+	
+	ArrayList<Integer> getSgroup() {return group4s;}
 	
 	
 	void getLabels2drawing(Data P,Data C) {
