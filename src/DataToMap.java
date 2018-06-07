@@ -515,7 +515,7 @@ class Tree extends MakeToLabel{
 		}
 		else if(getSiblingIndex(k) == 3) {
 			y += 300*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
-			if(s == 0 || s == 2 || s == 3) {
+			if(s == 0 || s == 2 ) {
 				x -= 400*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
 				if(s == 2 || s == 0)
 					k.setS(3);
