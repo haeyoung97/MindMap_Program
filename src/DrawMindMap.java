@@ -26,10 +26,9 @@ class BasicFramework extends JFrame {
 		c.setLayout(new BorderLayout());
 		
 		mindmapSection = new Mindmap();
-		attributeSection = new Attribute(mindmapSection);
 		Bar bar = new Bar(c, mindmapSection);
-		textSection = new Text(mindmapSection, bar);
-		
+		attributeSection = new Attribute(mindmapSection, bar);
+		textSection = new Text(attributeSection, mindmapSection, bar);
 		
 		splitPaneOne = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		splitPaneTwo = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);

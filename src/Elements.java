@@ -75,12 +75,6 @@ class Bar extends Elements{
 		
 		c.add(menuPanel, BorderLayout.NORTH);
 		
-		
-//		OpenButtonListener openListener = new OpenButtonListener();
-//		
-//		// Open 버튼
-//		menuOp[1].addActionListener(openListener); 
-//		toolOp[1].addActionListener(openListener);  
 	}
 	
 	JMenuItem getMenuItem(int index) {
@@ -104,14 +98,10 @@ class Mindmap extends Elements{
 		drawNodePanel = new JDrawPanel();//추가
 		drawNodePanel.setLayout(null);
 		drawNodePanel.setBackground(Color.white);
-//		drawNodePanel.setPreferredSize(new Dimension(5000, 5000));
 
 		mindMapPanel.add(mindMapEdit, BorderLayout.NORTH);
 		mindMapPanel.add(new JScrollPane(drawNodePanel,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS),BorderLayout.CENTER);
 		
-//		Mouser mouser=new Mouser(drawNodePanel);
-//		drawNodePanel.addMouseListener(mouser);
-//		drawNodePanel.addMouseMotionListener(mouser);
 		drawNodePanel.setVisible(true);
 		mindMapPanel.setVisible(true);
 		
@@ -120,7 +110,7 @@ class Mindmap extends Elements{
 }
 
 class Attribute extends Elements{
-	Attribute(Mindmap mindmapSection){
+	Attribute(Mindmap mindmapSection, Bar b){
 		attributePanel = new JPanel();
 		attributePanel.setLayout(new BorderLayout(10, 0));
 		JTextField attributeEdit = new JTextField("Attribute Editor",15);
@@ -136,7 +126,7 @@ class Attribute extends Elements{
 		attributePanel.add(attributeFieldPane, BorderLayout.CENTER);
 		
 		JButton changeBtn = new JButton("변경");
-		changeBtn.addActionListener(new ButtonListener(attributeFieldPane,mindmapSection)); //버튼 이벤트
+		changeBtn.addActionListener(new ButtonListener(attributeFieldPane, mindmapSection, b)); //버튼 이벤트
 		
 		changeBtn.setFont(basicFont); //폰트
 		changeBtn.setHorizontalAlignment(SwingConstants.CENTER);
@@ -163,7 +153,7 @@ class Attribute extends Elements{
 
 class Text extends Elements {
 	
-	Text(Mindmap mindmapSection, Bar b){
+	Text(Attribute attributeSection, Mindmap mindmapSection, Bar b){
 		textEditorPanel = new JPanel();
 		textEditorPanel.setLayout(new BorderLayout(10, 0));
 		JTextField textEdit = new JTextField("Text Editor",15);
@@ -182,10 +172,10 @@ class Text extends Elements {
 		applyBtn.setHorizontalAlignment(SwingConstants.CENTER);
 		textEditorPanel.add(applyBtn, BorderLayout.SOUTH);
 		
-		ButtonListener applyListener = new ButtonListener(textEditor, mindmapSection, b, saveListener);
+		ButtonListener applyListener = new ButtonListener(attributeSection.attributePanel, textEditor, mindmapSection, b, saveListener);
 		NewButtonListener newListener=new NewButtonListener(mindmapSection.drawNodePanel,textEditor);
-		OpenButtonListener openListener = new OpenButtonListener(textEditor, mindmapSection);
-//		
+		OpenButtonListener openListener = new OpenButtonListener(attributeSection.attributePanel, textEditor, mindmapSection, b, saveListener);
+		
 		// 적용 버튼
 		applyBtn.addActionListener(applyListener); 
 		JMenuItem menuItemApply = b.getMenuItem(4);

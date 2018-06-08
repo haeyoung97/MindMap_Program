@@ -17,7 +17,6 @@ class JDrawPanel extends JPanel{
 	private Point location=new Point();
 	private Point size=new Point();
 	private Point angle=new Point();
-	
 	private Vector<Point> vlocation=new Vector<Point>();
 	private Vector<Point> vsize=new Vector<Point>();
 	private Vector<Point> vangle=new Vector<Point>();
@@ -29,12 +28,11 @@ class JDrawPanel extends JPanel{
 		System.out.println("생서왕뇰!");
 		datas=new ArrayList<Data>();
 		System.out.println(datas.isEmpty());
-
 	}
-	
 	
 	int checkS(int x,int y, int px, int py) {
 		int s;
+		
 		if(x<px) {
 			if(y<py) {s=2;}
 			else {s=3;}
@@ -51,16 +49,13 @@ class JDrawPanel extends JPanel{
 	void reset() {vlocation=new Vector<Point>(); vsize=new Vector<Point>(); vangle=new Vector<Point>();}
 	Vector<Point> getVlocation() {return vlocation;}
 	Vector<Point> getVsize() {return vsize;}
-	
 	ArrayList<Integer> getSgroup() {return group4s;}
 	
-	
 	void getLabels2drawing(Data P,Data C) {
-
-		
 		System.out.println("평화?"); this.P=P; this.C=C;	
 		System.out.println("평화!");
 		int	width,height,startAngle, arcAngle,Fx,Fy;
+		
 		if(this.P==null||this.C==null) {
 			return;
 		}
@@ -79,12 +74,10 @@ class JDrawPanel extends JPanel{
 				if(y<py) {
 					startAngle=0;
 					arcAngle=90;
-				
 					width=(px+pL/2-(x+cL))*2;
 					height=(py-(y+cH/2))*2;
 					Fx=px+pL/2-width;
 					Fy=y+cH/2;
-					
 					System.out.println("그림2 "+P.getValue()+"의 자식: "+C.getValue());
 				}
 				else {
@@ -94,13 +87,10 @@ class JDrawPanel extends JPanel{
 					height=(y-(py+pH/2))*2;
 					Fx=x+cL/2;
 					Fy=py+pH/2;
-					
 					System.out.println("그림3 "+P.getValue()+"의 자식: "+C.getValue());
 				}
-				
 			}
 			else {
-				
 				if(py<y) {
 					startAngle=180;
 					arcAngle=90;
@@ -108,7 +98,6 @@ class JDrawPanel extends JPanel{
 					height=(y+cH/2-py-pH)*2;
 					Fx=px+pL/2;
 					Fy=y+cH/2-height;
-					
 					System.out.println("그림4 "+P.getValue()+"의 자식: "+C.getValue());
 				}
 				else {
@@ -118,18 +107,10 @@ class JDrawPanel extends JPanel{
 					height=(py+pH/2-y-cH)*2;
 					Fx=x+cL/2-width;
 					Fy=py+pH/2-height;
-					
 					System.out.println("그림1 "+P.getValue()+"의 자식: "+C.getValue());
 				}
-	
-			}
-			
-
-//			repaint();
-		
+			}		
 		}
-		
-		
 		else { //P의 계층 % 2==1
 			if(x<px) {
 				if(y<py) {
@@ -150,44 +131,32 @@ class JDrawPanel extends JPanel{
 					Fy=y+cH/2-height;
 					System.out.println("그림3 "+P.getValue()+"의 자식: "+C.getValue());
 				}
-				
 			}
 			else {
-				
 				if(py<y) {
-
 					startAngle=0;
 					arcAngle=90;
-				
 					width=(x+cL/2-(px+pL))*2;
 					height=(y-(py+pH/2))*2;
 					Fx=x+cL/2-width;
 					Fy=py+pH/2;
-					
 					System.out.println("그림4 "+P.getValue()+"의 자식: "+C.getValue());
 				}
 				else {
-
 					startAngle=90;
 					arcAngle=90;
 					width=(x-(px+pL/2))*2;
 					height=(py-(y+cH/2))*2;
 					Fx=px+pL/2;
 					Fy=y+cH/2;
-					
 					System.out.println("그림1 "+P.getValue()+"의 자식: "+C.getValue());
 				}
-	
 			}
-			
-			
-			
-			
 		}
 		
 		System.out.println("이상하다 "+Fx+ " "+ startAngle);
-		
-		location.setLocation(Fx,Fy);		angle.setLocation(startAngle,arcAngle);
+		location.setLocation(Fx,Fy);		
+		angle.setLocation(startAngle,arcAngle);
 		size.setLocation(width, height);
 		vlocation.add(location.getLocation());
 		vsize.add(size.getLocation());
@@ -197,23 +166,14 @@ class JDrawPanel extends JPanel{
 			 Point s = vlocation.elementAt(i);
 			 Point e = vsize.elementAt(i);
 			 Point a= vangle.elementAt(i);
-
 		}
-		
-		
-		
-		
-		
 	}
 	
 	ArrayList<Data> getArray(){return datas;}
-	
 	public void paintComponent(Graphics g) {
-		
 		super.paintComponent(g);
 		g.setColor(Color.black);
 		System.out.println("//***?"+vlocation.size());
-		
 		
 		for(int i=0; i<vlocation.size(); i++) {
 			 Point s = vlocation.elementAt(i);
@@ -278,33 +238,25 @@ class Data{
 	void setS(int s) { this.s = s; }
 	
 	int getS() { return s; }
-	
+	String getStrS() { return ""+s; }
 }
 
 class MakeToLabel extends Elements {
 	private JPanel panel;
 	private Color[] labelColor = {Color.MAGENTA, Color.ORANGE, Color.GREEN, Color.CYAN, Color.RED, Color.BLUE,  Color.PINK};
 	Color getColor(int h) {return labelColor[h];}
-//	private JLabelListener labelListen = new JLabelListener(panel);
 	private JLabelListener labelListen;
 	
-//	new JDrawing(new JLabel("A"),new JLabel("B"));
-	
-	MakeToLabel(JDrawPanel panel){
+	MakeToLabel(JDrawPanel panel, JPanel attributeFieldPane){
 		this.panel=panel;
-		labelListen=new JLabelListener(panel);
-	}
-	
+		labelListen=new JLabelListener(panel, attributeFieldPane);
+	}	
 
 	JLabel Make2Label(Data k) {
 		JLabel lb = new JLabel(k.toString(), SwingConstants.CENTER);
-//		CompoundBorder comBd = new CompoundBorder(new LineBorder(getColor(k.getHeight()), 10, true), new EmptyBorder(5,10,5,10));
 		lb.setBackground(getColor(k.getHeight()%7));
-//		lb.setBorder(comBd);
-//		lb.setBorder(new LineBorder(getColor(k.getHeight()), 5, true));
 		lb.setBorder(new EmptyBorder(5,10,5,10));
 		lb.setFont(basicFont);
-//		lb.setSize(k.toString().length()*20, 35);
 		lb.setSize(100, 35);
 	    lb.setOpaque(true);
 	    lb.addMouseListener(labelListen);
@@ -319,11 +271,10 @@ class Tree extends MakeToLabel{
 	private int totalH;
 	int i=0;
 	JDrawPanel panel;
-	
 	JLabel rootLabel;
 	
-	Tree(JDrawPanel panel) {
-		super(panel);
+	Tree(JDrawPanel panel, JPanel attributeFieldPane) {
+		super(panel, attributeFieldPane);
 		this.panel=panel;
 	}
 	
@@ -335,7 +286,6 @@ class Tree extends MakeToLabel{
 			if(start==null && member[0].charAt(0)!='\t') { //첫 성분이 루트 (\t으로 시작 안한다.)
 				start=new Data(member[0]);
 				start.setHeight(0);
-//				System.out.println(panel.getArray().isEmpty());
 				panel.getArray().add(start);
 				last=start;
 			}
@@ -425,7 +375,6 @@ class Tree extends MakeToLabel{
 					}
 				}
 			}
-
 		}
 	}
 
@@ -585,7 +534,6 @@ class Tree extends MakeToLabel{
 	}
 
 	private void ChildAddLabel(JPanel Panel, Data k){
-		
 		while(true) {
 			if(k == last) {
 				break;
@@ -613,7 +561,6 @@ class Tree extends MakeToLabel{
 					y -= 300*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
 					k.setS(2);
 				}
-				
 				JLabel childLabel;
 				childLabel = Make2Label(k);
 				Panel.add(childLabel);////////////////////////////////라벨올리기
@@ -645,10 +592,8 @@ class Tree extends MakeToLabel{
 						break;
 					}
 				}
-				
 			}
 		}
-//		panel.getLabels2drawing(k.getParent(),k);
 	}
 
 	void Default() {
