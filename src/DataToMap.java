@@ -65,7 +65,7 @@ class JDrawPanel extends JPanel{
 		int x=C.getX();
 		int y=C.getY();
 		int pL=P.getLabel().getWidth();
-		int pH=P.getLabel().getHeight();//∞Ì¡§//
+		int pH=P.getLabel().getHeight();
 		int cL=C.getLabel().getWidth();
 		int cH=C.getLabel().getHeight();
 		
@@ -173,13 +173,13 @@ class JDrawPanel extends JPanel{
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.setColor(Color.black);
-		System.out.println("//***?"+vlocation.size());
+//		System.out.println("//***?"+vlocation.size());
 		
 		for(int i=0; i<vlocation.size(); i++) {
 			 Point s = vlocation.elementAt(i);
 			 Point e = vsize.elementAt(i);
 			 Point a= vangle.elementAt(i);
-			 System.out.println((int)s.getX()+ " "+(int)s.getY()+ " "+(int)e.getX()+ " "+(int)e.getY()+" "+(int)a.getX()+" "+ (int)a.getY());
+//			 System.out.println((int)s.getX()+ " "+(int)s.getY()+ " "+(int)e.getX()+ " "+(int)e.getY()+" "+(int)a.getX()+" "+ (int)a.getY());
 			 g.drawArc((int)s.getX(), (int)s.getY(),(int)e.getX(),(int)e.getY(),(int)a.getX(), (int)a.getY());
 		}
 	}
@@ -410,6 +410,7 @@ class Tree extends MakeToLabel{
 		k.setH(rootLabel.getHeight());
 		k.setW(rootLabel.getWidth());
 		k.setS(0);
+		k.setLabel(rootLabel);/////////////////////////////////////////////////////////////////////////////
 		
 		rootLabel.setLocation(k.getX(), k.getY());
 		System.out.println("##### root¿« x : " + k.getX() + " y : " + k.getY());

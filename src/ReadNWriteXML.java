@@ -359,6 +359,9 @@ class ReadXMLFile {
     		k.setY(Integer.parseInt(getTagValue("Y", eElement)));
     		k.setH(Integer.parseInt(getTagValue("H", eElement)));
     		k.setW(Integer.parseInt(getTagValue("W", eElement)));
+    		
+    		k.getLabel().setLocation(k.getX(),k.getY());//////////////////////////////////////////////////////////
+    		
     		if(k.getChild() != null) {
     			k = k.getChild();
     		}
