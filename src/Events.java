@@ -1,6 +1,7 @@
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -275,7 +276,7 @@ class ButtonListener extends Elements implements ActionListener { //버튼 이벤트
 		this.O=O;
 		this.mindmapSection=mindmapSection;	//연결 OK
 		this.tree = new Tree(mindmapSection.drawNodePanel);
-		this.saveListener = saveListener;
+//		this.saveListener = saveListener;
 }
 	
 	ButtonListener(Object O, Mindmap mindmapSection, Bar b, SaveButtonListener saveListener) {
@@ -300,6 +301,10 @@ class ButtonListener extends Elements implements ActionListener { //버튼 이벤트
 		StringTokenizer st=new StringTokenizer(tmp,"\n");	//st에 문자열에서 개행+문자로 된 애들 기준으로 자르기.
 		String [] member=new String[st.countTokens()];
 		
+		if(st.countTokens() == 0) {
+			JOptionPane.showMessageDialog(null, "내용이 없습니다.", "Null", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
 		
 		while(st.hasMoreTokens()) {							//member배열에 \n기준으로 값 저장. (\t유효)
 			member[i]=st.nextToken();
@@ -317,14 +322,6 @@ class ButtonListener extends Elements implements ActionListener { //버튼 이벤트
 
 			mindmapSection.drawNodePanel.setVisible(false);
 			mindmapSection.drawNodePanel.setVisible(true);
-			tree.Default();
-		}
-		
-	}
-		
-	public void actionPerformed(ActionEvent e) {
-		if(e.getActionCommand().equals("적용") || e.getActionCommand().equals("Apply")) { 		//Text Editor
-			ApplyButtonFunc();
 			// Save 버튼
 			JMenuItem menuItemSave = b.getMenuItem(2);
 			JButton toolBtnSave = b.getToolButton(2);
@@ -335,12 +332,21 @@ class ButtonListener extends Elements implements ActionListener { //버튼 이벤트
 			JButton toolBtnSaveAs = b.getToolButton(3);
 			menuItemSaveAs.removeActionListener(saveListener); 
 			toolBtnSaveAs.removeActionListener(saveListener); 
-			
+			System.out.println("testtesttest : " + tree.getStart().toString());
 			saveListener = new SaveButtonListener(tree.getStart(), tree.getLast());
 			menuItemSave.addActionListener(saveListener); 
 			toolBtnSave.addActionListener(saveListener); 
 			menuItemSaveAs.addActionListener(saveListener); 
-			toolBtnSaveAs.addActionListener(saveListener); 						
+			toolBtnSaveAs.addActionListener(saveListener); 
+			tree.Default();
+		}
+			
+	}
+		
+	public void actionPerformed(ActionEvent e) {
+		if(e.getActionCommand().equals("적용") || e.getActionCommand().equals("Apply")) { 		//Text Editor
+			ApplyButtonFunc();
+										
 		}
 		
 //		else if(Btn.getText().equals("변경")) { //Attribute Editor 

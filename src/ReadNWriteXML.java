@@ -27,18 +27,44 @@ import org.w3c.dom.NodeList;
 class WriteXMLFile {
 	private String Name, filePath;
 	private Data start, last;
+	private boolean isSave;
 	
- 	public WriteXMLFile(String filePath, String Name, Data start, Data last) {
+	public WriteXMLFile(String filePath, Data start, Data last, boolean isSave) {
+		if(start != null)
+			this.Name = start.getValue();
+		else
+			this.Name = null;
+		this.filePath = filePath+Name;
+		this.start = start;
+		this.last = last;
+		this.isSave = isSave;
+	}
+	
+ 	public WriteXMLFile(String filePath, String Name, Data start, Data last, boolean isSave) {
 		this.Name = Name;
 		this.filePath = filePath;
 		this.start = start;
 		this.last = last;
+		this.isSave = isSave;
 	}
 
-	boolean WriteFile() {
+	void WriteFile(boolean isData) {
 		System.out.println("연결된당!");
 		System.out.println(filePath);
 		System.out.println(Name);
+//		System.out.println(start.toString());
+//		if(start == null) {
+//			JOptionPane.showMessageDialog(null, "저장할 데이터가 없습니다.", "Not Saved", JOptionPane.ERROR_MESSAGE);
+//			return;
+//		}
+		if(!isData) {
+			JOptionPane.showMessageDialog(null, "적용버튼을 클릭 한 후 저장할 수 있습니다.", "Not Saved", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		else if(start == null) {
+			JOptionPane.showMessageDialog(null, "저장할 데이터가 없습니다.", "Not Saved", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
 		
 		try{
 			
@@ -159,8 +185,15 @@ class WriteXMLFile {
 			transformer.setOutputProperty(OutputKeys.ENCODING, "euc-KR");
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");	
 			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(new FileOutputStream(new File(filePath + ".xml")));
-
+//			StreamResult result = new StreamResult(new FileOutputStream(new File(filePath + ".xml"), false));
+			StreamResult result = new StreamResult(new File(filePath + ".xml"));
+			
+			if(isSave) {
+				JOptionPane.showMessageDialog(null, start.getValue()+".xml is Saved in DeskTop", "Complete", JOptionPane.OK_OPTION);
+				
+			}
+			
+			
 			// 파일로 쓰지 않고 콘솔에 찍어보고 싶을 경우 다음을 사용 (디버깅용)
 			// StreamResult result = new StreamResult(System.out);
 
@@ -172,18 +205,18 @@ class WriteXMLFile {
 		catch (ParserConfigurationException pce)
 		{
 			pce.printStackTrace();
-			return false;
+//			return false;
 		}
 		catch (TransformerException tfe)
 		{
 			tfe.printStackTrace();
-			return false;
+//			return false;
 		}
-		catch (FileNotFoundException fnfe) {
-			fnfe.printStackTrace();
-			return false;
-		}
-		return true;
+//		catch (FileNotFoundException fnfe) {
+//			fnfe.printStackbTrace();
+////			return false;
+//		}
+//		return true;
 	}
 	
 }
@@ -192,48 +225,61 @@ class SaveButtonListener implements ActionListener{
 	
 	private JFileChooser chooser;
 	private Data start, last;
+	private boolean isData;
 	private boolean isSave = false;
 	private WriteXMLFile writeXML;
 	private String filePath, fileName;
 	
 	public SaveButtonListener() {
 		chooser = new JFileChooser();
+		isData = false;
 	}
 	
 	public SaveButtonListener(Data start, Data last) {
 		this.start = start;
 		this.last = last;
+		isData = true;
 		System.out.println("start : " + start);
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		if(!isSave) {
+//		if(!isSave) {
 			chooser = new JFileChooser();
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("XML 문서 파일", "xml");
 			chooser.setFileFilter(filter);
 			if(e.getActionCommand().equals("Save")) {
 				chooser.setDialogTitle("Save");
 				chooser.setApproveButtonText("Save");
+				filePath = "C:\\Users\\박해영\\Desktop\\"; // 파일 경로명 리턴
+				
+				writeXML = new WriteXMLFile(filePath, start, last, true);
+				writeXML.WriteFile(this.isData);
+				
 			}
 			else {
 				chooser.setDialogTitle("Save as...");
 				chooser.setApproveButtonText("Save as...");
+				
+				int ret = chooser.showSaveDialog(null);
+				if(ret != JFileChooser.APPROVE_OPTION) {
+					JOptionPane.showMessageDialog(null, "해당 데이터를 저장하지 않았습니다.", "경고", JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+				filePath = chooser.getSelectedFile().getAbsolutePath(); // 파일 경로명 리턴
+				fileName = chooser.getSelectedFile().getName(); // 파일의 이름.확장자
+				
+				writeXML = new WriteXMLFile(filePath, fileName, start, last, false);
+				writeXML.WriteFile(this.isData);
 			}
 			
-			int ret = chooser.showSaveDialog(null);
-			if(ret != JFileChooser.APPROVE_OPTION) {
-				JOptionPane.showMessageDialog(null, "해당 데이터를 저장하지 않았습니다.", "경고", JOptionPane.WARNING_MESSAGE);
-				return;
-			}
-		
-			filePath = chooser.getSelectedFile().getAbsolutePath(); // 파일 경로명 리턴
-			fileName = chooser.getSelectedFile().getName(); // 파일의 이름.확장자
-			writeXML = new WriteXMLFile(filePath, fileName, start, last);
-			isSave = writeXML.WriteFile();
-		}
-		else
-			isSave = writeXML.WriteFile();
-		
+//			filePath = chooser.getSelectedFile().getAbsolutePath(); // 파일 경로명 리턴
+//			fileName = chooser.getSelectedFile().getName(); // 파일의 이름.확장자
+//			writeXML = new WriteXMLFile(filePath, fileName, start, last);
+//			writeXML.WriteFile(this.isData);
+//		}
+//		else
+//			isSave = writeXML.WriteFile(this.isData);
+////		
 		
 	}
 }
