@@ -87,7 +87,8 @@ class updateLine{
 	
 	void modifybyP(int h,int s,Point pointl,Point points) {
 		if(h%2==1) {
-			
+			System.out.println("aaaaaaaaaaaㄹㄹㄹ");
+
 			System.out.println("ㅏㅏㅏ\nㅏㅏㅏㅏ");
 			switch(s) {
 				case 1:
@@ -111,29 +112,29 @@ class updateLine{
 			}
 		}
 		else {
-			
+			System.out.println("sdfsdfsdfㄹㄹ");
 			switch(s) {
-				case 4:
-					pointl.setLocation(pointl.getX(),pointl.getY());
-					points.setLocation(points.getX(),points.getY());
-					System.out.println("1");
-					System.out.println("ㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹ");
+				case 1:
+					pointl.setLocation(offX*2+pointl.getX(),-offY+pointl.getY());
+					points.setLocation(-offX*2+points.getX(),offY*2+points.getY());
+					System.out.println("----------------1");
+					
 
 					break;
 				case 2:
-					pointl.setLocation(pointl.getX(),pointl.getY());
-					points.setLocation(points.getX(),points.getY());
-					System.out.println("2");
+					pointl.setLocation(-offX+pointl.getX(),pointl.getY());
+					points.setLocation(offX*2+points.getX(),offY*2+points.getY());
+					System.out.println("----------------2");
 					break;
 				case 3:
-					pointl.setLocation(pointl.getX(),pointl.getY());
-					points.setLocation(points.getX(),points.getY());
-					System.out.println("3");
+					pointl.setLocation(pointl.getX(),offY+pointl.getY());
+					points.setLocation(offX*2+points.getX(),-offY*2+points.getY());
+					System.out.println("----------------3");
 					break;
-				case 1:
-					pointl.setLocation(pointl.getX(),pointl.getY());
-					points.setLocation(points.getX(),points.getY());
-					System.out.println("4");						
+				case 4:
+					pointl.setLocation(offX+pointl.getX(),offY*2+pointl.getY());
+					points.setLocation(-offX*2+points.getX(),-offY*2+points.getY());
+					System.out.println("-----------------4");						
 					break;
 			}
 		}
@@ -152,26 +153,20 @@ class updateLine{
 		int h=childs.get(0).getParent().getHeight();
 		System.out.println("이즈엠티?"+ childs.isEmpty());
 		System.out.println(childs.size());
-////		
-////		
+		
 		for(int i=0;i<childs.size();i++) {
+			modifybyP(h,childs.get(i).getS(),childLinesLc.get(i),childLinesSz.get(i));
 //			System.out.println(h+'\n'+childs.get(i).getValue()+" "+childpointl.get(i)+" "+childpoints.get(i));
 //			System.out.println(h);
 //			System.out.println(childs.get(i).getValue());
 //			System.out.println(childLinesLc.get(i));
 //			System.out.println(childLinesSz.get(i));
-			modifybyP(h,childs.get(i).getS(),childLinesLc.get(i),childLinesSz.get(i));
 //			
-			
-			
-			
 		}
-//		
 		
 		
 		
 		
-//		}
 //		if(parent.getHeight()%2==0) {
 //			switch(s) {
 //				case 1:
@@ -302,7 +297,7 @@ class ButtonListener extends Elements implements ActionListener { //버튼 이벤트
 		String [] member=new String[st.countTokens()];
 		
 		if(st.countTokens() == 0) {
-			JOptionPane.showMessageDialog(null, "내용이 없습니다.", "Null", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "내용이 없습니다.", "Null",JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		
@@ -310,6 +305,9 @@ class ButtonListener extends Elements implements ActionListener { //버튼 이벤트
 			member[i]=st.nextToken();
 			i++;
 		}
+		
+		mindmapSection.drawNodePanel.getArray().clear();//수정. 적용 시마다 data 클리어 해주기!
+		tree.Default();
 		
 		if(tree.MakeTree(member)) {
 			tree.print();
@@ -338,7 +336,8 @@ class ButtonListener extends Elements implements ActionListener { //버튼 이벤트
 			toolBtnSave.addActionListener(saveListener); 
 			menuItemSaveAs.addActionListener(saveListener); 
 			toolBtnSaveAs.addActionListener(saveListener); 
-			tree.Default();
+			
+			
 		}
 			
 	}
@@ -402,19 +401,65 @@ class JLabelListener extends MouseAdapter {
 		i=0;
 		s=0;
 		childs.clear();
+		x = e.getX();
+		y = e.getY();
+		vl=panel.getVlocation();
+		vs=panel.getVsize();
 		
 //		panel.getArray().get(i).getParent().getValue()
+		
 		
 		while(true) {
 			if(label.getText()==((JLabel) panel.getComponent(i)).getText()) {
 				if(i==0) {
+					isDragged=true;
+					child=datas.get(0);
+					System.out.println("당신은 루트입니까 ? :"+child.getValue());//OKOK
+					
+					cnt4child=0;
+					
+					tmpChild=child.getChild();
+					childs.add(tmpChild);
+					childLinesLc.add(vl.get(cnt4child));
+					childLinesSz.add(vs.get(cnt4child));
+					while(tmpChild.getSibling()!=null) {
+						tmpChild=tmpChild.getSibling();
+						for(int k=0;k<panel.getComponentCount();k++) {
+								
+								
+								System.out.println("이름을 대시오 ~\n 제 이름은 ... "+tmpChild.getValue());
+								System.out.println(((JLabel)panel.getComponent(k)).getText()+" 왈 : 그 자식은 제 동생입니다.");
+										
+										
+								if(((JLabel)panel.getComponent(k)).getText()==tmpChild.toString()) {
+									System.out.println(((JLabel)panel.getComponent(k)).getText()+" 왈 : 그 자식은 제 동생입니다.");
+									cnt4child=k-1;
+									childs.add(tmpChild);
+									childLinesLc.add(vl.get(cnt4child));
+									childLinesSz.add(vs.get(cnt4child));
+									System.out.println("차일즈카운트 : "+cnt4child);
+									System.out.println("차일드네임스 : "+tmpChild.getValue());
+								}
+							}
+					}
+						
+						
+						
+						
+						for(int i=0;i<childs.size();i++) {
+							System.out.println("name + "+childs.get(i).getValue());
+						}
+					
 					return;
 				}
+
 				cnt=i;
 				child=datas.get(cnt);
 				parent=child.getParent();
 				
 				cnt4child=cnt;
+				System.out.println("Parent ::::::::: "+parent.getValue());
+				System.out.println("selected ::::::::: "+child.getValue());
 				
 				for(int j=0;j<panel.getComponentCount();j++) {
 //					System.out.println(parent.getValue());
@@ -443,8 +488,7 @@ class JLabelListener extends MouseAdapter {
 		cnt--;
 		
 		System.out.println("값은 바로바로 "+cnt);
-		vl=panel.getVlocation();
-		vs=panel.getVsize();
+	
 		if(cnt>=0) {
 			points=vs.get(cnt);
 			pointl=vl.get(cnt);
@@ -516,86 +560,40 @@ class JLabelListener extends MouseAdapter {
 	}
 	
 	public void mouseDragged(MouseEvent e){///////////////////////////////////////////////
-		System.out.println("드래그...");
-		if(isDragged && i!=0){
+		
+		if(isDragged){
+			System.out.println("드래그...");
 			offX=e.getX()-x;
 			offY=e.getY()-y;
-
 			updateLine ul=new updateLine(offX,offY,pointl,points);
-			
-			ul.separate(s, pointl, points,parent);
-			if(childs.size()!=0) {
-				ul.modifychildren(childs,childLinesLc,childLinesSz);
-				
-			}
-		
-//			if(parent.getHeight()%2==0) {
-//				switch(s) {
-//					case 1:
-//						pointl.setLocation(pointl.getX(),-offY+pointl.getY());
-//						points.setLocation(offX*2+points.getX(),offY*2+points.getY());
-//						break;
-//					case 2:
-//						pointl.setLocation(offX*2+pointl.getX(),offY+pointl.getY());
-//						points.setLocation(-offX*2+points.getX(),-offY*2+points.getY());
-//						break;
-//					case 3:
-//						pointl.setLocation(offX+pointl.getX(),pointl.getY());
-//						points.setLocation(-offX*2+points.getX(),offY*2+points.getY());
-//						break;
-//					case 4:
-//						points.setLocation(offX*2+points.getX(),-offY*2+points.getY());
-//						pointl.setLocation(-offX+pointl.getX(),offY*2+pointl.getY());
-//	
-//						break;
-//				}
-//			}
-//			/////////////////////////////////////////////////////////////////////////////////
-//			
-//			else {
-//				switch(s) {
-//					case 4:
-//						pointl.setLocation(pointl.getX(),offY+pointl.getY());
-//						points.setLocation(offX*2+points.getX(),-offY*2+points.getY());
-//						System.out.println("1");
-//
-//						break;
-//					case 2:
-//						pointl.setLocation(offX+pointl.getX(),offY*2+pointl.getY());
-//						points.setLocation(-offX*2+points.getX(),-offY*2+points.getY());
-//						System.out.println("2");
-//						break;
-//					case 3:
-//						pointl.setLocation(offX*2+pointl.getX(),-offY+pointl.getY());
-//						points.setLocation(-offX*2+points.getX(),offY*2+points.getY());
-//						System.out.println("3");
-//						break;
-//					case 1:
-//						pointl.setLocation(-offX+pointl.getX(),pointl.getY());
-//						points.setLocation(offX*2+points.getX(),offY*2+points.getY());
-//						System.out.println("4");						
-//						break;
-//				}
-//			}
-			
 
-			
-
+			if(i!=0) {
+				ul.separate(s, pointl, points,parent);
+				if(childs.size()!=0) {
+					ul.modifychildren(childs,childLinesLc,childLinesSz);
+					
+				}
 				vl.removeElementAt(cnt);
 				vs.removeElementAt(cnt);
-				
+					
 				vl.add(cnt, pointl);//
 				vs.add(cnt,points);
 				panel.repaint();
 				
+				label.setLocation(e.getX()+label.getX()-x,e.getY()+label.getY()-y);
+				System.out.println("MOOOVE");
 				
-			
-			
-			
-			label.setLocation(e.getX()+label.getX()-x,e.getY()+label.getY()-y);
-			
-			
-			System.out.println("MOOOVE");
+			}
+			else {
+				if(childs.size()!=0) {
+					ul.modifychildren(childs,childLinesLc,childLinesSz);
+					
+				}
+				panel.repaint();
+				System.out.println("안돼는것실화?ㄹ?ㄹ?ㄹ?");
+				label.setLocation(e.getX()-x+label.getX(),e.getY()-y+label.getY());
+				
+			}
 		}
 	}
 	
