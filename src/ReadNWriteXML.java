@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.DocumentBuilder;
@@ -81,7 +82,7 @@ class WriteXMLFile {
 				// value 엘리먼트
 				Element node = doc.createElement("node");
 				fileName.appendChild(node);
-				
+				System.out.println("node : "+k.getValue() + ", x : "+k.getStrX()+", y : "+k.getStrY()+", R : "+k.getStrS()+", H : "+k.getStrH()+", W : "+k.getStrW());
 				// string 엘리먼트
 				Element Value = doc.createElement("Value");
 				Value.appendChild(doc.createTextNode(k.getValue()));
@@ -292,15 +293,17 @@ class ReadXMLFile {
 	private JTextArea textEdit;
 	private StringBuffer textAreaStr = new StringBuffer();
 	private Mindmap mindmapSection;
-	
-	public ReadXMLFile(String path, JTextArea textEdit, Mindmap mindmapSection) {
+	private Bar b;
+	private Tree tree;
+	public ReadXMLFile(JPanel attributeFieldPane, String path, JTextArea textEdit, Mindmap mindmapSection, Bar b, SaveButtonListener saveListener) {
 		this.path = path;
 		this.textEdit = textEdit;
 		this.mindmapSection = mindmapSection;
-		ReadFile();
+		this.b = b;
+		ReadFile(attributeFieldPane, saveListener);
 	}
 	
-    void ReadFile() {
+    void ReadFile(JPanel attributeFieldPane, SaveButtonListener saveListener) {
   
       try {
         File fXmlFile = new File(path);
@@ -312,38 +315,81 @@ class ReadXMLFile {
         System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
         NodeList nList = doc.getElementsByTagName("node");
         System.out.println("-----------------------");
-  
+        Node nNode = nList.item(0);
+        Element eElement = (Element) nNode;
         for (int temp = 0; temp < nList.getLength(); temp++) {
-        	Node nNode = nList.item(temp);
+        	nNode = nList.item(temp);
         	if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-        		Element eElement = (Element) nNode;
+        		eElement = (Element) nNode;
         		int rank = Integer.parseInt(getTagValue("R", eElement));
         		while(true) {
         			if(rank == 0) {
         				break;
         			}
         			rank--;
-        			textAreaStr = textAreaStr.append("\t");
-        			
+        			textAreaStr = textAreaStr.append("\t");		
         		}
             	textAreaStr = textAreaStr.append(getTagValue("Value", eElement)+"\n");
-              
-  
-            	System.out.println("Value : " + getTagValue("Value", eElement));
-            	System.out.println("X : " + getTagValue("X", eElement));
-            	System.out.println("Y : " + getTagValue("Y", eElement));
-            	System.out.println("R : " + getTagValue("R", eElement));
-            	System.out.println("H : " + getTagValue("H", eElement));
-            	System.out.println("W : " + getTagValue("W", eElement));
-            	System.out.println("Color : " + getTagValue("Color", eElement));
-  
+
            }
-        	System.out.println(textAreaStr);
-        	String fixedStr = textAreaStr.toString();
-        	textEdit.setText(fixedStr);
-        	new ButtonListener(textEdit, mindmapSection).ApplyButtonFunc();
-//        	System.out.println("tree.start : " + start);
         }
+    	System.out.println(textAreaStr);
+    	String fixedStr = textAreaStr.toString();
+    	textEdit.setText(fixedStr);
+    	ButtonListener treeButton = new ButtonListener(attributeFieldPane, textEdit, mindmapSection, b, saveListener);
+    	treeButton.ApplyButtonFunc();
+    	this.tree = treeButton.getTree();
+    	System.out.println("테스트 과정@@@@@@@@@@@@@@@@@@@@@@@@@@");
+    	tree.print();
+    	Data k = tree.getStart();
+    	Data kLast = tree.getLast();
+    	int i=0;
+    	while(true) {
+    		nNode = nList.item(i);
+            eElement = (Element) nNode;
+            System.out.println("-----------------------");
+            System.out.println("Value : " + getTagValue("Value", eElement));
+        	System.out.println("X : " + getTagValue("X", eElement));
+        	System.out.println("Y : " + getTagValue("Y", eElement));
+//        	System.out.println("R : " + getTagValue("R", eElement));
+        	System.out.println("H : " + getTagValue("H", eElement));
+        	System.out.println("W : " + getTagValue("W", eElement));
+//        	System.out.println("Color : " + getTagValue("Color", eElement));
+    		k.setX(Integer.parseInt(getTagValue("X", eElement)));
+    		k.setY(Integer.parseInt(getTagValue("Y", eElement)));
+    		k.setH(Integer.parseInt(getTagValue("H", eElement)));
+    		k.setW(Integer.parseInt(getTagValue("W", eElement)));
+    		if(k.getChild() != null) {
+    			k = k.getChild();
+    		}
+    		else if(k.getSibling() != null) {
+    			k = k.getSibling();
+    		}
+    		else {
+				if(k == kLast) {
+					break;
+				}
+				while(true) {
+					k=k.getParent();
+					if(k.getSibling()!=null) {
+						k=k.getSibling();
+						break;
+					}
+				}
+			}
+    		if(i == nList.getLength())
+    			break;
+    		i++;
+//    		k.setW(Integer.parseInt(getTagValue("Color", eElement)));
+    	}
+    	mindmapSection.drawNodePanel.setVisible(false);
+    	mindmapSection.drawNodePanel.setVisible(true);
+//    	System.out.println("테스트 해보자 : " + k.getValue());
+//        	while(true) {
+//        		
+//        	}
+//        	System.out.println("tree.start : " + start);
+//        }
       } catch (Exception e) {
         e.printStackTrace();
       }
@@ -361,13 +407,19 @@ class OpenButtonListener implements ActionListener{
 	private JFileChooser chooser;
 	private JTextArea textEdit;
 	private Mindmap mindmapSection;
+	private JPanel attributeFieldPane;
+	private SaveButtonListener saveListener;
+	private Bar b;
 	
-	public OpenButtonListener(JTextArea textEdit, Mindmap mindmapSection) {
+	public OpenButtonListener(JPanel attributeFieldPane, JTextArea textEdit, Mindmap mindmapSection, Bar b, SaveButtonListener saveListener) {
 		chooser = new JFileChooser();
 		chooser.setDialogTitle("Open");
 		chooser.setApproveButtonText("Open");
 		this.textEdit = textEdit;
 		this.mindmapSection = mindmapSection;
+		this.attributeFieldPane = attributeFieldPane;
+		this.saveListener = saveListener;
+		this.b = b;
 	}
 	
 	public void actionPerformed(ActionEvent e) {
@@ -381,7 +433,7 @@ class OpenButtonListener implements ActionListener{
 		}
 		
 		String filePath = chooser.getSelectedFile().getPath(); // 파일 경로명 리턴
-		new ReadXMLFile(filePath, textEdit, mindmapSection);
+		new ReadXMLFile(attributeFieldPane, filePath, textEdit, mindmapSection, b, saveListener);
 //		String fileName = chooser.getSelectedFile().getName(); // 파일의 이름.확장자
 		
 	}

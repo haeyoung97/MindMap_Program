@@ -137,15 +137,7 @@ class updateLine{
 					System.out.println("-----------------4");						
 					break;
 			}
-		}
-		
-		
-		
-		
-		
-		
-		
-		
+		}		
 	}
 
 
@@ -156,71 +148,7 @@ class updateLine{
 		
 		for(int i=0;i<childs.size();i++) {
 			modifybyP(h,childs.get(i).getS(),childLinesLc.get(i),childLinesSz.get(i));
-//			System.out.println(h+'\n'+childs.get(i).getValue()+" "+childpointl.get(i)+" "+childpoints.get(i));
-//			System.out.println(h);
-//			System.out.println(childs.get(i).getValue());
-//			System.out.println(childLinesLc.get(i));
-//			System.out.println(childLinesSz.get(i));
-//			
-		}
-		
-		
-		
-		
-//		if(parent.getHeight()%2==0) {
-//			switch(s) {
-//				case 1:
-//					pointl.setLocation(pointl.getX(),-offY+pointl.getY());
-//					points.setLocation(offX*2+points.getX(),offY*2+points.getY());
-//					break;
-//				case 2:
-//					pointl.setLocation(offX*2+pointl.getX(),offY+pointl.getY());
-//					points.setLocation(-offX*2+points.getX(),-offY*2+points.getY());
-//					break;
-//				case 3:
-//					pointl.setLocation(offX+pointl.getX(),pointl.getY());
-//					points.setLocation(-offX*2+points.getX(),offY*2+points.getY());
-//					break;
-//				case 4:
-//					pointl.setLocation(-offX+pointl.getX(),offY*2+pointl.getY());
-//					points.setLocation(offX*2+points.getX(),-offY*2+points.getY());
-//					
-//
-//					break;
-//			}
-//		}
-//		/////////////////////////////////////////////////////////////////////////////////
-//		
-//		else {
-//			switch(s) {
-//				case 4:
-//					pointl.setLocation(pointl.getX(),offY+pointl.getY());
-//					points.setLocation(offX*2+points.getX(),-offY*2+points.getY());
-//					System.out.println("1");
-//
-//					break;
-//				case 2:
-//					pointl.setLocation(offX+pointl.getX(),offY*2+pointl.getY());
-//					points.setLocation(-offX*2+points.getX(),-offY*2+points.getY());
-//					System.out.println("2");
-//					break;
-//				case 3:
-//					pointl.setLocation(offX*2+pointl.getX(),-offY+pointl.getY());
-//					points.setLocation(-offX*2+points.getX(),offY*2+points.getY());
-//					System.out.println("3");
-//					break;
-//				case 1:
-//					pointl.setLocation(-offX+pointl.getX(),pointl.getY());
-//					points.setLocation(offX*2+points.getX(),offY*2+points.getY());
-//					System.out.println("4");						
-//					break;
-//			}
-//		}
-//		
-//	}
-	
-	
-	
+		}	
 	}
 }
 
@@ -251,35 +179,37 @@ class NewButtonListener implements ActionListener{
 	}
 }
 
-//class ListenElements{
-//	Tree tree;
-//}
-
-class ButtonListener extends Elements implements ActionListener { //버튼 이벤트
+class ButtonListener implements ActionListener { //버튼 이벤트
 	private Object O;
 	private Mindmap mindmapSection;
+	private JPanel attributeFieldPane; 
 	private StringBuffer buffer; 						//text editor 값		-이 버튼이 실행될 때마다 새로운 객체 생기는 것이 찜찜함...
 	private String tmp=new String();
-//	private Tree tree=new Tree(mindmapSection.drawNodePanel); //TREE추가
 	private Tree tree;
 	private Bar b;
 	private SaveButtonListener saveListener;
-//	
-//	private JPanel panel4line;
+
+	// 변경버튼 생성자
+	ButtonListener(Object O, Mindmap mindmapSection, Bar b) {
+		this.mindmapSection=mindmapSection;	//연결 OK
+		this.b = b;
+		this.attributeFieldPane = (JPanel) O;
+		this.tree = new Tree(mindmapSection.drawNodePanel, attributeFieldPane);
+	}
 	
-	ButtonListener(Object O, Mindmap mindmapSection) {
+	// 적용버튼 생성자
+	ButtonListener(JPanel attributeFieldPane, Object O, Mindmap mindmapSection, Bar b, SaveButtonListener saveListener) {
 		this.O=O;
 		this.mindmapSection=mindmapSection;	//연결 OK
-		this.tree = new Tree(mindmapSection.drawNodePanel);
-//		this.saveListener = saveListener;
-}
+		this.attributeFieldPane = attributeFieldPane;
+		this.saveListener = saveListener;
+		this.tree = new Tree(mindmapSection.drawNodePanel, attributeFieldPane);
+		this.b = b;
+	}
 	
-	ButtonListener(Object O, Mindmap mindmapSection, Bar b, SaveButtonListener saveListener) {
-			this.O=O;
-			this.mindmapSection=mindmapSection;	//연결 OK
-			this.tree = new Tree(mindmapSection.drawNodePanel);
-			this.saveListener = saveListener;
-			this.b = b;
+	
+	Tree getTree() {
+		return tree;
 	}
 	
 	void ApplyButtonFunc() {
@@ -364,12 +294,11 @@ class ButtonListener extends Elements implements ActionListener { //버튼 이벤트
 
 
 class JLabelListener extends MouseAdapter {
-//	private JTextField[] valueArray = new JTextField[6];			//attribute editor 값	-이 버튼이 실행될 때마다 새로운 객체 생기는 것이 찜찜함...
-//	private JTextField[] fields;			//attribute editor 값	-이 버튼이 실행될 때마다 새로운 객체 생기는 것이 찜찜함...
 	private JLabel label,Plabel;
 	private Data parent,child;
 	private boolean isDragged;
 	private JDrawPanel panel;
+	private JPanel attributeFieldPane;
 	private int x,y;
 	private Point pointl,points;
 	private Vector<Point> vl,vs;
@@ -378,15 +307,12 @@ class JLabelListener extends MouseAdapter {
 	private ArrayList<Point> childLinesLc,childLinesSz;
 	private int offX,offY;
 	
-	private JTextField[] fields;
-	
-	public JLabelListener(JDrawPanel panel) {
+	public JLabelListener(JDrawPanel panel, JPanel attributeFieldPane) {
 		this.panel=panel; 
+		this.attributeFieldPane = attributeFieldPane;
 		childs=new ArrayList<Data>();
 		childLinesLc=new ArrayList<Point>();
 		childLinesSz=new ArrayList<Point>();
-		
-//		System.out.println(panel.getName());
 	}
 
 	public void mousePressed(MouseEvent e) {
@@ -405,10 +331,7 @@ class JLabelListener extends MouseAdapter {
 		y = e.getY();
 		vl=panel.getVlocation();
 		vs=panel.getVsize();
-		
-//		panel.getArray().get(i).getParent().getValue()
-		
-		
+
 		while(true) {
 			if(label.getText()==((JLabel) panel.getComponent(i)).getText()) {
 				if(i==0) {
@@ -425,11 +348,8 @@ class JLabelListener extends MouseAdapter {
 					while(tmpChild.getSibling()!=null) {
 						tmpChild=tmpChild.getSibling();
 						for(int k=0;k<panel.getComponentCount();k++) {
-								
-								
 								System.out.println("이름을 대시오 ~\n 제 이름은 ... "+tmpChild.getValue());
 								System.out.println(((JLabel)panel.getComponent(k)).getText()+" 왈 : 그 자식은 제 동생입니다.");
-										
 										
 								if(((JLabel)panel.getComponent(k)).getText()==tmpChild.toString()) {
 									System.out.println(((JLabel)panel.getComponent(k)).getText()+" 왈 : 그 자식은 제 동생입니다.");
@@ -529,25 +449,9 @@ class JLabelListener extends MouseAdapter {
 		
 		x = e.getX();
 		y = e.getY();
-//		int lbX = x+label.getWidth()/2; 	// width
-//		int lbY = y+label.getHeight()/2; // height
-//		
-//		System.out.println("label의 위치 "+lb.getLocation().x+" "+lb.getLocation().y); //라벨의 왼쪽상단모서리 값!!!!
-//		System.out.println("마우스 포인터의 위치 " + e.getX()+ " "+ e.getY()); //라벨 안에서 마우스 포인터의 위치
-//		System.out.println("패널 위 마우스 포인터 위치 " + (lb.getLocation().x+e.getX())+ " "+(lb.getLocation().y+e.getY()));
-//		
-		
-//		fields[0] = new JTextField(name);
-//		fields[1] = new JTextField(x);
-//		fields[2] = new JTextField(y);
-//		fields[3] = new JTextField(lbX);
-//		fields[4] = new JTextField(lbY);
-//		fields[5] = new JTextField();
-		
-		
+
 		isDragged = true;
 		System.out.println("test name : " + label.getText() + " test X : " + x + " test Y : "+y);
-//		System.out.println("label's loction of x "+lb.getLocation().x);
 		
 	}
 	
@@ -598,60 +502,14 @@ class JLabelListener extends MouseAdapter {
 	}
 	
 	public void mouseClicked(MouseEvent e) {
-//		JLabel lb = (JLabel) e.getSource();
-//		fields[0].setText(lb.toString());
-//		fields[1].setText(""+lb.getX());
-//		fields[2].setText(""+lb.getY());
-//		fields[3].setText(""+lb.getWidth());
-//		fields[4].setText(""+lb.getHeight());
-//		fields[5].setText(lb.toString());
+		JLabel lb = (JLabel)e.getSource();
+		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(1)).setText(lb.getText());
+		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(3)).setText(""+lb.getX());
+		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(5)).setText(""+lb.getY());
+		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(7)).setText(""+lb.getWidth());
+		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(9)).setText(""+lb.getHeight());
+		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(11)).setText("Color");
+		System.out.println("적용버튼 생성자 : __________");
+		
 	}
 }
-
-//class Mouser extends MouseAdapter{
-//
-//	boolean isDragged;
-//	int offX=0, offY=0;
-//	JPanel panel;
-//	Component []labels;
-//	Component label;
-//	
-//	Mouser(JPanel drawNodePanel){
-//		this.panel=drawNodePanel;
-//		labels=panel.getComponents();
-//	}
-//	
-//	public void mousePressed(MouseEvent me){/////////////////////////////////////////////////
-//
-//		System.out.println(panel.getComponentCount());
-//		
-//		for(int i=0;i<panel.getComponentCount();i++) {
-//			if((me.getX()>panel.getComponent(i).getX() &&me.getX()<(panel.getComponent(i).getWidth()+panel.getComponent(i).getX()))&&(me.getY()>panel.getComponent(i).getY()&&me.getY()<(panel.getComponent(i).getHeight()+panel.getComponent(i).getY()))){
-//
-//				System.out.println("포함이오~~");
-//				offX = me.getX() - panel.getComponent(i).getLocation().x;
-//				offY = me.getY() - panel.getComponent(i).getLocation().y;
-//				this.label=panel.getComponent(i);
-//				isDragged = true;
-//			}
-//		System.out.println(me.getX()+" "+me.getY());
-//		}
-//	}
-//
-//	public void mouseReleased(MouseEvent me){//////////////////////////////////////////////
-//		//마우스 버튼이 릴리즈되면 드래그 모드 종료
-//		isDragged = false;
-//		System.out.println("FALSE");
-//	}
-//	public void mouseDragged(MouseEvent me){///////////////////////////////////////////////
-//		
-//		if(isDragged){
-//
-//			label.setLocation(me.getX()-offX,me.getY()-offY);
-//			panel.setVisible(false);
-//			panel.setVisible(true);
-//
-//			System.out.println("MOOOVE");
-//		}
-//	}
-//}
