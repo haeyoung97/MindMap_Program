@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
+
+
 class updateLine{
 	private int offX,offY;
 	private Point pointl, points;
@@ -27,7 +29,6 @@ class updateLine{
 	private int s;
 	private ArrayList<Data> childs;
 	private boolean inSquare;
-	
 	updateLine(int offX,int offY, Point pointl, Point points){
 		this.offX=offX;
 		this.offY=offY;
@@ -88,7 +89,8 @@ class updateLine{
 	}
 	
 	void modifychildren(ArrayList<Data> childs, ArrayList<Point> childLinesLc, ArrayList<Point> childLinesSz) {
-		int h=childs.get(0).getParent().getHeight();		
+		int h=childs.get(0).getParent().getHeight();
+		System.out.println("미쳤니........>>"+h+ " "+childs.size()+" "+childLinesLc.size()+" "+childLinesSz.size());
 		for(int i=0;i<childs.size();i++) {
 			modifybyP(h,childs.get(i).getS(),childLinesLc.get(i),childLinesSz.get(i));
 		}	
@@ -239,12 +241,6 @@ class ButtonListener implements ActionListener { //버튼 이벤트
 		if(tree.MakeTree(member)) {
 			tree.print();
 			tree.AddLabel(mindmapSection.drawNodePanel);
-	
-//			mindmapSection.drawNodePanel.getLabels2drawing((JLabel)mindmapSection.drawNodePanel.getComponent(0), (JLabel)mindmapSection.drawNodePanel.getComponent(1));
-//			mindmapSection.drawNodePanel.DrawingLine(g);
-		
-			///////////////////////선 그리기.../////////////////
-
 			mindmapSection.drawNodePanel.setVisible(false);
 			mindmapSection.drawNodePanel.setVisible(true);
 			// Save 버튼
@@ -394,32 +390,44 @@ class JLabelListener extends MouseAdapter {
 		if(child.getChild()!=null) {
 			//자식들 저장//
 			tmpChild=child.getChild();
-			childs.add(tmpChild);
-			if(tmpChild!=null) {	
+			//childs.add(tmpChild);
+//			if(tmpChild!=null) {
 				while(true) {
-	
-					if(tmpChild.getSibling()==null) {
+					if(tmpChild==null) {
 						break;
 					}
-					tmpChild=tmpChild.getSibling();
 					
-					childs.add(tmpChild);
-					childLinesLc.add(vl.get(cnt4child));
-					childLinesSz.add(vs.get(cnt4child));
-					System.out.println("차일즈카운트 : "+cnt4child);
-					System.out.println("차일드네임스 : "+tmpChild.getValue());
-	
-					cnt4child++;
-				}
+//					
+//					childs.add(tmpChild);
+//					childLinesLc.add(vl.get(cnt4child));
+//					childLinesSz.add(vs.get(cnt4child));
+////					System.out.println("차일즈카운트 : "+cnt4child);
+////					System.out.println("차일드네임스 : "+tmpChild.getValue());
+//	
+//					cnt4child++;
+//					
+					for(int k=0;k<panel.getComponentCount();k++) {									
+						if(((JLabel)panel.getComponent(k)).getText()==tmpChild.toString()) {
+							cnt4child=k-1;
+							childs.add(tmpChild);
+							childLinesLc.add(vl.get(cnt4child));
+							childLinesSz.add(vs.get(cnt4child));
+							
+//							System.out.println("수 ::::::::::::"+ cnt4child);
+						}
+					}
+					tmpChild=tmpChild.getSibling();
+						
+//				}
 			}
-			childLinesLc.add(vl.get(cnt4child));
-			childLinesSz.add(vs.get(cnt4child));
-			
-			for(int i=0;i<childs.size();i++) {
-				System.out.println("name + "+childs.get(i).getValue());
-			}
+//			childLinesLc.add(vl.get(cnt4child));
+//			childLinesSz.add(vs.get(cnt4child));
 			System.out.println(childs.size()+"호롤롤");
 
+		}
+		
+		for(int i=0;i<childs.size();i++) {
+			System.out.println(childLinesLc.get(i));
 		}
 
 		
@@ -455,65 +463,17 @@ class JLabelListener extends MouseAdapter {
 			offX=e.getX()-x;
 			offY=e.getY()-y;
 			label.setLocation(offX+label.getX(),offY+label.getY());
-			//먼저 라벨 점검
 			
-			checkArea(child,parent, childs);
-			
-			
-			
-			
-		//Ex 점검후
-//			label.setLocation(label.getX()+60,label.getY()+60);
-			
-			
-			
+			checkArea(label, child, parent, childs); //여기서 라벨 위치 조정.
 			
  			//다음 라벨의 오프셋에 따른 선 조정
 			
 			offX=label.getX()-tmplabelX;
 			offY=label.getY()-tmplabelY;
-//			
-//			if(Plabel!=null) {//루트아닐때
-//// 				if(points.getX()<=0) {
-// 				if(Plabel.getX())
-// 					
-// 				}
-// 				if(points.getY()<=0) {
-// 					
-// 				} 		
-// 			}
-// 			
-// 			for(int i=0;i<childLinesSz.size();i++) {
-// 				if(childLinesSz.get(i).getX()<=0) {
-// 					//세팅
-// 				}
-// 				if(childLinesSz.get(i).getY()<=0){
-// 					//세팅
-// 				}
-// 			}
-// 				
+			
 			updateLine ul=new updateLine(offX,offY,pointl,points);
-			
-			
-			
- 			
- 			
-
-
-
- 			
  			if(i!=0) {
  				ul.separate(s, pointl, points,parent);
-// 				 				
-// 				//세팅 작업//
-// 				if(points.getX()<=0) {
-// 					label.setLocation(Plabel.getX()+Plabel.getWidth()/2+1,label.getY());
-// 					points.setLocation(1,points.getY()); 					
-// 				}
-// 				if(points.getY()<=0) {
-// 					label.setLocation(label.getX(),Plabel.getY()+Plabel.getHeight()/2+1);
-// 					points.setLocation(points.getX(),1);
-// 				}
  				
  				vl.removeElementAt(cnt);
  				vs.removeElementAt(cnt);
@@ -531,152 +491,141 @@ class JLabelListener extends MouseAdapter {
  			
  			
  		}
+ 		System.out.println("어딨니 !!!!!!!!!    "+label.getLocation());
+ 		
  		panel.repaint();
  	}
 	
- 	private void checkArea(Data child, Data parent, ArrayList<Data> childs) {
+ 	private void checkArea(JLabel label, Data child, Data parent, ArrayList<Data> childs) {
 		// TODO Auto-generated method stub
- 		int parentX=parent.getLabel().getX();
- 		int parentY=parent.getLabel().getY();
+
  		int childX=child.getLabel().getX();
  		int childY=child.getLabel().getY();
  		int s=child.getS();
+ 		Point tmpPoint;
  		
-	 	switch(s) {
-			case 1:
-				if(parentX+parent.getLabel().getWidth()>childX) {
-					child.getLabel().setLocation(parentX+parent.getLabel().getWidth()+1,childY);
-				}
-				if(parentY<childY+child.getLabel().getHeight()) {
-					child.getLabel().setLocation(child.getLabel().getX(),parentY-child.getLabel().getHeight());
-				}
+ 		Point [] limit = new Point [4];
+ 		int [] finalLimit = new int [4];
+ 		
+// 		for(int i=0;i<4;i++) {
+// 			limit[i]=new Point(-1,-1);
+// 		}
+// 		
+ 		
+ 		if(child.getParent()!=null) {
+
+ 	 		int parentX=parent.getLabel().getX();
+ 	 		int parentY=parent.getLabel().getY();
+ 	 		switch(s) {
+			case 1:		//노드기준 3사분면에 위치
+				limit[2]=new Point(parentX+parent.getLabel().getWidth(),parentY);
+				System.out.println("3사분면??????????????????");
+				
+				
 			break;
 			
-			case 2:
-				if(parentX<childX+child.getLabel().getWidth()) {
-					child.getLabel().setLocation(parentX-parent.getLabel().getWidth(),childY);
-				}
-				if(parentY<childY+child.getLabel().getHeight()) {
-					child.getLabel().setLocation(child.getLabel().getX(),parentY-child.getLabel().getHeight());
-				}
+			case 2:		//노드기준 4사분면에 위치
+				limit[3]=new Point(parentX,parentY);
+				System.out.println("4사분면?????????????????");
+								
+		 	break;
+		 	
+		 	case 3:		//노드기준 1사분면에 위치
+				limit[0]=new Point(parentX,parentY+parent.getLabel().getHeight());
+				System.out.println("1사분면??????????????/");
 				
 		 	break;
 		 	
-		 	case 3:
-				if(parentX<childX+child.getLabel().getWidth()) {
-					child.getLabel().setLocation(parentX-child.getLabel().getWidth(),childY);
-				}
-				if(parentY+parent.getLabel().getHeight()>childY) {
-					child.getLabel().setLocation(child.getLabel().getX(),parentY+parent.getLabel().getHeight());
-				}
-		 		
+		 	case 4:		//노드기준 2사분면에 위치
+				limit[1]=new Point(parentX+parent.getLabel().getWidth(),parentY+parent.getLabel().getHeight());
+				System.out.println("2사분면????????????");
+				
 		 	break;
-		 	
-		 	case 4:
-				if(parentX+parent.getLabel().getWidth()>childX) {
-					child.getLabel().setLocation(parentX+parent.getLabel().getWidth(),childY);
-				}
-				if(parentY+parent.getLabel().getHeight()>childY) {
-					child.getLabel().setLocation(child.getLabel().getX(),parentY+parent.getLabel().getHeight());
-				}
-		 		
-		 	break;
-	 	}///////////////////////////////////부모라벨기준
-	 	
-	 	
-	 	
-	 	
-	 	
-	 	
-	 	
-	 	
-	 	
-	 	
+ 		}
+ 			
+ 		}
+ 		
+ 		/////부모기준/////
  		
  		
+ 		for(int i=0;i<childs.size();i++) {
+ 			tmpPoint=childs.get(i).getLabel().getLocation();
+ 			limit[childs.get(i).getS()-1]=childs.get(i).getLabel().getLocation();
+ 			if(childs.get(i).getS()-1==1 || childs.get(i).getS()-1==2) {
+ 				limit[childs.get(i).getS()-1].setLocation(tmpPoint.x,tmpPoint.y+childs.get(i).getLabel().getHeight());
+ 			}
+ 			
+// 			if(i==1||i==2) {//
+ 				
+// 			if(childs.get(i).getS()-1==2 || childs.get(i).getS()-1==3)
+ 				if(childs.get(i).getS()-1==2) {
+ 				System.out.println("여긴가??????????????/");
+ 				limit[childs.get(i).getS()-1].setLocation(tmpPoint.x+childs.get(i).getLabel().getWidth(),tmpPoint.y);
+ 				System.out.println(tmpPoint.x);
+ 				System.out.println(limit[childs.get(i).getS()-1].x);
+ 				
+ 			}
+ 		}
  		
+ 		if(limit[0]==null) {
+// 			limit[0]=new Point(limit[3].x,limit[1].y);
+ 			limit[0]=new Point(panel.getWidth(),0);
+// 			System.out.println(panel.getName());
+ 		}
+ 		if(limit[1]==null) {
+// 			limit[1]=new Point(limit[2].x,limit[0].y);
+ 			limit[1]=new Point(0,0);
+ 		}
+ 		if(limit[2]==null) {
+// 			limit[2]=new Point(limit[1].x,limit[3].y);
+ 			limit[2]=new Point(0,panel.getHeight());
+ 		}
+ 		if(limit[3]==null) {
+ 			
+ 			System.out.println("Limit [3] null");
+// 			limit[3]=new Point(limit[0].x,limit[2].y);
+ 			limit[3]=new Point(panel.getWidth(),panel.getHeight());
+ 		}
  		
-
+ 		finalLimit[0]=Math.min(limit[0].x, limit[3].x);
+ 		System.out.println("루트 뭐야 이자식아 : "+limit[0].x);
+ 		System.out.println("너 뭐하냐....>>>>>>>>>>"+ limit[3].x);
+ 		finalLimit[1]=Math.max(limit[1].x, limit[2].x);
+ 		finalLimit[2]=Math.min(limit[2].y, limit[3].y);
+ 		finalLimit[3]=Math.max(limit[0].y, limit[1].y);
+	 	
+	 	
+	 	///////////////////////////////////////////////제한조건생성///////////////////////////////////////////////
+	 	
+	 	//1.
+ 		if(childX<finalLimit[1]) {
+ 			label.setLocation(finalLimit[1],label.getY());
+ 			System.out.println("너냐!1");
+ 		}
+ 		else if(childX>finalLimit[0]-child.getLabel().getWidth()) {
+ 			label.setLocation(finalLimit[0]-label.getWidth(),label.getY());
+ 			System.out.println("너냐!2");
+ 			
+ 		}
+ 		if(childY<finalLimit[3]) {
+ 			label.setLocation(label.getX(),finalLimit[3]);
+ 			System.out.println("너냐3!");
+ 		}
+ 		else if(childY>finalLimit[2]-label.getHeight()) {
+ 			label.setLocation(label.getX(),finalLimit[2]-label.getHeight());
+ 			System.out.println("너냐!4");
+ 		}
+	 	
+	 	
+	 	
+	 	
+	 	
+	 	
+	 	
+	 	
+	 	
 
  	}
-
-//	public void mouseDragged(MouseEvent e){///////////////////////////////////////////////
-//		int tmpX,tmpY;
-//		if(isDragged){
-//			System.out.println("드래그...");
-//			offX=e.getX()-x;
-//			offY=e.getY()-y;
-//			
-//			
-//			label.setLocation(offX+label.getX(),offY+label.getY());
-//			
-//			updateLine ul=new updateLine(offX,offY,pointl,points);
-//
-//			if(i!=0) {
-//				Point tmpp=points;
-//				Point tmppp=pointl;
-//				
-////				
-////				
-////				if(!ul.separate(s, pointl, points,parent)) {
-////					System.out.println(pointl + "ㅁㅁㅁ" +points);
-////					if(points.getX()<=0) {
-////						label.setLocation(Plabel.getX()+Plabel.getWidth()/2+1,label.getY());
-////						tmpp.setLocation(1, tmpp.getY());
-////						
-////					}
-////					if(points.getY()<=0) {
-////						label.setLocation(label.getX(),Plabel.getY()+Plabel.getHeight()/2+1);
-////						tmpp.setLocation(tmpp.getX(),1);
-////					}
-////					}
-//					
-//					
-//					
-//					
-//					
-//					
-//					
-//					vl.removeElementAt(cnt);
-//					vs.removeElementAt(cnt);
-////					tmpp.setLocation(1, tmpp.getY());
-//					vl.add(cnt, pointl);//
-//					vs.add(cnt,points);
-//					panel.repaint();
-//					
-//					
-//					
-//					mouseReleased(e);//			
-//				
-//			}
-//				
-//			if(childs.size()!=0) {
-//				ul.modifychildren(childs,childLinesLc,childLinesSz);
-//					
-//			}
-//			vl.removeElementAt(cnt);
-//			vs.removeElementAt(cnt);
-//				
-//			vl.add(cnt, pointl);//
-//			vs.add(cnt,points);
-//			panel.repaint();
-//			
-////			label.setLocation(e.getX()+label.getX()-x,e.getY()+label.getY()-y);
-//			System.out.println("MOOOVE");
-//				
-//			
-//			else {
-//				if(childs.size()!=0) {
-//					ul.modifychildren(childs,childLinesLc,childLinesSz);
-//					
-//				}
-//				panel.repaint();
-//				System.out.println("안돼는것실화?ㄹ?ㄹ?ㄹ?");
-//				
-//				
-//			}
-//		
-//	}
 	
 	public void mouseClicked(MouseEvent e) {
 		JLabel lb = (JLabel)e.getSource();
