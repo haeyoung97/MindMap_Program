@@ -52,8 +52,8 @@ class JDrawPanel extends JPanel{
 	ArrayList<Integer> getSgroup() {return group4s;}
 	
 	void getLabels2drawing(Data P,Data C) {
-		System.out.println("평화?"); this.P=P; this.C=C;	
-		System.out.println("평화!");
+		this.P=P; this.C=C;	
+
 		int	width,height,startAngle, arcAngle,Fx,Fy;
 		
 		if(this.P==null||this.C==null) {
@@ -153,8 +153,6 @@ class JDrawPanel extends JPanel{
 				}
 			}
 		}
-		
-		System.out.println("이상하다 "+Fx+ " "+ startAngle);
 		location.setLocation(Fx,Fy);		
 		angle.setLocation(startAngle,arcAngle);
 		size.setLocation(width, height);
