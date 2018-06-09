@@ -367,7 +367,6 @@ class JLabelListener extends MouseAdapter {
 				System.out.println("selected ::::::::: "+child.getValue());
 				
 				for(int j=0;j<panel.getComponentCount();j++) {
-//					System.out.println(parent.getValue());
 					
 					if(parent.toString()==((JLabel)panel.getComponent(j)).getText()){
 						System.out.println("ㅌ"+((JLabel)panel.getComponent(j)).getText());
@@ -390,21 +389,10 @@ class JLabelListener extends MouseAdapter {
 		if(child.getChild()!=null) {
 			//자식들 저장//
 			tmpChild=child.getChild();
-			//childs.add(tmpChild);
-//			if(tmpChild!=null) {
 				while(true) {
 					if(tmpChild==null) {
 						break;
 					}
-					
-//					
-//					childs.add(tmpChild);
-//					childLinesLc.add(vl.get(cnt4child));
-//					childLinesSz.add(vs.get(cnt4child));
-////					System.out.println("차일즈카운트 : "+cnt4child);
-////					System.out.println("차일드네임스 : "+tmpChild.getValue());
-//	
-//					cnt4child++;
 //					
 					for(int k=0;k<panel.getComponentCount();k++) {									
 						if(((JLabel)panel.getComponent(k)).getText()==tmpChild.toString()) {
@@ -412,28 +400,15 @@ class JLabelListener extends MouseAdapter {
 							childs.add(tmpChild);
 							childLinesLc.add(vl.get(cnt4child));
 							childLinesSz.add(vs.get(cnt4child));
-							
-//							System.out.println("수 ::::::::::::"+ cnt4child);
 						}
 					}
 					tmpChild=tmpChild.getSibling();
 						
-//				}
 			}
-//			childLinesLc.add(vl.get(cnt4child));
-//			childLinesSz.add(vs.get(cnt4child));
-			System.out.println(childs.size()+"호롤롤");
-
 		}
-		
-		for(int i=0;i<childs.size();i++) {
-			System.out.println(childLinesLc.get(i));
-		}
-
-		
 		x = e.getX();
 		y = e.getY();
-
+		
 		isDragged = true;
 		System.out.println("test name : " + label.getText() + " test X : " + x + " test Y : "+y);
 		
@@ -455,6 +430,7 @@ class JLabelListener extends MouseAdapter {
  	public void mouseDragged(MouseEvent e){///////////////////////////////////////////////
  		
  		if(isDragged){
+ 			
  			int tmplabelX=label.getX();
  			int tmplabelY=label.getY();
  			
@@ -462,6 +438,25 @@ class JLabelListener extends MouseAdapter {
 			System.out.println("드래그...");
 			offX=e.getX()-x;
 			offY=e.getY()-y;
+//			
+			
+			
+			
+			
+			//***********크기조절은 이런 느낌?**************//
+//			if(x<label.getWidth()/15 || label.getWidth()-label.getWidth()/15<x) {
+//				System.out.println("크기조절?");
+//				System.out.println(x);
+//				System.out.println(label.getX());
+//				label.setSize(-offX+label.getWidth(), label.getHeight());
+//				label.setLocation(label.getX()-Math.abs(offX),label.getY());
+//			}
+			//***********크기조절은 이런 느낌?**************//
+			
+			
+			
+			
+			
 			label.setLocation(offX+label.getX(),offY+label.getY());
 			
 			checkArea(label, child, parent, childs); //여기서 라벨 위치 조정.
@@ -486,10 +481,6 @@ class JLabelListener extends MouseAdapter {
  			if(childs.size()!=0) {
  				ul.modifychildren(childs,childLinesLc,childLinesSz);
  			}
- 			
-
- 			
- 			
  		}
  		System.out.println("어딨니 !!!!!!!!!    "+label.getLocation());
  		
@@ -506,10 +497,6 @@ class JLabelListener extends MouseAdapter {
  		
  		Point [] limit = new Point [4];
  		int [] finalLimit = new int [4];
- 		
-// 		for(int i=0;i<4;i++) {
-// 			limit[i]=new Point(-1,-1);
-// 		}
 // 		
  		
  		if(child.getParent()!=null) {
@@ -549,48 +536,40 @@ class JLabelListener extends MouseAdapter {
  		
  		
  		for(int i=0;i<childs.size();i++) {
+ 			JLabel tmpLabel=childs.get(i).getLabel();
  			tmpPoint=childs.get(i).getLabel().getLocation();
  			limit[childs.get(i).getS()-1]=childs.get(i).getLabel().getLocation();
- 			if(childs.get(i).getS()-1==1 || childs.get(i).getS()-1==2) {
- 				limit[childs.get(i).getS()-1].setLocation(tmpPoint.x,tmpPoint.y+childs.get(i).getLabel().getHeight());
+ 			if(childs.get(i).getS()-1==0) {
+ 				limit[childs.get(i).getS()-1].setLocation(tmpPoint.x,tmpPoint.y+tmpLabel.getHeight());
  			}
- 			
-// 			if(i==1||i==2) {//
- 				
-// 			if(childs.get(i).getS()-1==2 || childs.get(i).getS()-1==3)
- 				if(childs.get(i).getS()-1==2) {
+ 			if(childs.get(i).getS()-1==1) {
+ 				limit[childs.get(i).getS()-1].setLocation(tmpPoint.x+tmpLabel.getWidth(),tmpPoint.y+childs.get(i).getLabel().getHeight());
+ 			}
+ 			if(childs.get(i).getS()-1==2) {
  				System.out.println("여긴가??????????????/");
- 				limit[childs.get(i).getS()-1].setLocation(tmpPoint.x+childs.get(i).getLabel().getWidth(),tmpPoint.y);
+ 				limit[childs.get(i).getS()-1].setLocation(tmpPoint.x+tmpLabel.getWidth(),tmpPoint.y);
  				System.out.println(tmpPoint.x);
- 				System.out.println(limit[childs.get(i).getS()-1].x);
- 				
+ 				System.out.println(limit[childs.get(i).getS()-1].x);	
  			}
  		}
  		
  		if(limit[0]==null) {
-// 			limit[0]=new Point(limit[3].x,limit[1].y);
  			limit[0]=new Point(panel.getWidth(),0);
 // 			System.out.println(panel.getName());
  		}
- 		if(limit[1]==null) {
-// 			limit[1]=new Point(limit[2].x,limit[0].y);
+ 		if(limit[1]==null) { 
  			limit[1]=new Point(0,0);
  		}
  		if(limit[2]==null) {
-// 			limit[2]=new Point(limit[1].x,limit[3].y);
  			limit[2]=new Point(0,panel.getHeight());
  		}
  		if(limit[3]==null) {
- 			
- 			System.out.println("Limit [3] null");
-// 			limit[3]=new Point(limit[0].x,limit[2].y);
  			limit[3]=new Point(panel.getWidth(),panel.getHeight());
  		}
  		
  		finalLimit[0]=Math.min(limit[0].x, limit[3].x);
- 		System.out.println("루트 뭐야 이자식아 : "+limit[0].x);
- 		System.out.println("너 뭐하냐....>>>>>>>>>>"+ limit[3].x);
  		finalLimit[1]=Math.max(limit[1].x, limit[2].x);
+ 		System.out.println("너희 이상해 : "+limit[1].x+"__"+limit[2].x);
  		finalLimit[2]=Math.min(limit[2].y, limit[3].y);
  		finalLimit[3]=Math.max(limit[0].y, limit[1].y);
 	 	
@@ -600,30 +579,17 @@ class JLabelListener extends MouseAdapter {
 	 	//1.
  		if(childX<finalLimit[1]) {
  			label.setLocation(finalLimit[1],label.getY());
- 			System.out.println("너냐!1");
  		}
  		else if(childX>finalLimit[0]-child.getLabel().getWidth()) {
  			label.setLocation(finalLimit[0]-label.getWidth(),label.getY());
- 			System.out.println("너냐!2");
  			
  		}
  		if(childY<finalLimit[3]) {
  			label.setLocation(label.getX(),finalLimit[3]);
- 			System.out.println("너냐3!");
  		}
  		else if(childY>finalLimit[2]-label.getHeight()) {
  			label.setLocation(label.getX(),finalLimit[2]-label.getHeight());
- 			System.out.println("너냐!4");
  		}
-	 	
-	 	
-	 	
-	 	
-	 	
-	 	
-	 	
-	 	
-	 	
 
  	}
 	
