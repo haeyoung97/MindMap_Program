@@ -1,3 +1,4 @@
+import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
@@ -5,7 +6,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.text.JTextComponent;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -154,13 +157,14 @@ class updateLine{
 
 
 class NewButtonListener implements ActionListener{
-	JPanel drawNodePanel;
-	Tree t;
+	JPanel drawNodePanel, attributeFieldPane;
+//	Tree t;
 	JTextArea textarea;
 	
-	NewButtonListener(JPanel drawNodePanel,JTextArea textarea){
+	NewButtonListener(JPanel attributeFieldPane, JPanel drawNodePanel,JTextArea textarea){
+		this.attributeFieldPane = attributeFieldPane;
 		this.drawNodePanel=drawNodePanel;
-		this.t=t;
+//		this.t=t;
 		this.textarea=textarea;	
 	}
 	
@@ -169,6 +173,14 @@ class NewButtonListener implements ActionListener{
 		drawNodePanel.removeAll();
 		textarea.setText("");
 		((JDrawPanel) drawNodePanel).reset();
+		
+		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(1)).setText("");
+		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(3)).setText("");
+		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(5)).setText("");
+		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(7)).setText("");
+		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(9)).setText("");
+		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(11)).setText("");
+		
 		drawNodePanel.setVisible(false);
 		drawNodePanel.setVisible(true);
 		textarea.setVisible(false);
@@ -187,12 +199,14 @@ class ButtonListener implements ActionListener { //버튼 이벤트
 	private Tree tree;
 	private Bar b;
 	private SaveButtonListener saveListener;
+	
+	private ArrayList<Data> datas;
 
 	// 변경버튼 생성자
-	ButtonListener(Object O, Mindmap mindmapSection, Bar b) {
+	ButtonListener(JPanel attributeFieldPane, Mindmap mindmapSection, Bar b) {
 		this.mindmapSection=mindmapSection;	//연결 OK
 		this.b = b;
-		this.attributeFieldPane = (JPanel) O;
+		this.attributeFieldPane = attributeFieldPane;
 		this.tree = new Tree(mindmapSection.drawNodePanel, attributeFieldPane);
 	}
 	
@@ -270,17 +284,86 @@ class ButtonListener implements ActionListener { //버튼 이벤트
 			ApplyButtonFunc();
 										
 		}
-		
-//		else if(Btn.getText().equals("변경")) { //Attribute Editor 
-//			JTextField[] value = new JTextField[6];
-//			for(int i=1;i<=6;i++) {
-//				value[i-1]=(JTextField)((JPanel)O).getComponent(i*2-1);
-//				valueArray[i-1]=value[i-1].getText();
-//				System.out.println(valueArray[i-1]); //0번째에는 현재 빈 공간. NAME부분.
-//			}
-//			
-//			
-//		}
+		else if(e.getActionCommand().equals("변경") || e.getActionCommand().equals("Change")) { //Attribute Editor 
+			datas= mindmapSection.drawNodePanel.getArray();
+			Data k = datas.get(0);
+			int dataI = datas.size();
+			System.out.println("dataI : "+dataI);
+			String str = ((JTextComponent) attributeFieldPane.getComponent(1)).getText();
+			System.out.println(str);
+			int i = 0;
+			while(!k.toString().equals(str)) {
+				if(k.getChild() != null) {
+					k = k.getChild();
+				}
+				else if(k.getSibling() != null) {
+					k = k.getSibling();
+				}
+				else {
+					if(i == datas.size()-1) {
+						break;
+					}
+					while(true) {
+						k=k.getParent();
+						if(k.getSibling()!=null) {
+							k=k.getSibling();
+							break;
+						}
+					}
+				}
+				i++;
+			}
+			System.out.println("1234__1234__"+k.toString());
+			k.setX(Integer.parseInt(((JTextComponent) attributeFieldPane.getComponent(3)).getText()));
+			k.setY(Integer.parseInt(((JTextComponent) attributeFieldPane.getComponent(5)).getText()));
+			k.setW(Integer.parseInt(((JTextComponent) attributeFieldPane.getComponent(7)).getText()));
+			k.setH(Integer.parseInt(((JTextComponent) attributeFieldPane.getComponent(9)).getText()));
+//			k.setX(Integer.parseInt(((JTextComponent) attributeFieldPane.getComponent(11)).getText()));
+			k.getLabel().setLocation(k.getX(),k.getY());
+			System.out.println("Data K : "+k.getValue());
+//			System.out.println("Data K : "+k.getLabel().getRGB());
+			((JTextComponent) attributeFieldPane.getComponent(3)).setText(""+k.getX());
+			((JTextComponent) attributeFieldPane.getComponent(5)).setText(""+k.getY());
+			((JTextComponent) attributeFieldPane.getComponent(7)).setText(k.getStrW());
+			((JTextComponent) attributeFieldPane.getComponent(9)).setText(k.getStrH());
+			System.out.println(((JTextComponent) attributeFieldPane.getComponent(1)).getText());
+			System.out.println(((JTextComponent) attributeFieldPane.getComponent(3)).getText());
+			System.out.println(((JTextComponent) attributeFieldPane.getComponent(5)).getText());
+			System.out.println(((JTextComponent) attributeFieldPane.getComponent(7)).getText());
+			System.out.println(((JTextComponent) attributeFieldPane.getComponent(9)).getText());
+			System.out.println(((JTextComponent) attributeFieldPane.getComponent(11)).getText());
+			k = datas.get(0);
+			mindmapSection.drawNodePanel.reset();
+			while(true) {
+				if(k.getChild() != null) {
+					k = k.getChild();
+				}
+				else if(k.getSibling() != null) {
+					k = k.getSibling();
+				}
+				else {
+					if(i == datas.size()-1) {
+						break;
+					}
+					while(true) {
+						k=k.getParent();
+						if(k.getSibling()!=null) {
+							k=k.getSibling();
+							break;
+						}
+					}
+				}
+//				if(k.getParent() != null) {
+				mindmapSection.drawNodePanel.getLabels2drawing(k.getParent(),k);
+//				}				
+				i++;
+			}
+//			mindmapSection.drawNodePanel.getLabels2drawing(k.getParent(),k);
+			mindmapSection.drawNodePanel.setVisible(false);
+			mindmapSection.drawNodePanel.setVisible(true);
+//			Data k = tree.getStart();
+//			System.out.println(k.getValue());
+		}
 		
 	}
 }
@@ -352,9 +435,7 @@ class JLabelListener extends MouseAdapter {
 							}
 						}
 						
-					}
-
-						
+					}	
 					return;/////////////
 				}
 
@@ -408,9 +489,12 @@ class JLabelListener extends MouseAdapter {
 		}
 		x = e.getX();
 		y = e.getY();
-		
+		child.setColorR(Math.abs(child.getColorR()-255));
+		child.setColorG(Math.abs(child.getColorG()-255));
+		child.setColorB(Math.abs(child.getColorB()-255));
 		isDragged = true;
-		System.out.println("test name : " + label.getText() + " test X : " + x + " test Y : "+y);
+		System.out.println("test name : " + child.getValue() + " test X : " + x + " test Y : "+y);
+		System.out.println("change RGB test : " + child.getColorR()+"  RGB test : " + child.getColorG()+"  RGB test : " + child.getColorB());
 		
 	}
 	
@@ -423,10 +507,7 @@ class JLabelListener extends MouseAdapter {
 		System.out.println("FALSE");
 		
 	}
-	
-	
-
- 	
+		
  	public void mouseDragged(MouseEvent e){///////////////////////////////////////////////
  		
  		if(isDragged){
@@ -595,13 +676,22 @@ class JLabelListener extends MouseAdapter {
 	
 	public void mouseClicked(MouseEvent e) {
 		JLabel lb = (JLabel)e.getSource();
-		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(1)).setText(lb.getText());
-		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(3)).setText(""+lb.getX());
-		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(5)).setText(""+lb.getY());
-		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(7)).setText(""+lb.getWidth());
-		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(9)).setText(""+lb.getHeight());
-		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(11)).setText("Color");
+		
+		child.setColorR(Math.abs(child.getColorR()-255));
+		child.setColorG(Math.abs(child.getColorG()-255));
+		child.setColorB(Math.abs(child.getColorB()-255));
+		
+		child.setColorStrRGB();
+		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(1)).setText(child.getValue());
+		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(3)).setText(""+child.getX());
+		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(5)).setText(""+child.getY());
+		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(7)).setText(""+child.getStrW());
+		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(9)).setText(""+child.getStrH());
+		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(11)).setText("0x"+child.getColorStrRGB());
+//		lb.setBackground(new Color(child.getColorR(),child.getColorG(),child.getColorB()));
+		lb.setBackground(new Color(Math.abs(child.getColorR()-255),Math.abs(child.getColorG()-255),Math.abs(child.getColorB()-255)));
 		System.out.println("적용버튼 생성자 : __________");
 		
 	}
+	
 }

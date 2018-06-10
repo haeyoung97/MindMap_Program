@@ -173,7 +173,7 @@ class Text extends Elements {
 		textEditorPanel.add(applyBtn, BorderLayout.SOUTH);
 		
 		ButtonListener applyListener = new ButtonListener(attributeSection.attributePanel, textEditor, mindmapSection, b, saveListener);
-		NewButtonListener newListener=new NewButtonListener(mindmapSection.drawNodePanel,textEditor);
+		NewButtonListener newListener=new NewButtonListener(attributeSection.attributePanel, mindmapSection.drawNodePanel,textEditor);
 		OpenButtonListener openListener = new OpenButtonListener(attributeSection.attributePanel, textEditor, mindmapSection, b, saveListener);
 		
 		// 적용 버튼
