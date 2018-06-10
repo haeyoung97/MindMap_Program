@@ -318,9 +318,25 @@ class ButtonListener implements ActionListener { //버튼 이벤트
 			k.setY(Integer.parseInt(((JTextComponent) attributeFieldPane.getComponent(5)).getText()));
 			k.setW(Integer.parseInt(((JTextComponent) attributeFieldPane.getComponent(7)).getText()));
 			k.setH(Integer.parseInt(((JTextComponent) attributeFieldPane.getComponent(9)).getText()));
-//			k.setX(Integer.parseInt(((JTextComponent) attributeFieldPane.getComponent(11)).getText()));
+			String colorHex = ((JTextComponent) attributeFieldPane.getComponent(11)).getText();
+			try {
+				colorHex = colorHex.substring(2);
+				String strR = colorHex.substring(0,2);
+				String strG = colorHex.substring(2,4);
+				String strB = colorHex.substring(4,6);
+				k.setColorR(Integer.parseInt(strR, 16));
+				k.setColorG(Integer.parseInt(strG, 16));
+				k.setColorB(Integer.parseInt(strB, 16));
+				k.setColorStrRGB();
+				k.getLabel().setBackground(new Color(k.getColorR(), k.getColorG(), k.getColorB()));
+			}
+			catch(Exception e1) {
+				JOptionPane.showMessageDialog(null, "입력 형식이 잘못되었습니다.\nex> input(16진수) : 0x123456", "Wrong input", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+//			System.out.println("%%%%%%%%%%5 colorHex :"+Integer.parseInt(strG, 16));
 			k.getLabel().setLocation(k.getX(),k.getY());
-			System.out.println("Data K : "+k.getValue());
+//			System.out.println("Data K : "+k.getValue());
 //			System.out.println("Data K : "+k.getLabel().getRGB());
 			((JTextComponent) attributeFieldPane.getComponent(3)).setText(""+k.getX());
 			((JTextComponent) attributeFieldPane.getComponent(5)).setText(""+k.getY());
@@ -373,6 +389,7 @@ class JLabelListener extends MouseAdapter {
 	private JLabel label,Plabel;
 	private Data parent,child;
 	private boolean isDragged;
+	private int isClicked = 0;
 	private JDrawPanel panel;
 	private JPanel attributeFieldPane;
 	private int x,y;
@@ -489,10 +506,13 @@ class JLabelListener extends MouseAdapter {
 		}
 		x = e.getX();
 		y = e.getY();
-		child.setColorR(Math.abs(child.getColorR()-255));
-		child.setColorG(Math.abs(child.getColorG()-255));
-		child.setColorB(Math.abs(child.getColorB()-255));
+//		child.setColorR(Math.abs(child.getColorR()-255));
+//		child.setColorG(Math.abs(child.getColorG()-255));
+//		child.setColorB(Math.abs(child.getColorB()-255));
+//		System.out.println(child.getColorR() + "__________"+child.getColorG() + "__________"+child.getColorB() + "__________");
+//		child.setColorStrRGB();
 		isDragged = true;
+//		isClicked = true;
 		System.out.println("test name : " + child.getValue() + " test X : " + x + " test Y : "+y);
 		System.out.println("change RGB test : " + child.getColorR()+"  RGB test : " + child.getColorG()+"  RGB test : " + child.getColorB());
 		
@@ -676,21 +696,46 @@ class JLabelListener extends MouseAdapter {
 	
 	public void mouseClicked(MouseEvent e) {
 		JLabel lb = (JLabel)e.getSource();
+		JLabel[] lbs = new JLabel[4];
+		System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$  "+isClicked);
+		if(isClicked%2 == 0) {
+			for(int i=0;i<lbs.length;i++) {
+				lbs[i] = new JLabel();
+				lbs[i].setSize(7,7);
+				lbs[i].setBackground(Color.BLACK);
+				lbs[i].setOpaque(true);
+				panel.add(lbs[i]);
+			}
+			
+			lbs[0].setLocation(child.getX()-7+child.getW()/2+3, child.getY()-7);
+			
+			lbs[1].setLocation(child.getX()-7, child.getY()-7+child.getH()/2+3);
+			
+			lbs[2].setLocation(child.getX()-7+child.getW()+7, child.getY()-7+child.getH()/2+3);
+			
+			lbs[3].setLocation(child.getX()-7+child.getW()/2+3,child.getY()-10+child.getH()+10);
+			isClicked++;
+		}
+		else {
+			int cnt = panel.getComponentCount()-1;
+			for(int i = 0 ; i<4;i++)
+				panel.remove(cnt--);
+			isClicked++;
+			System.out.println("개수개수개수개ㅜㅅ ::::"+panel.getComponentCount());
+		}
 		
 		child.setColorR(Math.abs(child.getColorR()-255));
 		child.setColorG(Math.abs(child.getColorG()-255));
 		child.setColorB(Math.abs(child.getColorB()-255));
-		
+		lb.setBackground(new Color(child.getColorR(),child.getColorG(),child.getColorB()));
+		System.out.println(child.getColorR() + "__________"+child.getColorG() + "__________"+child.getColorB() + "__________");
 		child.setColorStrRGB();
 		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(1)).setText(child.getValue());
 		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(3)).setText(""+child.getX());
 		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(5)).setText(""+child.getY());
-		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(7)).setText(""+child.getStrW());
-		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(9)).setText(""+child.getStrH());
+		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(7)).setText(child.getStrW());
+		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(9)).setText(child.getStrH());
 		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(11)).setText("0x"+child.getColorStrRGB());
-//		lb.setBackground(new Color(child.getColorR(),child.getColorG(),child.getColorB()));
-		lb.setBackground(new Color(Math.abs(child.getColorR()-255),Math.abs(child.getColorG()-255),Math.abs(child.getColorB()-255)));
-		System.out.println("적용버튼 생성자 : __________");
 		
 	}
 	
