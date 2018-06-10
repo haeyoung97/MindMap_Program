@@ -229,12 +229,15 @@ class Data{
 	void setH(int nodeH) { this.nodeH = nodeH; }
 	void setW(int nodeW) { this.nodeW = nodeW; }
 	
+	int getH() { return nodeH; }
+	int getW() { return nodeW; }
+	
 	String getStrH() { return ""+nodeH; }
 	String getStrW() { return ""+nodeW; }
 	
 	void setColorR(int r) { this.r = r; }
 	void setColorG(int g) { this.g = g; }
-	void setColorB(int b) { this.r = b; }
+	void setColorB(int b) { this.b = b; }
 	void setColorStrRGB() { 
 		String colorR, colorG, colorB;
 		if(this.r<16) {
