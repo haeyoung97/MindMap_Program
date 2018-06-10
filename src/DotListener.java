@@ -155,15 +155,6 @@ public class DotListener extends MouseAdapter {
 				label.setLocation(labelX+offX,label.getY());
 				label.setSize(-offX+labelW, label.getHeight());
 				dot.setLocation(dotX+offX,dot.getY());
-//				
-//				tmps.setLocation(tmpsX+offX,tmps.getY());
-//				tmpl.setLocation(label.getX()+label.getWidth()/2-tmps.x,tmpl.y);
-//				
-//				
-//				
-//				System.out.println("<<<<<<<<<<<<<<<<<<tmpL:::"+tmpl);
-//				System.out.println("<<<<<<<<<<<<<<<<<<tmpS:::"+tmps);
-//				
 				break;
 			case 2:
 				
@@ -172,12 +163,6 @@ public class DotListener extends MouseAdapter {
 				label.setSize(offX+labelW, label.getHeight());
 				dot.setLocation(dotX+offX,dot.getY());
 				
-//
-//				tmps.setLocation(tmpsX+offX,tmps.getY());
-//				tmpl.setLocation(label.getX()+label.getWidth()/2-tmps.x,tmpl.y);
-//				
-				
-				
 				break;
 			case 3:
 				
@@ -185,29 +170,8 @@ public class DotListener extends MouseAdapter {
 				label.setLocation(label.getX(),label.getY());
 				label.setSize(label.getWidth(),labelH+offY);
 				dot.setLocation(dot.getX(),dotY+offY);
-				
-//				tmps.setLocation(tmps.x,tmpsY-offY*2);
-//				tmpl.setLocation(tmpl.x,label.getY()+label.getHeight()-tmps.y/2);
 				break;					
 			}
-////			System.out.println(child.getS());
-////			System.out.println(panel.getVlocation().size());
-////			System.out.println(child.getLineNum());
-////			System.out.println(panel.getVlocation().get(child.getLineNum()));
-////			System.out.println(panel.getVsize().get(child.getLineNum()));
-////			System.out.println(child.getParent().getValue());
-//			
-//			
-////			ul.setOffset(offX, offY);
-////			ul.resize(child,offX,offY,panel.getVlocation(),panel.getVsize());
-//			panel.getVlocation().remove(child.getLineNum());
-//			panel.getVlocation().add(child.getLineNum(),tmpl);
-//			panel.getVsize().remove(child.getLineNum());
-//			panel.getVsize().add(child.getLineNum(),tmps);
-//			panel.repaint();
-			
-
-//			label.setLocation(labelX+offX,label.getY());
 			
 			System.out.println("===========\"DOT MOVE\"================================");
  		}

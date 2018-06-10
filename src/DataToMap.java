@@ -220,6 +220,11 @@ class Data{
 	private JLabel[] Dots;
 	private int line4parent;
 	private updateLine ul;
+	private int [] finalLimit;
+	
+	void setLM(int [] limit) {this.finalLimit=limit;}
+	int [] getLM() {return finalLimit;}
+	
 	
 	void setul(updateLine ul) {this.ul=ul;}
 	updateLine getul() {return ul;}
