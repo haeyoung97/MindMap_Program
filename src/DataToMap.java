@@ -53,7 +53,11 @@ class JDrawPanel extends JPanel{
 	
 	void getLabels2drawing(Data P,Data C) {
 		this.P=P; this.C=C;	
-
+		
+		
+		
+		
+		
 		int	width,height,startAngle, arcAngle,Fx,Fy;
 		
 		if(this.P==null||this.C==null) {
@@ -70,6 +74,13 @@ class JDrawPanel extends JPanel{
 		int pH=P.getLabel().getHeight();
 		int cL=C.getLabel().getWidth();
 		int cH=C.getLabel().getHeight();
+		
+		for(int i=0;i<datas.size();i++) {
+			if(datas.get(i)==C) {
+				C=datas.get(i);
+				P=C.getParent();
+			}
+		}
 		
 		if(P.getHeight()%2==0) {		
 			if(x<px) {
@@ -161,12 +172,19 @@ class JDrawPanel extends JPanel{
 		vlocation.add(location.getLocation());
 		vsize.add(size.getLocation());
 		vangle.add(angle.getLocation());
+		
+		
 //		
 //asd		for(int i=0; i<vlocation.size(); i++ {
 //			 Point s = vlocation.elementAt(i);
 //			 Point e = vsize.elementAt(i);
 //			 Point a= vangle.elementAt(i);
 //asd		}//
+		
+		C.setLineNum(vlocation.size()-1);
+		System.out.println("시발 시험 좆망 시벟ㄹ탱 좆같앗<<<<<<<<<<<<<<<<<<<<<"+(vlocation.size()-1));
+		
+		
 	}
 	
 	ArrayList<Data> getArray(){return datas;}
@@ -335,7 +353,7 @@ class Tree extends MakeToLabel{
 	boolean MakeTree(String [] member) {
 		int k=1;
 		int h=0;
-		
+		int cnt=-1;
 		for(int i=0;i<member.length;i++) {
 			if(start==null && member[0].charAt(0)!='\t') { //첫 성분이 루트 (\t으로 시작 안한다.)
 				start=new Data(member[0]);
@@ -384,6 +402,7 @@ class Tree extends MakeToLabel{
 					panel.getArray().add(obj);
 					last=obj;
 					System.out.println("make tree ;  " + k);
+					cnt++;
 				}
 				catch(NullPointerException e) {					//예외처리 : 트리 이상하게 적을 경우 생기는 NullPointerException
 					JOptionPane.showMessageDialog(null, "형식에 맞추어 작성해주십시오(잘못된 계층)", "NullPointerException", JOptionPane.WARNING_MESSAGE);

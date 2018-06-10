@@ -12,7 +12,7 @@ public class DotListener extends MouseAdapter {
 	private JLabel dot,label;
 	private Data child;
 	private boolean isDragged;
-	private int site,x,y,offX,offY,labelW,labelH,labelX,labelY,dotX,dotY,tmplX,tmpsX;
+	private int site,x,y,offX,offY,labelW,labelH,labelX,labelY,dotX,dotY,tmplX,tmplY,tmpsX,tmpsY;
 	private updateLine ul;
 	private Point tmpl,tmps;
 	
@@ -46,7 +46,11 @@ public class DotListener extends MouseAdapter {
 		y = e.getY()+dot.getY();		
 		System.out.println("x,y == "+x+" , "+y);
 		tmplX=tmpl.x;
+		tmplY=tmpl.y;
+		
 		tmpsX=tmps.x;
+		tmpsY=tmps.y;
+		
 		System.out.println("설마 라벨도 클릭돼? 1) "+e.getSource());
 		isDragged=true;
 		
@@ -64,8 +68,18 @@ public class DotListener extends MouseAdapter {
 		child.setH(label.getHeight());
 		child.setX(label.getX());
 		child.setY(label.getY());
-	}
 		
+		ul.resize(child, panel.getVlocation(), panel.getVsize());
+		panel.getVlocation().remove(child.getLineNum());
+		panel.getVlocation().add(child.getLineNum(),tmpl);
+		panel.getVsize().remove(child.getLineNum());
+		panel.getVsize().add(child.getLineNum(),tmps);
+		
+		
+		
+		
+		
+		}
  	public void mouseDragged(MouseEvent e){///////////////////////////////////////////////
  		if(isDragged) {
  			System.out.println("x,y == "+x+" , "+y);
@@ -74,14 +88,30 @@ public class DotListener extends MouseAdapter {
  			offY=e.getY()+dot.getY()-y;
  			System.out.println("\n"+offX+",,,"+offY); 			
 			System.out.println("라벨 사이즈 조정 > x: "+x);
-			
+//			switch(child.getS()) {
+//			case 0:
+//				break;
+//			case 1:
+//				break;
+//			case 2:
+//				break;
+//			case 3:
+//				break;
+//			
+//			
+//			
+//			}
 			switch(site) {
 			case 0:
 				offX=0;
 				label.setLocation(label.getX(),labelY+offY);
 				label.setSize(label.getWidth(),labelH-offY);
 				dot.setLocation(dot.getX(),dotY+offY);
-				
+//				
+////
+////				tmps.setLocation(tmps.x,tmpsY+offY);
+////				tmpl.setLocation(tmpl.x,label.getY()-tmps.y*2);
+//				
 				break;
 			case 1:
 				
@@ -89,22 +119,15 @@ public class DotListener extends MouseAdapter {
 				label.setLocation(labelX+offX,label.getY());
 				label.setSize(-offX+labelW, label.getHeight());
 				dot.setLocation(dotX+offX,dot.getY());
-				
-				tmps.setLocation(tmpsX+offX,tmps.getY());
-				tmpl.setLocation(label.getX()+label.getWidth()/2-tmps.x,tmpl.y);
-				
-//				tmpl.setLocation(tmpl.getX()-OFFS.x,tmpl.getY());
-//				tmpl.setLocation(tmplX-ttx,tmpl.getY());
-//				tmpl.setLocation(tmpl.x-(e.getX()-x),tmpl.getY());
-//				tmps.setLocation(tmps.x+(e.getX()-x)*2,tmps.getY());
-//				tmps.setLocation(tmpsX+ttx*2,tmps.getY());
-//				tmps.setLocation(tmps.getX()+OFFS.x,tmps.getY());
-//				tmps.setLocation(tmps.getX()+offX*2,tmps.getY());
-//				tmps.setLocation(tmpsX+offX*2,tmps.getY());
-				
-				System.out.println("<<<<<<<<<<<<<<<<<<tmpL:::"+tmpl);
-				System.out.println("<<<<<<<<<<<<<<<<<<tmpS:::"+tmps);
-				
+//				
+//				tmps.setLocation(tmpsX+offX,tmps.getY());
+//				tmpl.setLocation(label.getX()+label.getWidth()/2-tmps.x,tmpl.y);
+//				
+//				
+//				
+//				System.out.println("<<<<<<<<<<<<<<<<<<tmpL:::"+tmpl);
+//				System.out.println("<<<<<<<<<<<<<<<<<<tmpS:::"+tmps);
+//				
 				break;
 			case 2:
 				
@@ -112,6 +135,11 @@ public class DotListener extends MouseAdapter {
 				label.setLocation(label.getX(),label.getY());
 				label.setSize(offX+labelW, label.getHeight());
 				dot.setLocation(dotX+offX,dot.getY());
+				
+//
+//				tmps.setLocation(tmpsX+offX,tmps.getY());
+//				tmpl.setLocation(label.getX()+label.getWidth()/2-tmps.x,tmpl.y);
+//				
 				
 				
 				break;
@@ -121,23 +149,26 @@ public class DotListener extends MouseAdapter {
 				label.setLocation(label.getX(),label.getY());
 				label.setSize(label.getWidth(),labelH+offY);
 				dot.setLocation(dot.getX(),dotY+offY);
+				
+//				tmps.setLocation(tmps.x,tmpsY-offY*2);
+//				tmpl.setLocation(tmpl.x,label.getY()+label.getHeight()-tmps.y/2);
 				break;					
 			}
-//			System.out.println(child.getS());
-//			System.out.println(panel.getVlocation().size());
-//			System.out.println(child.getLineNum());
-//			System.out.println(panel.getVlocation().get(child.getLineNum()));
-//			System.out.println(panel.getVsize().get(child.getLineNum()));
-//			System.out.println(child.getParent().getValue());
-			
-			
-//			ul.setOffset(offX, offY);
-//			ul.resize(child,offX,offY,panel.getVlocation(),panel.getVsize());
-			panel.getVlocation().remove(child.getLineNum());
-			panel.getVlocation().add(child.getLineNum(),tmpl);
-			panel.getVsize().remove(child.getLineNum());
-			panel.getVsize().add(child.getLineNum(),tmps);
-			panel.repaint();
+////			System.out.println(child.getS());
+////			System.out.println(panel.getVlocation().size());
+////			System.out.println(child.getLineNum());
+////			System.out.println(panel.getVlocation().get(child.getLineNum()));
+////			System.out.println(panel.getVsize().get(child.getLineNum()));
+////			System.out.println(child.getParent().getValue());
+//			
+//			
+////			ul.setOffset(offX, offY);
+////			ul.resize(child,offX,offY,panel.getVlocation(),panel.getVsize());
+//			panel.getVlocation().remove(child.getLineNum());
+//			panel.getVlocation().add(child.getLineNum(),tmpl);
+//			panel.getVsize().remove(child.getLineNum());
+//			panel.getVsize().add(child.getLineNum(),tmps);
+//			panel.repaint();
 			
 
 //			label.setLocation(labelX+offX,label.getY());
