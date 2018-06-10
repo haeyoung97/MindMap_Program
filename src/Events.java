@@ -729,7 +729,6 @@ class JLabelListener extends MouseAdapter {
 		child.setColorB(Math.abs(child.getColorB()-255));
 		lb.setBackground(new Color(child.getColorR(),child.getColorG(),child.getColorB()));
 		System.out.println(child.getColorR() + "__________"+child.getColorG() + "__________"+child.getColorB() + "__________");
-		child.setColorStrRGB();
 		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(1)).setText(child.getValue());
 		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(3)).setText(""+child.getX());
 		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(5)).setText(""+child.getY());
