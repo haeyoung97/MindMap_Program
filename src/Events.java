@@ -416,6 +416,7 @@ class ButtonListener implements ActionListener { //버튼 이벤트
 			}
 //			System.out.println("%%%%%%%%%%5 colorHex :"+Integer.parseInt(strG, 16));
 			k.getLabel().setLocation(k.getX(),k.getY());
+			k.getLabel().setSize(k.getW(), k.getH());
 //			System.out.println("Data K : "+k.getValue());
 //			System.out.println("Data K : "+k.getLabel().getRGB());
 			((JTextComponent) attributeFieldPane.getComponent(3)).setText(""+k.getX());
