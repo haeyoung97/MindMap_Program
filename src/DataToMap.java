@@ -60,6 +60,8 @@ class JDrawPanel extends JPanel{
 			return;
 		}
 		
+		
+		
 		int px=P.getX();
 		int py=P.getY();		
 		int x=C.getX();
@@ -159,12 +161,12 @@ class JDrawPanel extends JPanel{
 		vlocation.add(location.getLocation());
 		vsize.add(size.getLocation());
 		vangle.add(angle.getLocation());
-		
-		for(int i=0; i<vlocation.size(); i++) {
-			 Point s = vlocation.elementAt(i);
-			 Point e = vsize.elementAt(i);
-			 Point a= vangle.elementAt(i);
-		}
+//		
+//asd		for(int i=0; i<vlocation.size(); i++ {
+//			 Point s = vlocation.elementAt(i);
+//			 Point e = vsize.elementAt(i);
+//			 Point a= vangle.elementAt(i);
+//asd		}//
 	}
 	
 	ArrayList<Data> getArray(){return datas;}
@@ -193,9 +195,19 @@ class Data{
 	private int r,g,b; 		// color RGB
 	private String colorRGB;// color 문자열로 표현
 	private JLabel label;
-
+	private boolean isSelected=false;
+	private JLabel[] Dots;
+	private int line4parent;
+	private updateLine ul;
+	
+	void setul(updateLine ul) {this.ul=ul;}
+	updateLine getul() {return ul;}
+	
+	void setLineNum(int num) {this.line4parent=line4parent;}
+	int getLineNum() {return line4parent;}
+	
 	public Data(String value) {this.value=value; child=null; sibling=null; parent=null;}
-
+	
 	public JLabel getLabel() {return label;}
 	
 	public void setLabel(JLabel label) {this.label=label;}
@@ -273,6 +285,14 @@ class Data{
 	
 	int getS() { return s; }
 	String getStrS() { return ""+s; }
+	
+	boolean getSelected() {return isSelected;}
+	void setSelected(boolean isSelected) {this.isSelected=isSelected;}
+	
+	JLabel [] getDots() {return Dots;}
+	void setDots(JLabel [] Dots) {this.Dots=Dots;}
+	
+	
 }
 
 class MakeToLabel extends Elements {
