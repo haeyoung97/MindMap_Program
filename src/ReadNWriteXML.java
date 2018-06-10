@@ -1,4 +1,5 @@
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -113,10 +114,21 @@ class WriteXMLFile {
 				W.appendChild(doc.createTextNode(k.getStrW()));
 				node.appendChild(W);
 
-				// Color ¿¤¸®¸ÕÆ®
-				Element Color = doc.createElement("Color");
-				Color.appendChild(doc.createTextNode("100000"));
-				node.appendChild(Color);
+				// ColorR ¿¤¸®¸ÕÆ®
+				Element ColorR = doc.createElement("ColorR");
+				ColorR.appendChild(doc.createTextNode(""+k.getColorR()));
+				node.appendChild(ColorR);
+							
+				// ColorR ¿¤¸®¸ÕÆ®
+				Element ColorG = doc.createElement("ColorG");
+				ColorG.appendChild(doc.createTextNode(""+k.getColorG()));
+				node.appendChild(ColorG);
+				
+				// ColorR ¿¤¸®¸ÕÆ®
+				Element ColorB = doc.createElement("ColorB");
+				ColorB.appendChild(doc.createTextNode(""+k.getColorB()));
+				node.appendChild(ColorB);
+				
 				
 				while(true) {
 					if(k.getChild() != null) {
@@ -170,11 +182,23 @@ class WriteXMLFile {
 					W = doc.createElement("W");
 					W.appendChild(doc.createTextNode(k.getStrW()));
 					node.appendChild(W);
-
-					// Color ¿¤¸®¸ÕÆ®
-					Color = doc.createElement("Color");
-					Color.appendChild(doc.createTextNode("100000"));
-					node.appendChild(Color);
+					
+					// ColorR ¿¤¸®¸ÕÆ®
+					ColorR = doc.createElement("ColorR");
+					ColorR.appendChild(doc.createTextNode(""+k.getColorR()));
+					node.appendChild(ColorR);
+								
+					// ColorR ¿¤¸®¸ÕÆ®
+					ColorG = doc.createElement("ColorG");
+					ColorG.appendChild(doc.createTextNode(""+k.getColorG()));
+					node.appendChild(ColorG);
+					
+					// ColorR ¿¤¸®¸ÕÆ®
+					ColorB = doc.createElement("ColorB");
+					ColorB.appendChild(doc.createTextNode(""+k.getColorB()));
+					node.appendChild(ColorB);
+					
+					
 				}
 			}
 			
@@ -343,6 +367,7 @@ class ReadXMLFile {
     	tree.print();
     	Data k = tree.getStart();
     	Data kLast = tree.getLast();
+    	mindmapSection.drawNodePanel.reset();
     	int i=0;
     	while(true) {
     		nNode = nList.item(i);
@@ -359,9 +384,12 @@ class ReadXMLFile {
     		k.setY(Integer.parseInt(getTagValue("Y", eElement)));
     		k.setH(Integer.parseInt(getTagValue("H", eElement)));
     		k.setW(Integer.parseInt(getTagValue("W", eElement)));
-    		
+    		k.setColorR(Integer.parseInt(getTagValue("ColorR", eElement)));
+    		k.setColorG(Integer.parseInt(getTagValue("ColorG", eElement)));
+    		k.setColorB(Integer.parseInt(getTagValue("ColorB", eElement)));
+    		k.getLabel().setBackground(new Color(k.getColorR(),k.getColorG(),k.getColorB()));
     		k.getLabel().setLocation(k.getX(),k.getY());//////////////////////////////////////////////////////////
-    		
+    		mindmapSection.drawNodePanel.getLabels2drawing(k.getParent(),k);
     		if(k.getChild() != null) {
     			k = k.getChild();
     		}

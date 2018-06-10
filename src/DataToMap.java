@@ -190,6 +190,8 @@ class Data{
 	private String value;	//실제값
 	private int x, y, s;	// 좌표, 차원
 	private int h, nodeH, nodeW;
+	private int r,g,b; 		// color RGB
+	private String colorRGB;// color 문자열로 표현
 	private JLabel label;
 
 	public Data(String value) {this.value=value; child=null; sibling=null; parent=null;}
@@ -229,6 +231,37 @@ class Data{
 	
 	String getStrH() { return ""+nodeH; }
 	String getStrW() { return ""+nodeW; }
+	
+	void setColorR(int r) { this.r = r; }
+	void setColorG(int g) { this.g = g; }
+	void setColorB(int b) { this.r = b; }
+	void setColorStrRGB() { 
+		String colorR, colorG, colorB;
+		if(this.r<16) {
+			colorR = "0"+Integer.toHexString(this.r);
+		}
+		else {
+			colorR = Integer.toHexString(this.r);
+		}
+		if(this.g<16) {
+			colorG = "0"+Integer.toHexString(this.g);
+		}
+		else {
+			colorG = Integer.toHexString(this.g);
+		}
+		if(this.b<16) {
+			colorB = "0"+Integer.toHexString(this.b);
+		}
+		else {
+			colorB = Integer.toHexString(this.b);
+		}
+		this.colorRGB = colorR+colorG+colorB;	
+	}
+	
+	int getColorR() { return r; }
+	int getColorG() { return g; }
+	int getColorB() { return b; }
+	String getColorStrRGB() { return colorRGB; }
 	
 //	void setColor(int nodeH) { this.nodeH = nodeH; }
 //	String getStrH() { return ""+nodeH; }
@@ -398,6 +431,12 @@ class Tree extends MakeToLabel{
 		
 		Data k=start;
 		rootLabel = Make2Label(k);
+		Color colorRGB = rootLabel.getBackground();
+		k.setColorR(colorRGB.getRed());
+		k.setColorG(colorRGB.getGreen());
+		k.setColorB(colorRGB.getBlue());
+		k.setColorStrRGB();
+		System.out.println("RGB test : " + k.getColorR()+"  RGB test : " + k.getColorG()+"  RGB test : " + k.getColorB()+"  RGB test : " + k.getColorStrRGB());
 		start.setLabel(rootLabel);
 		Panel.add(rootLabel);
 		
@@ -521,6 +560,12 @@ class Tree extends MakeToLabel{
 		}
 		JLabel childLabel;
 		childLabel = Make2Label(k);
+		Color colorRGB = childLabel.getBackground();
+		k.setColorR(colorRGB.getRed());
+		k.setColorG(colorRGB.getGreen());
+		k.setColorB(colorRGB.getBlue());
+		k.setColorStrRGB();
+		System.out.println("RGB test : " + k.getColorR()+"  RGB test : " + k.getColorG()+"  RGB test : " + k.getColorB());
 		Panel.add(childLabel);////////////////////////////////라벨올리기
 		k.setX(x);
 		k.setY(y);
@@ -562,6 +607,12 @@ class Tree extends MakeToLabel{
 				}
 				JLabel childLabel;
 				childLabel = Make2Label(k);
+				Color colorRGB = childLabel.getBackground();
+				k.setColorR(colorRGB.getRed());
+				k.setColorG(colorRGB.getGreen());
+				k.setColorB(colorRGB.getBlue());
+				k.setColorStrRGB();
+				System.out.println("RGB test : " + k.getColorR()+"  RGB test : " + k.getColorG()+"  RGB test : " + k.getColorB());
 				Panel.add(childLabel);////////////////////////////////라벨올리기
 				k.setX(x);
 				k.setY(y);
