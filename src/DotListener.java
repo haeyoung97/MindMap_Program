@@ -2,6 +2,7 @@ import java.awt.Component;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Vector;
 
 import javax.swing.JLabel;
 
@@ -69,11 +70,46 @@ public class DotListener extends MouseAdapter {
 		child.setX(label.getX());
 		child.setY(label.getY());
 		
-		ul.resize(child, panel.getVlocation(), panel.getVsize());
-		panel.getVlocation().remove(child.getLineNum());
-		panel.getVlocation().add(child.getLineNum(),tmpl);
-		panel.getVsize().remove(child.getLineNum());
-		panel.getVsize().add(child.getLineNum(),tmps);
+		JLabel [] dots= child.getDots();
+		dots[0].setLocation(label.getX()+label.getWidth()/2-dots[0].getWidth()/2,label.getY()-dots[0].getHeight());
+		dots[1].setLocation(label.getX()-dots[1].getHeight(),label.getY()+label.getHeight()/2-dots[1].getHeight()/2);
+		dots[2].setLocation(label.getX()+label.getWidth(),label.getY()+label.getHeight()/2-dots[1].getHeight()/2);
+		dots[3].setLocation(label.getX()+label.getWidth()/2-dots[0].getWidth()/2,label.getY()+label.getHeight());
+
+		panel.getVlocation().clear();
+		panel.getVsize().clear();
+		
+		
+		Data start=null, obj=null, last=null;
+		start = panel.getArray().get(0);
+		obj=start;
+		while(true) {
+				if(obj.getChild()!=null) {
+					obj=obj.getChild();
+					panel.getLabels2drawing(obj.getParent(), obj);
+				}
+				else if(obj.getSibling()!=null) {
+					obj=obj.getSibling();
+					panel.getLabels2drawing(obj.getParent(), obj);
+				}
+				else {
+					if(obj==last) {
+						break;
+					}
+					while(true) {
+						obj=obj.getParent();
+						if(obj==null) {
+							return;
+						}
+						if(obj.getSibling()!=null) {
+							obj=obj.getSibling();
+							break;
+						}
+					}
+				}
+				
+				
+		}
 		
 		
 		

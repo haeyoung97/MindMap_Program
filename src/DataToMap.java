@@ -22,13 +22,16 @@ class JDrawPanel extends JPanel{
 	private Vector<Point> vangle=new Vector<Point>();
 	private ArrayList<Data> datas;
 	private ArrayList<Integer> group4s=new ArrayList<Integer>();
-	
+	private Data SLabel=null;
 	JDrawPanel(){
 		super();
 		System.out.println("»ý¼­¿Õ´¥!");
 		datas=new ArrayList<Data>();
 		System.out.println(datas.isEmpty());
 	}
+	
+	void setSData(Data SLabel) {this.SLabel=SLabel;}
+	Data getSData() {return SLabel;}
 	
 	int checkS(int x,int y, int px, int py) {
 		int s;

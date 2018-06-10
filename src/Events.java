@@ -794,12 +794,29 @@ class JLabelListener extends MouseAdapter {
 		
 //		Color tmpcolor=new Color(label.getColor());
 		
+		child.setSelected(true);
 		
-		if(child.getSelected()==true) {child.setSelected(false);}
-		else {child.setSelected(true);}
-		
-		
-		if(child.getSelected()) {
+		if(panel.getSData()==null) {
+			panel.setSData(child);
+		}
+		else if(panel.getSData()!=child) {
+			Data notSData=panel.getSData();
+			notSData.getLabel().setBackground(new Color(notSData.getColorR(),notSData.getColorG(),notSData.getColorB()));
+			notSData.setSelected(false);
+			panel.setSData(child);
+
+//			child.setDots(null);
+			if(notSData.getDots()!=null) {
+				for(int i = 0 ; i<4;i++) {
+					if(notSData.getDots()[i]!=null ) {
+					panel.remove(notSData.getDots()[i]);}
+					
+				}
+				notSData.setDots(null);
+			}
+			
+			
+			
 			for(int i=0;i<lbs.length;i++) {
 				
 				lbs[i] = new JLabel();
@@ -824,27 +841,82 @@ class JLabelListener extends MouseAdapter {
 			lbs[3].setLocation(child.getX()-7+child.getW()/2+3,child.getY()-10+child.getH()+10);
 			lbs[3].setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
 //			isClicked++;
-//			
-			child.setColorR(Math.abs(child.getColorR()-255));
-			child.setColorG(Math.abs(child.getColorG()-255));
-			child.setColorB(Math.abs(child.getColorB()-255));
+////			
+//			child.setColorR(Math.abs(child.getColorR()-255));
+//			child.setColorG(Math.abs(child.getColorG()-255));
+//			child.setColorB(Math.abs(child.getColorB()-255));
 //			
 			label.setBackground(new Color(Math.abs(child.getColorR()-255),Math.abs(child.getColorG()-255),Math.abs(child.getColorB()-255)));
 			
-		}
-		
-		else {
-			int cnt = panel.getComponentCount()-1;
-//			child.setDots(null);
-			for(int i = 0 ; i<4;i++) {
-				if(child.getDots()[i]!=null ) {
-				panel.remove(child.getDots()[i]);}
-			}
-			child.setDots(null);
+			
+			
+			
+			panel.repaint();
 //				isClicked++;
 			System.out.println("개수개수개수개ㅜㅅ ::::"+panel.getComponentCount());
-			label.setBackground(new Color(child.getColorR(),child.getColorG(),child.getColorB()));
 		}
+		
+		else if(panel.getSData()==child) {
+			child.setSelected(false);
+			child.getLabel().setBackground(new Color(child.getColorR(),child.getColorG(),child.getColorB()));
+			
+			if(child.getDots()!=null) {
+				for(int i = 0 ; i<4;i++) {
+					if(child.getDots()[i]!=null ) {
+					panel.remove(child.getDots()[i]);}
+					
+				}
+				child.setDots(null);
+			}
+			panel.repaint();
+		}
+		
+//		if(child.getSelected()) {
+//			for(int i=0;i<lbs.length;i++) {
+//				
+//				lbs[i] = new JLabel();
+//				lbs[i].setSize(7,7);
+//				lbs[i].setBackground(Color.BLACK);
+//				lbs[i].setOpaque(true);
+//				DotListener labelListen=new DotListener(i,lbs[i], panel, child);
+//				System.out.println("좆같은날"+child.getValue()+" "+child.getLineNum());
+//				lbs[i].addMouseListener(labelListen);
+//				lbs[i].addMouseMotionListener(labelListen);
+//				child.setDots(lbs);
+//				panel.add(lbs[i]);
+//			}
+//			
+//			lbs[0].setLocation(child.getX()-7+child.getW()/2+3, child.getY()-7);
+//			lbs[0].setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
+////			lbs[0].setLocation(child.getLabel().);
+//			lbs[1].setLocation(child.getX()-7, child.getY()-7+child.getH()/2+3);
+//			lbs[1].setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
+//			lbs[2].setLocation(child.getX()-7+child.getW()+7, child.getY()-7+child.getH()/2+3);	
+//			lbs[2].setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
+//			lbs[3].setLocation(child.getX()-7+child.getW()/2+3,child.getY()-10+child.getH()+10);
+//			lbs[3].setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
+////			isClicked++;
+//////			
+////			child.setColorR(Math.abs(child.getColorR()-255));
+////			child.setColorG(Math.abs(child.getColorG()-255));
+////			child.setColorB(Math.abs(child.getColorB()-255));
+////			
+//			label.setBackground(new Color(Math.abs(child.getColorR()-255),Math.abs(child.getColorG()-255),Math.abs(child.getColorB()-255)));
+//			
+//		}
+//		
+//		else {
+//			int cnt = panel.getComponentCount()-1;
+////			child.setDots(null);
+//			for(int i = 0 ; i<4;i++) {
+//				if(child.getDots()[i]!=null ) {
+//				panel.remove(child.getDots()[i]);}
+//			}
+//			child.setDots(null);
+////				isClicked++;
+//			System.out.println("개수개수개수개ㅜㅅ ::::"+panel.getComponentCount());
+//			label.setBackground(new Color(child.getColorR(),child.getColorG(),child.getColorB()));
+//		}
 		
 //		child.setColorR(Math.abs(child.getColorR()-255));
 //		child.setColorG(Math.abs(child.getColorG()-255));
