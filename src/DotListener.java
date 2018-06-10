@@ -30,16 +30,20 @@ public class DotListener extends MouseAdapter {
 		dot=(JLabel)e.getSource();
 		labelX=label.getX();
 		labelY=label.getY();
+		
 		labelW=label.getWidth();
 		labelH=label.getHeight();
+		
 		dotX=dot.getX();
 		dotY=dot.getY();
 		
 		tmpl=panel.getVlocation().get(child.getLineNum());
 		tmps=panel.getVsize().get(child.getLineNum());
+		
 		System.out.println(site +"  DOT PRESSED");
+		
 		x = e.getX()+dot.getX();
-		y = e.getY();		
+		y = e.getY()+dot.getY();		
 		System.out.println("x,y == "+x+" , "+y);
 		tmplX=tmpl.x;
 		tmpsX=tmps.x;
@@ -64,17 +68,20 @@ public class DotListener extends MouseAdapter {
 		
  	public void mouseDragged(MouseEvent e){///////////////////////////////////////////////
  		if(isDragged) {
- 			int tx=label.getX();
- 			int E=e.getX()+dot.getX();
  			System.out.println("x,y == "+x+" , "+y);
  			System.out.println("EEEx,y == "+e.getX()+" , "+e.getY());
  			offX=e.getX()+dot.getX()-x;
- 			offY=e.getY()-y;
+ 			offY=e.getY()+dot.getY()-y;
  			System.out.println("\n"+offX+",,,"+offY); 			
 			System.out.println("라벨 사이즈 조정 > x: "+x);
 			
 			switch(site) {
 			case 0:
+				offX=0;
+				label.setLocation(label.getX(),labelY+offY);
+				label.setSize(label.getWidth(),labelH-offY);
+				dot.setLocation(dot.getX(),dotY+offY);
+				
 				break;
 			case 1:
 				
@@ -100,8 +107,20 @@ public class DotListener extends MouseAdapter {
 				
 				break;
 			case 2:
+				
+				offY=0;
+				label.setLocation(label.getX(),label.getY());
+				label.setSize(offX+labelW, label.getHeight());
+				dot.setLocation(dotX+offX,dot.getY());
+				
+				
 				break;
 			case 3:
+				
+				offX=0;
+				label.setLocation(label.getX(),label.getY());
+				label.setSize(label.getWidth(),labelH+offY);
+				dot.setLocation(dot.getX(),dotY+offY);
 				break;					
 			}
 //			System.out.println(child.getS());
@@ -116,7 +135,7 @@ public class DotListener extends MouseAdapter {
 //			ul.resize(child,offX,offY,panel.getVlocation(),panel.getVsize());
 			panel.getVlocation().remove(child.getLineNum());
 			panel.getVlocation().add(child.getLineNum(),tmpl);
-			panel.getVsize().remove(child.getLabel());
+			panel.getVsize().remove(child.getLineNum());
 			panel.getVsize().add(child.getLineNum(),tmps);
 			panel.repaint();
 			
