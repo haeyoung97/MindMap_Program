@@ -151,32 +151,37 @@ class updateLine{
 		}		
 	}
 
-	void resize(Data data, int reoffX,int reoffY,Vector<Point> vl,Vector<Point> vs) {
+	void resize(Data data,Vector<Point> vl,Vector<Point> vs) {
 		this.s=data.getS();
-		
+		JLabel l=data.getLabel();
+		JLabel p=data.getParent().getLabel();
 		Point tmpl,tmps;
 		tmpl=vl.get(data.getLineNum());
+		System.out.println("씨빨쎼끼야"+data.getValue());
+		System.out.println("미친년씨빨아"+data.getLineNum());
 		tmps=vl.get(data.getLineNum());
 		System.out.println(data.getLineNum());
 		
 		if(data.getParent().getHeight()%2==0) {
 			switch(s) {
 				case 1:
-
-//					tmpl.setLocation(tmpl.x+reoffX*2,tmpl.y);
-//					tmps.setLocation(tmps.x+reoffX*2,tmps.y);
-					tmpl.setLocation(tmpl);
-//					tmps.setLocation(data.getLabel().getX()+data.getLabel().getWidth()/2-tmpl.x,tmps.y);
+					tmps.setLocation(l.getX()+l.getWidth()/2-p.getX()+p.getWidth()/2*2,p.getY()-(l.getY()+l.getHeight()));
+					tmpl.setLocation(l.getX()+l.getWidth()/2-tmps.x,p.getY()+p.getHeight()/2-tmps.y);
 					System.out.println("넘버포");
 					break;					//-----이것이 4사분면..!!!!!!!!!!!!!!
 				case 2:
+					tmps.setLocation((2*l.getX()+l.getWidth()/2-p.getX()+p.getWidth()/2),p.getY()-(l.getY()+l.getHeight()));
+					tmpl.setLocation(p.getX()+p.getWidth()/2-tmps.x*2,p.getY()+p.getHeight()/2-tmps.y);
 					System.out.println("넘버투");
 					break;
 				case 3:
+					tmps.setLocation(l.getX()+l.getWidth()/2-p.getX()+p.getWidth()/2*2,p.getY()-(l.getY()+l.getHeight()));
+					tmpl.setLocation(l.getX()+l.getWidth()/2-tmps.x,p.getY()+p.getHeight()/2-tmps.y);
 					System.out.println("넘버쓰리");
 					break;					//-----얘가 1사분면인듯?
 				case 4:
-					
+					tmps.setLocation(l.getX()+l.getWidth()/2-p.getX()+p.getWidth()/2*2,p.getY()-(l.getY()+l.getHeight()));
+					tmpl.setLocation(l.getX()+l.getWidth()/2-tmps.x,p.getY()+p.getHeight()/2-tmps.y);
 					System.out.println("넘버원");					
 					break;
 			}
@@ -488,10 +493,6 @@ class JLabelListener extends MouseAdapter {
 	}
 
 	public void mousePressed(MouseEvent e) {
-		
-		
-		
-		
 		datas=panel.getArray();
 		Data tmpChild;
 		label = (JLabel)e.getSource();
@@ -618,7 +619,7 @@ class JLabelListener extends MouseAdapter {
 	}
 		
  	public void mouseDragged(MouseEvent e){///////////////////////////////////////////////
- 		
+ 		System.out.println("미친 미쳥ㅅ어진짜 왜야 시발"+child.getLineNum());
  		if(isDragged){
  			System.out.println("설마 라벨도 클릭돼? 3) "+e.getSource());
  			
@@ -801,8 +802,8 @@ class JLabelListener extends MouseAdapter {
 				lbs[i].setSize(7,7);
 				lbs[i].setBackground(Color.BLACK);
 				lbs[i].setOpaque(true);
-				
 				DotListener labelListen=new DotListener(i,lbs[i], panel, child);
+				System.out.println("좆같은날"+child.getValue()+" "+child.getLineNum());
 				lbs[i].addMouseListener(labelListen);
 				lbs[i].addMouseMotionListener(labelListen);
 				child.setDots(lbs);
