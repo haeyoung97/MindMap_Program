@@ -663,12 +663,15 @@ class JLabelListener extends MouseAdapter {
  			}
  		}
  		
- 		if(child.getSelected()) {
+ 		try{if(child.getSelected()) {
  			JLabel [] lbs=child.getDots();
  			for(int i=0;i<4;i++) {
  				lbs[i].setLocation(offX+lbs[i].getX(),offY+lbs[i].getY());
  				
  			} 			
+ 		}}
+ 		catch(Exception af) {
+ 			
  		}
  		
  		
@@ -815,45 +818,6 @@ class JLabelListener extends MouseAdapter {
 				notSData.setDots(null);
 			}
 			
-			
-			
-			for(int i=0;i<lbs.length;i++) {
-				
-				lbs[i] = new JLabel();
-				lbs[i].setSize(7,7);
-				lbs[i].setBackground(Color.BLACK);
-				lbs[i].setOpaque(true);
-				DotListener labelListen=new DotListener(i,lbs[i], panel, child);
-				System.out.println("좆같은날"+child.getValue()+" "+child.getLineNum());
-				lbs[i].addMouseListener(labelListen);
-				lbs[i].addMouseMotionListener(labelListen);
-				child.setDots(lbs);
-				panel.add(lbs[i]);
-			}
-			
-			lbs[0].setLocation(child.getX()-7+child.getW()/2+3, child.getY()-7);
-			lbs[0].setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
-//			lbs[0].setLocation(child.getLabel().);
-			lbs[1].setLocation(child.getX()-7, child.getY()-7+child.getH()/2+3);
-			lbs[1].setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
-			lbs[2].setLocation(child.getX()-7+child.getW()+7, child.getY()-7+child.getH()/2+3);	
-			lbs[2].setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
-			lbs[3].setLocation(child.getX()-7+child.getW()/2+3,child.getY()-10+child.getH()+10);
-			lbs[3].setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
-//			isClicked++;
-////			
-//			child.setColorR(Math.abs(child.getColorR()-255));
-//			child.setColorG(Math.abs(child.getColorG()-255));
-//			child.setColorB(Math.abs(child.getColorB()-255));
-//			
-			label.setBackground(new Color(Math.abs(child.getColorR()-255),Math.abs(child.getColorG()-255),Math.abs(child.getColorB()-255)));
-			
-			
-			
-			
-			panel.repaint();
-//				isClicked++;
-			System.out.println("개수개수개수개ㅜㅅ ::::"+panel.getComponentCount());
 		}
 		
 		else if(panel.getSData()==child) {
@@ -869,7 +833,53 @@ class JLabelListener extends MouseAdapter {
 				child.setDots(null);
 			}
 			panel.repaint();
+			return;
 		}
+		
+		
+		
+
+		
+		
+		for(int i=0;i<lbs.length;i++) {
+			
+			lbs[i] = new JLabel();
+			lbs[i].setSize(7,7);
+			lbs[i].setBackground(Color.BLACK);
+			lbs[i].setOpaque(true);
+			DotListener labelListen=new DotListener(i,lbs[i], panel, child);
+			System.out.println("좆같은날"+child.getValue()+" "+child.getLineNum());
+			lbs[i].addMouseListener(labelListen);
+			lbs[i].addMouseMotionListener(labelListen);
+			child.setDots(lbs);
+			panel.add(lbs[i]);
+		}	
+		
+		lbs[0].setLocation(child.getX()-7+child.getW()/2+3, child.getY()-7);
+		lbs[0].setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
+//		lbs[0].setLocation(child.getLabel().);
+		lbs[1].setLocation(child.getX()-7, child.getY()-7+child.getH()/2+3);
+		lbs[1].setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
+		lbs[2].setLocation(child.getX()-7+child.getW()+7, child.getY()-7+child.getH()/2+3);	
+		lbs[2].setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
+		lbs[3].setLocation(child.getX()-7+child.getW()/2+3,child.getY()-10+child.getH()+10);
+		lbs[3].setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
+//		isClicked++;
+////		
+//		child.setColorR(Math.abs(child.getColorR()-255));
+//		child.setColorG(Math.abs(child.getColorG()-255));
+//		child.setColorB(Math.abs(child.getColorB()-255));
+//		
+		label.setBackground(new Color(Math.abs(child.getColorR()-255),Math.abs(child.getColorG()-255),Math.abs(child.getColorB()-255)));
+		
+		
+		
+		
+		panel.repaint();
+//			isClicked++;
+		System.out.println("개수개수개수개ㅜㅅ ::::"+panel.getComponentCount());
+	
+		
 		
 //		if(child.getSelected()) {
 //			for(int i=0;i<lbs.length;i++) {
