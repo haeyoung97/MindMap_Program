@@ -389,6 +389,7 @@ class ReadXMLFile {
     		k.setColorB(Integer.parseInt(getTagValue("ColorB", eElement)));
     		k.getLabel().setBackground(new Color(k.getColorR(),k.getColorG(),k.getColorB()));
     		k.getLabel().setLocation(k.getX(),k.getY());//////////////////////////////////////////////////////////
+    		k.getLabel().setSize(k.getW(), k.getH());
     		mindmapSection.drawNodePanel.getLabels2drawing(k.getParent(),k);
     		if(k.getChild() != null) {
     			k = k.getChild();

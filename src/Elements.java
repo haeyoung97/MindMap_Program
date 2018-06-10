@@ -23,7 +23,7 @@ import javax.swing.SwingConstants;
 class Elements extends JMenuBar{
 	Font basicFont = new Font("DialogInput", Font.PLAIN,20);
 	// Bar
-	JButton[] toolOp = new JButton[6];
+	JButton[] toolOp = new JButton[7];
 	// Mindmap
 	JPanel mindMapPanel;
 	JDrawPanel drawNodePanel;
@@ -33,7 +33,7 @@ class Elements extends JMenuBar{
 	JPanel attributeFieldPane;
 	String[] labelStr = {"  TEXT : ", "  X : ", "  Y : ", "  W : ", "  H : ", "  Color : "};
 	JLabel[] MindMapNode;
-	JTextField[] fields = new JTextField[6];
+	JTextField[] fields = new JTextField[7];
 	// Text
 	JTextArea textEditor = new JTextArea(30, 15);
 	public JPanel textEditorPanel;
@@ -47,16 +47,16 @@ class Bar extends Elements{
 	private JPanel menuPanel;
 	private JMenuBar MenuBar;		
 	private JToolBar ToolBar;
-	private String[] arrMenu = {"New", "Open", "Save", "Save As..", "Apply", "Change"};
+	private String[] arrMenu = {"New", "Open", "Save", "Save As..", "Apply", "Change", "Close"};
 	JMenu menu = new JMenu("Menu");
-	JMenuItem[] menuOp = new JMenuItem[6];
+	JMenuItem[] menuOp = new JMenuItem[7];
 	
 	Bar(Container c, Mindmap mindmapSection) {
 		// menuBar & toolBar ±¸¼º
 		MenuBar = new JMenuBar();
 		ToolBar = new JToolBar("Tool Bar");
 		
-		for(int i = 0; i < menuOp.length; i++) {
+		for(int i = 0; i < arrMenu.length; i++) {
 			menuOp[i] = new JMenuItem(arrMenu[i]);
 			menuOp[i].setFont(basicFont);
 			menu.add(menuOp[i]);
@@ -72,6 +72,10 @@ class Bar extends Elements{
 		menuPanel.setLayout(new GridLayout(2,1));
 		menuPanel.add(MenuBar);
 		menuPanel.add(ToolBar);
+		
+		CloseButtonListener closeListener = new CloseButtonListener();
+		menuOp[6].addActionListener(closeListener);
+		toolOp[6].addActionListener(closeListener);
 		
 		c.add(menuPanel, BorderLayout.NORTH);
 		

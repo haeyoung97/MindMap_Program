@@ -10,6 +10,7 @@ import javax.swing.text.JTextComponent;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -428,6 +429,7 @@ class ButtonListener implements ActionListener { //버튼 이벤트
 			System.out.println(((JTextComponent) attributeFieldPane.getComponent(9)).getText());
 			System.out.println(((JTextComponent) attributeFieldPane.getComponent(11)).getText());
 			k = datas.get(0);
+			i = 0;
 			mindmapSection.drawNodePanel.reset();
 			while(true) {
 				if(k.getChild() != null) {
@@ -447,6 +449,7 @@ class ButtonListener implements ActionListener { //버튼 이벤트
 							break;
 						}
 					}
+					i++;
 				}
 //				if(k.getParent() != null) {
 				mindmapSection.drawNodePanel.getLabels2drawing(k.getParent(),k);
@@ -810,16 +813,20 @@ class JLabelListener extends MouseAdapter {
 				panel.add(lbs[i]);
 			}
 			
-			lbs[0].setLocation(child.getX()-7+child.getW()/2+3, child.getY()-7);	
+			lbs[0].setLocation(child.getX()-7+child.getW()/2+3, child.getY()-7);
+			lbs[0].setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
 //			lbs[0].setLocation(child.getLabel().);
-			lbs[1].setLocation(child.getX()-7, child.getY()-7+child.getH()/2+3);			
-			lbs[2].setLocation(child.getX()-7+child.getW()+7, child.getY()-7+child.getH()/2+3);			
+			lbs[1].setLocation(child.getX()-7, child.getY()-7+child.getH()/2+3);
+			lbs[1].setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
+			lbs[2].setLocation(child.getX()-7+child.getW()+7, child.getY()-7+child.getH()/2+3);	
+			lbs[2].setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
 			lbs[3].setLocation(child.getX()-7+child.getW()/2+3,child.getY()-10+child.getH()+10);
+			lbs[3].setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
 //			isClicked++;
 //			
-//			child.setColorR(Math.abs(child.getColorR()-255));
-//			child.setColorG(Math.abs(child.getColorG()-255));
-//			child.setColorB(Math.abs(child.getColorB()-255));
+			child.setColorR(Math.abs(child.getColorR()-255));
+			child.setColorG(Math.abs(child.getColorG()-255));
+			child.setColorB(Math.abs(child.getColorB()-255));
 //			
 			label.setBackground(new Color(Math.abs(child.getColorR()-255),Math.abs(child.getColorG()-255),Math.abs(child.getColorB()-255)));
 			
@@ -857,4 +864,12 @@ class JLabelListener extends MouseAdapter {
 	}
 	
 	
+}
+
+class CloseButtonListener implements ActionListener {
+	public void actionPerformed(ActionEvent e) {
+		if(e.getActionCommand().equals("Close") ) {
+			System.exit(0);
+		}
+	}
 }
