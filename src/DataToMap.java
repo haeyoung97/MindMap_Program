@@ -56,23 +56,15 @@ class JDrawPanel extends JPanel{
 	
 	void getLabels2drawing(Data P,Data C) {
 		this.P=P; this.C=C;	
-		
-		
-		
-		
-		
 		int	width,height,startAngle, arcAngle,Fx,Fy;
 		
 		if(this.P==null||this.C==null) {
 			return;
 		}
-		
-		
-		
-		int px=P.getX();
-		int py=P.getY();		
-		int x=C.getX();
-		int y=C.getY();
+		int px=P.getLabel().getX();
+		int py=P.getLabel().getY();		
+		int x=C.getLabel().getX();
+		int y=C.getLabel().getY();
 		int pL=P.getLabel().getWidth();
 		int pH=P.getLabel().getHeight();
 		int cL=C.getLabel().getWidth();
@@ -133,7 +125,7 @@ class JDrawPanel extends JPanel{
 					startAngle=180;
 					arcAngle=90;
 					width=(px-(x+cL/2))*2;
-					height=(py-(y+cH/2))*2;
+					height=(py+pH/2-(y+cH))*2;
 					Fx=x+cL/2;
 					Fy=py+pH/2-height;
 					System.out.println("그림2 "+P.getValue()+"의 자식: "+C.getValue());

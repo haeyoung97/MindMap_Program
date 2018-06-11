@@ -92,11 +92,11 @@ public class DotListener extends MouseAdapter {
 		while(true) {
 				if(obj.getChild()!=null) {
 					obj=obj.getChild();
-					panel.getLabels2drawing(obj.getParent(), obj);
+//					panel.getLabels2drawing(obj.getParent(), obj);
 				}
 				else if(obj.getSibling()!=null) {
 					obj=obj.getSibling();
-					panel.getLabels2drawing(obj.getParent(), obj);
+//					panel.getLabels2drawing(obj.getParent(), obj);
 				}
 				else {
 					if(obj==last) {
@@ -104,7 +104,7 @@ public class DotListener extends MouseAdapter {
 					}
 					while(true) {
 						obj=obj.getParent();
-						if(obj==null) {
+						if(obj==last) {
 							return;
 						}
 						if(obj.getSibling()!=null) {
@@ -114,7 +114,7 @@ public class DotListener extends MouseAdapter {
 					}
 				}
 				
-				
+				panel.getLabels2drawing(obj.getParent(), obj);
 		}
 		
 		
