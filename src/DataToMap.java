@@ -221,6 +221,10 @@ class Data{
 	private int line4parent;
 	private updateLine ul;
 	private int [] finalLimit;
+	private int childcnt;
+	
+	void setchildcnt(int childcnt) {this.childcnt=childcnt;}
+	int getchildcnt() {return childcnt;}
 	
 	void setLM(int [] limit) {this.finalLimit=limit;}
 	int [] getLM() {return finalLimit;}
@@ -362,7 +366,10 @@ class Tree extends MakeToLabel{
 		int k=1;
 		int h=0;
 		int cnt=-1;
+		int tc=0;
 		for(int i=0;i<member.length;i++) {
+			
+			
 			if(start==null && member[0].charAt(0)!='\t') { //첫 성분이 루트 (\t으로 시작 안한다.)
 				start=new Data(member[0]);
 				start.setHeight(0);
@@ -371,6 +378,7 @@ class Tree extends MakeToLabel{
 			}
 			else {
 				try {
+					
 					obj=new Data(member[i]);
 
 					int lastTab=last.toString().lastIndexOf('\t');
@@ -386,12 +394,27 @@ class Tree extends MakeToLabel{
 						obj.setParent(last.getParent());
 						obj.setHeight(last.getHeight());
 						last.setSibling(obj);
+//						if(tc>3) {
+//							if(obj.getParent()!=start) {
+//								JOptionPane.showMessageDialog(null, "일반 노드 자식 최대 3개", "자식 수 제한", JOptionPane.WARNING_MESSAGE);
+//								this.Default();
+//								return false;
+//							}
+//							else {
+//								if(tc>4) {
+//									JOptionPane.showMessageDialog(null, "루트 자식 최대 4개", "자식 수 제한", JOptionPane.WARNING_MESSAGE);	
+//									this.Default();
+//									return false;
+//								}
+//							}
+//						}
 					}
 					else if(nowTab-lastTab==1) { //자식노드 추가
 						obj.setParent(last);
 						obj.setHeight(last.getHeight()+1);
 						setTotalH(obj.getHeight());
 						last.setChild(obj);
+						tc++;
 					}
 					else { //last가 마지막 자식, 새로 추가된 녀석은 ... last보다 높은 계층
 						h=last.getHeight();
@@ -405,6 +428,7 @@ class Tree extends MakeToLabel{
 								break;
 							}
 						}
+						tc=0;
 					}
 					k++;
 					panel.getArray().add(obj);
