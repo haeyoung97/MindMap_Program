@@ -425,6 +425,13 @@ class ButtonListener implements ActionListener { //버튼 이벤트
 			k.getLabel().setSize(k.getW(), k.getH());
 //			System.out.println("Data K : "+k.getValue());
 //			System.out.println("Data K : "+k.getLabel().getRGB());
+			JLabel [] lbs=k.getDots();
+	        lbs[0].setLocation(k.getX()-7+k.getW()/2,k.getY()-7);  // 위
+	        lbs[1].setLocation(k.getX()-7,k.getY()+k.getH()/2);  // 왼
+	        lbs[2].setLocation(k.getX()-7+k.getW()/2,k.getY()+k.getH()); // 아래
+	        lbs[3].setLocation(k.getX()+k.getW(),k.getY()+k.getH()/2); // 오
+			mindmapSection.drawNodePanel.setVisible(false);
+			mindmapSection.drawNodePanel.setVisible(true);
 			((JTextComponent) attributeFieldPane.getComponent(3)).setText(""+k.getX());
 			((JTextComponent) attributeFieldPane.getComponent(5)).setText(""+k.getY());
 			((JTextComponent) attributeFieldPane.getComponent(7)).setText(k.getStrW());
@@ -451,12 +458,18 @@ class ButtonListener implements ActionListener { //버튼 이벤트
 					}
 					while(true) {
 						k=k.getParent();
+						if(i == datas.size()-1) {
+							break;
+						}
 						if(k.getSibling()!=null) {
 							k=k.getSibling();
 							break;
 						}
 					}
-					i++;
+					if(i == datas.size()-1) {
+						break;
+					}
+//					i++;
 				}
 //				if(k.getParent() != null) {
 				mindmapSection.drawNodePanel.getLabels2drawing(k.getParent(),k);
@@ -464,13 +477,13 @@ class ButtonListener implements ActionListener { //버튼 이벤트
 				i++;
 			}
 //			mindmapSection.drawNodePanel.getLabels2drawing(k.getParent(),k);
-			JLabel [] lbs=k.getDots();
-	          lbs[0].setLocation(k.getX()-7+k.getW()/2,k.getY()-7);  // 위
-	          lbs[1].setLocation(k.getX()-7,k.getY()+k.getH()/2);  // 왼
-	          lbs[2].setLocation(k.getX()-7+k.getW()/2,k.getY()+k.getH()); // 아래
-	          lbs[3].setLocation(k.getX()+k.getW(),k.getY()+k.getH()/2); // 오
-			mindmapSection.drawNodePanel.setVisible(false);
-			mindmapSection.drawNodePanel.setVisible(true);
+//			JLabel [] lbs=k.getDots();
+//	        lbs[0].setLocation(k.getX()-7+k.getW()/2,k.getY()-7);  // 위
+//	        lbs[1].setLocation(k.getX()-7,k.getY()+k.getH()/2);  // 왼
+//	        lbs[2].setLocation(k.getX()-7+k.getW()/2,k.getY()+k.getH()); // 아래
+//	        lbs[3].setLocation(k.getX()+k.getW(),k.getY()+k.getH()/2); // 오
+//			mindmapSection.drawNodePanel.setVisible(false);
+//			mindmapSection.drawNodePanel.setVisible(true);
 //			Data k = tree.getStart();
 //			System.out.println(k.getValue());
 		}
@@ -628,9 +641,6 @@ class JLabelListener extends MouseAdapter {
 		isDragged = false;
 		cnt=0;
 		
-		
-		
-		
 		System.out.println("FALSE");
 		
 	}
@@ -676,13 +686,14 @@ class JLabelListener extends MouseAdapter {
  			}
  		}
  		
- 		try{if(child.getSelected()) {
- 			JLabel [] lbs=child.getDots();
- 			for(int i=0;i<4;i++) {
- 				lbs[i].setLocation(offX+lbs[i].getX(),offY+lbs[i].getY());
- 				
- 			} 			
- 		}}
+ 		try{
+ 			if(child.getSelected()) {
+	 			JLabel [] lbs=child.getDots();
+	 			for(int i=0;i<4;i++) {
+	 				lbs[i].setLocation(offX+lbs[i].getX(),offY+lbs[i].getY());
+	 			} 			
+ 			}
+ 		}
  		catch(Exception af) {
  			
  		}
@@ -872,7 +883,7 @@ class JLabelListener extends MouseAdapter {
 		
 		
 		for(int i=0;i<lbs.length;i++) {
-			
+			System.out.println("커서컷커섴서커서섴섴서컷커서컷컷##################################33");
 			lbs[i] = new JLabel();
 			lbs[i].setSize(7,7);
 			lbs[i].setBackground(Color.BLACK);
