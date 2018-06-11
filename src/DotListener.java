@@ -11,23 +11,25 @@ import javax.swing.JTextField;
 
 
 
-public class DotListener extends MouseAdapter {
-	private JDrawPanel panel;
-	private JPanel attributeFieldPane;
+public class DotListener extends JLabelListener {
+//	private JDrawPanel panel;
+//	private JPanel attributeFieldPane;
 	private JLabel dot,label;
 	private Data child;
 	private boolean isDragged;
 	private int site,x,y,offX,offY,labelW,labelH,labelX,labelY,dotX,dotY,tmplX,tmplY,tmpsX,tmpsY;
 	private updateLine ul;
 	private Point tmpl,tmps;
+	private int [] finalLimit;
 	
 	public DotListener(int site ,JLabel lbs, JDrawPanel panel, Data child,JPanel attributeFieldPane) {
-		this.panel=panel;
+		super(panel,attributeFieldPane);
+//		this.panel=panel;
 		this.site=site;
-		this.attributeFieldPane=attributeFieldPane;
+//		this.attributeFieldPane=attributeFieldPane;
 		this.child=child;
 		this.label=child.getLabel();
-		ul=child.getul();
+//		ul=child.getul();
 		
 	}
 	
@@ -55,6 +57,26 @@ public class DotListener extends MouseAdapter {
 		
 		tmpsX=tmps.x;
 		tmpsY=tmps.y;
+		
+		
+		if(child.getChild()!=null) {
+			//자식들 저장//
+			Data tmpChild=child.getChild();
+				while(true) {
+					if(tmpChild==null) {
+						break;
+					}
+//					
+					for(int k=0;k<panel.getComponentCount();k++) {									
+						if(((JLabel)panel.getComponent(k)).getText()==tmpChild.toString()) {
+							childs.add(tmpChild);
+						}
+					}
+					tmpChild=tmpChild.getSibling();
+			}
+		}
+		
+		
 		
 		System.out.println("설마 라벨도 클릭돼? 1) "+e.getSource());
 		isDragged=true;
@@ -124,6 +146,11 @@ public class DotListener extends MouseAdapter {
 		
 		}
  	public void mouseDragged(MouseEvent e){///////////////////////////////////////////////
+// 		childs.clear();
+
+		
+		int [] finalLimit = new int [4];
+		finalLimit= checkArea(label, child, child.getParent(), childs); //여기서 라벨 위치 조정.
  		if(isDragged) {
  			System.out.println("x,y == "+x+" , "+y);
  			System.out.println("EEEx,y == "+e.getX()+" , "+e.getY());
@@ -161,6 +188,30 @@ public class DotListener extends MouseAdapter {
 				dot.setLocation(dot.getX(),dotY+offY);
 				break;					
 			}
+			
+			
+			if(label.getX()<finalLimit[1]) {				
+	 			label.setLocation(finalLimit[1],label.getY());
+	 			label.setSize(labelX+labelW-finalLimit[1],label.getHeight());
+	 			dot.setLocation(label.getX()-dot.getWidth(),dot.getY());
+	 		}
+	 		else if(label.getX()>finalLimit[0]-child.getLabel().getWidth()) {
+	 			label.setLocation(label.getX(),label.getY());
+	 			label.setSize(finalLimit[0]-labelX,label.getHeight());
+	 			dot.setLocation(label.getX()+label.getWidth(),dot.getY());
+	 			
+	 		}
+	 		if(label.getY()<finalLimit[3]) {
+	 			label.setLocation(label.getX(),finalLimit[3]);
+	 			label.setSize(label.getWidth(),labelY+labelH-finalLimit[3]);
+	 			dot.setLocation(dot.getX(),label.getY()-dot.getHeight());
+	 			
+	 		}
+	 		else if(label.getY()>finalLimit[2]-label.getHeight()) {
+	 			label.setLocation(label.getX(),label.getY());
+	 			label.setSize(label.getWidth(),finalLimit[2]-labelY);
+	 			dot.setLocation(dot.getX(),label.getY());
+	 		}
 			
 			child.setX(label.getX());
 			child.setY(label.getY());
