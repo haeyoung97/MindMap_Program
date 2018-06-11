@@ -476,11 +476,11 @@ class Tree extends MakeToLabel{
 	}
 
 	void setRootX(JPanel Panel){
-		this.rootX = 600*(totalH+1)/2;
+		this.rootX = 800*(totalH+1)/2;
 	}
 
 	void setRootY(JPanel Panel){
-		this.rootY = 400*(totalH+1)/2;
+		this.rootY = 600*(totalH+1)/2;
 	}
 	
 	int getRootX(){ return this.rootX; }
@@ -493,7 +493,7 @@ class Tree extends MakeToLabel{
 	}
 	
 	void AddLabel(JDrawPanel Panel) {
-		Panel.setPreferredSize(new Dimension(600*(totalH+1), 400*(totalH+1)));
+		Panel.setPreferredSize(new Dimension(800*(totalH+1), 600*(totalH+1)));
 		
 		Data k=start;
 		rootLabel = Make2Label(k);
@@ -517,7 +517,7 @@ class Tree extends MakeToLabel{
 		
 		rootLabel.setLocation(k.getX(), k.getY());
 		System.out.println("##### root¿« x : " + k.getX() + " y : " + k.getY());
-		System.out.println("##### test¿« x : " + 600*(totalH+1)/2 + " y : " + 400*(totalH+1)/2);
+		System.out.println("##### test¿« x : " + 800*(totalH+1)/2 + " y : " + 600*(totalH+1)/2);
 		
 		if(k == last)
 			return;
@@ -595,33 +595,33 @@ class Tree extends MakeToLabel{
 			k = k.getSibling();		
 		}
 		if(getSiblingIndex(k) == 2) {
-			x -= 400*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
+			x -= 600*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
 			if(s == 0 || s == 1 || s == 2) {
-				y -= 300*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
+				y -= 500*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
 				k.setS(2);
 			}
 			else if(s == 4 || s == 3){
-				y += 300*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
+				y += 500*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
 				k.setS(3);
 			}
 		}
 		else if(getSiblingIndex(k) == 3) {
-			y += 300*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
+			y += 500*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
 			if(s == 0 || s == 2 ) {
-				x -= 400*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
+				x -= 600*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
 				if(s == 2 || s == 0)
 					k.setS(3);
 				else
 					k.setS(4);
 			}
 			else {
-				x += 400*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
+				x += 600*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
 				k.setS(4);
 			}
 		}
 		else { // getSiblingIndex(k) == 4
-			x += 400*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
-			y += 300*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
+			x += 600*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
+			y += 500*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
 			k.setS(4);
 		}
 		JLabel childLabel;
@@ -662,13 +662,13 @@ class Tree extends MakeToLabel{
 					s = k.getParent().getS();
 				}
 				if(s == 0 || s == 1 || s == 2 || s == 4 ) {
-					x += 400*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
-					y -= 300*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
+					x += 600*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
+					y -= 500*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
 					k.setS(1);
 				}
 				else {
-					x -= 400*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
-					y -= 300*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
+					x -= 600*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
+					y -= 500*(1-k.getParent().getHeight()/100)/(k.getHeight()+1);
 					k.setS(2);
 				}
 				JLabel childLabel;

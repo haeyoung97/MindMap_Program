@@ -1,4 +1,5 @@
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -40,7 +41,7 @@ public class DotListener extends MouseAdapter {
 		
 		dotX=dot.getX();
 		dotY=dot.getY();
-		
+		System.out.println("$$$$$$$$$$$$$$$____________________________________________"+panel.getVlocation().size());
 		tmpl=panel.getVlocation().get(child.getLineNum());
 		tmps=panel.getVsize().get(child.getLineNum());
 		
@@ -181,6 +182,9 @@ public class DotListener extends MouseAdapter {
  		}
  	}
 	
+// 	public void mouseEntered(MouseEvent e) {
+// 		dot.setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
+// 	}
 	
 	
 }
