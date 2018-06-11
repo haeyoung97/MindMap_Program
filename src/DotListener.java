@@ -5,11 +5,14 @@ import java.awt.event.MouseEvent;
 import java.util.Vector;
 
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 
 
 public class DotListener extends MouseAdapter {
 	private JDrawPanel panel;
+	private JPanel attributeFieldPane;
 	private JLabel dot,label;
 	private Data child;
 	private boolean isDragged;
@@ -17,10 +20,10 @@ public class DotListener extends MouseAdapter {
 	private updateLine ul;
 	private Point tmpl,tmps;
 	
-	public DotListener(int site ,JLabel lbs, JDrawPanel panel, Data child) {
+	public DotListener(int site ,JLabel lbs, JDrawPanel panel, Data child,JPanel attributeFieldPane) {
 		this.panel=panel;
 		this.site=site;
-
+		this.attributeFieldPane=attributeFieldPane;
 		this.child=child;
 		this.label=child.getLabel();
 		ul=child.getul();
@@ -69,7 +72,10 @@ public class DotListener extends MouseAdapter {
 		child.setH(label.getHeight());
 		child.setX(label.getX());
 		child.setY(label.getY());
-		
+		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(3)).setText(""+child.getX());
+	    ((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(5)).setText(""+child.getY());
+	    ((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(7)).setText(child.getStrW());
+	    ((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(9)).setText(child.getStrH());
 		JLabel [] dots= child.getDots();
 		dots[0].setLocation(label.getX()+label.getWidth()/2-dots[0].getWidth()/2,label.getY()-dots[0].getHeight());
 		dots[1].setLocation(label.getX()-dots[1].getHeight(),label.getY()+label.getHeight()/2-dots[1].getHeight()/2);
@@ -124,30 +130,12 @@ public class DotListener extends MouseAdapter {
  			offY=e.getY()+dot.getY()-y;
  			System.out.println("\n"+offX+",,,"+offY); 			
 			System.out.println("라벨 사이즈 조정 > x: "+x);
-//			switch(child.getS()) {
-//			case 0:
-//				break;
-//			case 1:
-//				break;
-//			case 2:
-//				break;
-//			case 3:
-//				break;
-//			
-//			
-//			
-//			}
 			switch(site) {
 			case 0:
 				offX=0;
 				label.setLocation(label.getX(),labelY+offY);
 				label.setSize(label.getWidth(),labelH-offY);
 				dot.setLocation(dot.getX(),dotY+offY);
-//				
-////
-////				tmps.setLocation(tmps.x,tmpsY+offY);
-////				tmpl.setLocation(tmpl.x,label.getY()-tmps.y*2);
-//				
 				break;
 			case 1:
 				
@@ -172,6 +160,22 @@ public class DotListener extends MouseAdapter {
 				dot.setLocation(dot.getX(),dotY+offY);
 				break;					
 			}
+			
+			child.setX(label.getX());
+			child.setY(label.getY());
+			child.setW(label.getWidth());
+			child.setH(label.getHeight());
+			
+			((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(1)).setText(child.getValue());
+			((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(3)).setText(""+child.getX());
+			((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(5)).setText(""+child.getY());
+			((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(7)).setText(child.getStrW());
+			((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(9)).setText(child.getStrH());
+			((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(11)).setText("0x"+child.getColorStrRGB());
+			
+			
+			
+			
 			
 			System.out.println("===========\"DOT MOVE\"================================");
  		}

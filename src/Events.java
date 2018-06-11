@@ -348,6 +348,12 @@ class ButtonListener implements ActionListener { //버튼 이벤트
 			menuItemSaveAs.addActionListener(saveListener); 
 			toolBtnSaveAs.addActionListener(saveListener); 
 			
+			((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(1)).setText("");
+			((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(3)).setText("");
+			((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(5)).setText("");
+			((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(7)).setText("");
+			((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(9)).setText("");
+			((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(11)).setText("");
 			
 		}
 			
@@ -366,7 +372,7 @@ class ButtonListener implements ActionListener { //버튼 이벤트
 			String str = ((JTextComponent) attributeFieldPane.getComponent(1)).getText();
 			System.out.println(str);
 			int i = 0;
-			while(!k.toString().equals(str)) {
+			while(!k.getValue().equals(str)) {
 				if(k.getChild() != null) {
 					k = k.getChild();
 				}
@@ -458,6 +464,11 @@ class ButtonListener implements ActionListener { //버튼 이벤트
 				i++;
 			}
 //			mindmapSection.drawNodePanel.getLabels2drawing(k.getParent(),k);
+			JLabel [] lbs=k.getDots();
+	          lbs[0].setLocation(k.getX()-7+k.getW()/2,k.getY()-7);  // 위
+	          lbs[1].setLocation(k.getX()-7,k.getY()+k.getH()/2);  // 왼
+	          lbs[2].setLocation(k.getX()-7+k.getW()/2,k.getY()+k.getH()); // 아래
+	          lbs[3].setLocation(k.getX()+k.getW(),k.getY()+k.getH()/2); // 오
 			mindmapSection.drawNodePanel.setVisible(false);
 			mindmapSection.drawNodePanel.setVisible(true);
 //			Data k = tree.getStart();
@@ -616,8 +627,10 @@ class JLabelListener extends MouseAdapter {
 		//마우스 버튼이 릴리즈되면 드래그 모드 종료
 		isDragged = false;
 		cnt=0;
-		child.setX(label.getX());
-		child.setY(label.getY());
+		
+		
+		
+		
 		System.out.println("FALSE");
 		
 	}
@@ -673,10 +686,19 @@ class JLabelListener extends MouseAdapter {
  		catch(Exception af) {
  			
  		}
- 		
- 		
- 		
- 		
+ 		child.setX(label.getX());
+		child.setY(label.getY());
+		child.setW(label.getWidth());
+		child.setH(label.getHeight());
+// 		
+// 		
+ 		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(1)).setText(child.getValue());
+		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(3)).setText(""+child.getX());
+		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(5)).setText(""+child.getY());
+		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(7)).setText(child.getStrW());
+		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(9)).setText(child.getStrH());
+		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(11)).setText("0x"+child.getColorStrRGB());
+//		
  		
  		System.out.println("어딨니 !!!!!!!!!    "+label.getLocation());
  		
@@ -833,6 +855,13 @@ class JLabelListener extends MouseAdapter {
 				child.setDots(null);
 			}
 			panel.setSData(null);
+			((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(1)).setText("");
+			((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(3)).setText("");
+			((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(5)).setText("");
+			((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(7)).setText("");
+			((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(9)).setText("");
+			((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(11)).setText("");
+			
 			panel.repaint();
 			return;
 		}
@@ -848,7 +877,7 @@ class JLabelListener extends MouseAdapter {
 			lbs[i].setSize(7,7);
 			lbs[i].setBackground(Color.BLACK);
 			lbs[i].setOpaque(true);
-			DotListener labelListen=new DotListener(i,lbs[i], panel, child);
+			DotListener labelListen=new DotListener(i,lbs[i], panel, child,attributeFieldPane);
 			System.out.println("좆같은날"+child.getValue()+" "+child.getLineNum());
 			lbs[i].addMouseListener(labelListen);
 			lbs[i].addMouseMotionListener(labelListen);
