@@ -502,13 +502,15 @@ class JLabelListener extends MouseAdapter {
 	private Data parent,child;
 	private boolean isDragged;
 	private int isClicked = 0;
-	private JDrawPanel panel;
-	private JPanel attributeFieldPane;
+//	private JDrawPanel panel;
+//	private JPanel attributeFieldPane;
+	protected JDrawPanel panel;
+	protected JPanel attributeFieldPane;
 	private int x,y;
 	private Point pointl,points;
 	private Vector<Point> vl,vs;
 	private int cnt,i,s,cnt4child;
-	private ArrayList<Data> datas,childs;
+	protected ArrayList<Data> datas,childs;
 	private ArrayList<Point> childLinesLc,childLinesSz;
 	private int offX,offY;
 	
@@ -661,8 +663,21 @@ class JLabelListener extends MouseAdapter {
 			
 			label.setLocation(offX+label.getX(),offY+label.getY());
 			
-			checkArea(label, child, parent, childs); //여기서 라벨 위치 조정.
-			
+			int [] finalLimit = new int [4];
+			finalLimit= checkArea(label, child, parent, childs); //여기서 라벨 위치 조정.
+			if(label.getX()<finalLimit[1]) {
+	 			label.setLocation(finalLimit[1],label.getY());
+	 		}
+	 		else if(label.getX()>finalLimit[0]-child.getLabel().getWidth()) {
+	 			label.setLocation(finalLimit[0]-label.getWidth(),label.getY());
+	 			
+	 		}
+	 		if(label.getY()<finalLimit[3]) {
+	 			label.setLocation(label.getX(),finalLimit[3]);
+	 		}
+	 		else if(label.getY()>finalLimit[2]-label.getHeight()) {
+	 			label.setLocation(label.getX(),finalLimit[2]-label.getHeight());
+	 		}
  			//다음 라벨의 오프셋에 따른 선 조정
 			
 			offX=label.getX()-tmplabelX;
@@ -716,7 +731,7 @@ class JLabelListener extends MouseAdapter {
  		panel.repaint();
  	}
 	
- 	private void checkArea(JLabel label, Data child, Data parent, ArrayList<Data> childs) {
+ 	protected int [] checkArea(JLabel label, Data child, Data parent, ArrayList<Data> childs) {
 		// TODO Auto-generated method stub
 
  		int childX=child.getLabel().getX();
@@ -806,19 +821,20 @@ class JLabelListener extends MouseAdapter {
 	 	///////////////////////////////////////////////제한조건생성///////////////////////////////////////////////
 	 	
 	 	//1.
- 		if(childX<finalLimit[1]) {
- 			label.setLocation(finalLimit[1],label.getY());
- 		}
- 		else if(childX>finalLimit[0]-child.getLabel().getWidth()) {
- 			label.setLocation(finalLimit[0]-label.getWidth(),label.getY());
- 			
- 		}
- 		if(childY<finalLimit[3]) {
- 			label.setLocation(label.getX(),finalLimit[3]);
- 		}
- 		else if(childY>finalLimit[2]-label.getHeight()) {
- 			label.setLocation(label.getX(),finalLimit[2]-label.getHeight());
- 		}
+// 		if(childX<finalLimit[1]) {
+// 			label.setLocation(finalLimit[1],label.getY());
+// 		}
+// 		else if(childX>finalLimit[0]-child.getLabel().getWidth()) {
+// 			label.setLocation(finalLimit[0]-label.getWidth(),label.getY());
+// 			
+// 		}
+// 		if(childY<finalLimit[3]) {
+// 			label.setLocation(label.getX(),finalLimit[3]);
+// 		}
+// 		else if(childY>finalLimit[2]-label.getHeight()) {
+// 			label.setLocation(label.getX(),finalLimit[2]-label.getHeight());
+// 		}
+		return finalLimit;
 
  	}
 	
