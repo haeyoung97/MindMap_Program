@@ -351,9 +351,17 @@ class ButtonListener implements ActionListener { //버튼 이벤트
 		}
 		else if(e.getActionCommand().equals("변경") || e.getActionCommand().equals("Change")) { //Attribute Editor 
 			datas= mindmapSection.drawNodePanel.getArray();
+			if(datas.size() == 0) {
+				JOptionPane.showMessageDialog(null, "변경할 데이터(= label)가 없습니다.", "No Data", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
 			Data k = datas.get(0);
 			int dataI = datas.size();
 			String str = ((JTextComponent) attributeFieldPane.getComponent(1)).getText();
+			if(str.equals("")) {
+				JOptionPane.showMessageDialog(null, "변경할 데이터(= label)을 선택하여 주십시오.", "No clicked Label", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
 			int i = 0;
 			while(!k.getValue().equals(str)) {
 				if(k.getChild() != null) {

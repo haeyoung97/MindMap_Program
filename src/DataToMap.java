@@ -353,7 +353,7 @@ class Tree extends MakeToLabel{
 
 					//여기서 계층구조 분류. \t로 시작할 것이다...만약 \t로 시작하지 않는다면 새로운 트리가 생기는 것 , 현재는 고려 X
 					if(obj.toString().charAt(0)!='\t') {
-						JOptionPane.showMessageDialog(null, "obj.toString().charAt(0)!='\\t'", "루트가 2개", JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(null, "형식에 맞추어 작성해주십시오\nroot는 1개만 가능\nTab으로 계층 구분", "잘못된 입력", JOptionPane.ERROR_MESSAGE);
 						this.Default();
 						return false;
 					}
