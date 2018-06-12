@@ -1,4 +1,5 @@
 
+
 import java.awt.Cursor;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
@@ -206,9 +207,23 @@ public class DotListener extends JLabelListener {
  		}
  	}
 	
-// 	public void mouseEntered(MouseEvent e) {
-// 		dot.setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
-// 	}
+ 	public void mouseEntered(MouseEvent e) {
+ 		dot=(JLabel)e.getSource();
+ 		Cursor cursor = new Cursor(Cursor.N_RESIZE_CURSOR);
+ 		dot.setCursor(cursor);
+ 		dot.setVisible(false);
+ 		dot.setVisible(true);
+////
+//// 		dot.setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
+// 		System.out.println(dot.getCursor());
+// 		
+//// 		dot.setCursor(Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR));
+// 		System.out.println("고인사이드");
+ 	}
+ 	
+ 	public void mouseClicked(MouseEvent e) {
+ 		
+ 	}
 	
 	
 }
