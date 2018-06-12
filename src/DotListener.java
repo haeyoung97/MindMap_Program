@@ -1,9 +1,7 @@
-import java.awt.Component;
+
 import java.awt.Cursor;
 import java.awt.Point;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Vector;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -12,8 +10,6 @@ import javax.swing.JTextField;
 
 
 public class DotListener extends JLabelListener {
-//	private JDrawPanel panel;
-//	private JPanel attributeFieldPane;
 	private JLabel dot,label;
 	private Data child;
 	private boolean isDragged;
@@ -24,12 +20,9 @@ public class DotListener extends JLabelListener {
 	
 	public DotListener(int site ,JLabel lbs, JDrawPanel panel, Data child,JPanel attributeFieldPane) {
 		super(panel,attributeFieldPane);
-//		this.panel=panel;
 		this.site=site;
-//		this.attributeFieldPane=attributeFieldPane;
 		this.child=child;
 		this.label=child.getLabel();
-//		ul=child.getul();
 		
 	}
 	
@@ -43,20 +36,20 @@ public class DotListener extends JLabelListener {
 		
 		dotX=dot.getX();
 		dotY=dot.getY();
-		System.out.println("$$$$$$$$$$$$$$$____________________________________________"+panel.getVlocation().size());
-		tmpl=panel.getVlocation().get(child.getLineNum());
-		tmps=panel.getVsize().get(child.getLineNum());
-		
-		System.out.println(site +"  DOT PRESSED");
 		
 		x = e.getX()+dot.getX();
-		y = e.getY()+dot.getY();		
-		System.out.println("x,y == "+x+" , "+y);
-		tmplX=tmpl.x;
-		tmplY=tmpl.y;
-		
-		tmpsX=tmps.x;
-		tmpsY=tmps.y;
+	    y = e.getY()+dot.getY();
+	    
+	    if(child.getParent()!=null) {
+	       tmpl=panel.getVlocation().get(child.getLineNum());
+	       tmps=panel.getVsize().get(child.getLineNum());  
+	       tmplX=tmpl.x;
+	       tmplY=tmpl.y;
+	         
+	       tmpsX=tmps.x;
+	       tmpsY=tmps.y;
+	       
+	    }
 		
 		
 		if(child.getChild()!=null) {
@@ -76,19 +69,13 @@ public class DotListener extends JLabelListener {
 			}
 		}
 		
-		
-		
-		System.out.println("설마 라벨도 클릭돼? 1) "+e.getSource());
 		isDragged=true;
 		
 	}
 	public void mouseReleased(MouseEvent e){//////////////////////////////////////////////
 		//마우스 버튼이 릴리즈되면 드래그 모드 종료
 		isDragged = false;
-		System.out.println("DOT STOP");
 
-//		panel.getLabels2drawing(child.getParent(), child);
-		
 		panel.repaint();
 		
 		child.setW(label.getWidth());
@@ -115,11 +102,9 @@ public class DotListener extends JLabelListener {
 		while(true) {
 				if(obj.getChild()!=null) {
 					obj=obj.getChild();
-//					panel.getLabels2drawing(obj.getParent(), obj);
 				}
 				else if(obj.getSibling()!=null) {
 					obj=obj.getSibling();
-//					panel.getLabels2drawing(obj.getParent(), obj);
 				}
 				else {
 					if(obj==last) {
@@ -146,9 +131,6 @@ public class DotListener extends JLabelListener {
 		
 		}
  	public void mouseDragged(MouseEvent e){///////////////////////////////////////////////
-// 		childs.clear();
-
-		
 		int [] finalLimit = new int [4];
 		finalLimit= checkArea(label, child, child.getParent(), childs); //여기서 라벨 위치 조정.
  		if(isDragged) {
@@ -156,8 +138,6 @@ public class DotListener extends JLabelListener {
  			System.out.println("EEEx,y == "+e.getX()+" , "+e.getY());
  			offX=e.getX()+dot.getX()-x;
  			offY=e.getY()+dot.getY()-y;
- 			System.out.println("\n"+offX+",,,"+offY); 			
-			System.out.println("라벨 사이즈 조정 > x: "+x);
 			switch(site) {
 			case 0:
 				offX=0;
@@ -225,11 +205,6 @@ public class DotListener extends JLabelListener {
 			((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(9)).setText(child.getStrH());
 			((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(11)).setText("0x"+child.getColorStrRGB());
 			
-			
-			
-			
-			
-			System.out.println("===========\"DOT MOVE\"================================");
  		}
  	}
 	

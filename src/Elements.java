@@ -129,8 +129,15 @@ class Attribute extends Elements{
 		SettingAttributeField();	//6개의 텍스트필드 구성
 		attributePanel.add(attributeFieldPane, BorderLayout.CENTER);
 		
+		ButtonListener changeListener = new ButtonListener(attributeFieldPane, mindmapSection, b);
+		
 		JButton changeBtn = new JButton("변경");
-		changeBtn.addActionListener(new ButtonListener(attributeFieldPane, mindmapSection, b)); //버튼 이벤트
+		changeBtn.addActionListener(changeListener); //버튼 이벤트
+		// Change 버튼
+		JMenuItem menuItemChange = b.getMenuItem(5);
+		JButton toolBtnChange = b.getToolButton(5);
+		menuItemChange.addActionListener(changeListener); 
+		toolBtnChange.addActionListener(changeListener);  
 		
 		changeBtn.setFont(basicFont); //폰트
 		changeBtn.setHorizontalAlignment(SwingConstants.CENTER);
