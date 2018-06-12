@@ -246,10 +246,10 @@ class ButtonListener implements ActionListener { //버튼 이벤트
 	private JPanel attributeFieldPane; 
 	private StringBuffer buffer; 						//text editor 값		-이 버튼이 실행될 때마다 새로운 객체 생기는 것이 찜찜함...
 	private String tmp=new String();
-	private Tree tree;
+	Tree tree;
 	private Bar b;
 	private SaveButtonListener saveListener;
-	
+	private boolean check;
 	private ArrayList<Data> datas;
 
 	// 변경버튼 생성자
@@ -261,12 +261,13 @@ class ButtonListener implements ActionListener { //버튼 이벤트
 	}
 	
 	// 적용버튼 생성자
-	ButtonListener(JPanel attributeFieldPane, Object O, Mindmap mindmapSection, Bar b, SaveButtonListener saveListener) {
+	ButtonListener(JPanel attributeFieldPane, Object O, Mindmap mindmapSection, Bar b, boolean check) {
 		this.O=O;
 		this.mindmapSection=mindmapSection;	//연결 OK
 		this.attributeFieldPane = attributeFieldPane;
-		this.saveListener = saveListener;
+//		this.saveListener = saveListener;
 		this.tree = new Tree(mindmapSection.drawNodePanel, attributeFieldPane);
+		this.check = check;
 		this.b = b;
 	}
 	
@@ -309,22 +310,26 @@ class ButtonListener implements ActionListener { //버튼 이벤트
 			mindmapSection.drawNodePanel.setVisible(false);
 			mindmapSection.drawNodePanel.setVisible(true);
 			mindmapSection.drawNodePanel.repaint();
-			// Save 버튼
+//			// Save 버튼
 			JMenuItem menuItemSave = b.getMenuItem(2);
 			JButton toolBtnSave = b.getToolButton(2);
-			menuItemSave.removeActionListener(saveListener); 
-			toolBtnSave.removeActionListener(saveListener); 
-			// SaveAs 버튼
+//			menuItemSave.removeActionListener(saveListener); 
+//			toolBtnSave.removeActionListener(saveListener); 
+//			// SaveAs 버튼
 			JMenuItem menuItemSaveAs = b.getMenuItem(3);
 			JButton toolBtnSaveAs = b.getToolButton(3);
-			menuItemSaveAs.removeActionListener(saveListener); 
-			toolBtnSaveAs.removeActionListener(saveListener); 
-			System.out.println("testtesttest : " + tree.getStart().toString());
-			saveListener = new SaveButtonListener(tree.getStart(), tree.getLast());
-			menuItemSave.addActionListener(saveListener); 
-			toolBtnSave.addActionListener(saveListener); 
-			menuItemSaveAs.addActionListener(saveListener); 
-			toolBtnSaveAs.addActionListener(saveListener); 
+//			menuItemSaveAs.removeActionListener(saveListener); 
+//			toolBtnSaveAs.removeActionListener(saveListener); 
+//			System.out.println("testtesttest : " + tree.getStart().toString());
+//			
+			if(check) {
+				saveListener = new SaveButtonListener(tree.getStart(), tree.getLast());
+				menuItemSave.addActionListener(saveListener); 
+				toolBtnSave.addActionListener(saveListener); 
+				menuItemSaveAs.addActionListener(saveListener); 
+				toolBtnSaveAs.addActionListener(saveListener); 
+			}
+			
 			
 			((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(1)).setText("");
 			((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(3)).setText("");

@@ -29,9 +29,9 @@ import org.w3c.dom.NodeList;
 class WriteXMLFile {
 	private String Name, filePath;
 	private Data start, last;
-	private boolean isSave;
+	private int isSave;
 	
-	public WriteXMLFile(String filePath, Data start, Data last, boolean isSave) {
+	public WriteXMLFile(String filePath, Data start, Data last, int isSave) {
 		if(start != null)
 			this.Name = start.getValue();
 		else
@@ -42,7 +42,7 @@ class WriteXMLFile {
 		this.isSave = isSave;
 	}
 	
- 	public WriteXMLFile(String filePath, String Name, Data start, Data last, boolean isSave) {
+ 	public WriteXMLFile(String filePath, String Name, Data start, Data last, int isSave) {
 		this.Name = Name;
 		this.filePath = filePath;
 		this.start = start;
@@ -213,8 +213,12 @@ class WriteXMLFile {
 //			StreamResult result = new StreamResult(new FileOutputStream(new File(filePath + ".xml"), false));
 			StreamResult result = new StreamResult(new File(filePath + ".xml"));
 			
-			if(isSave) {
-				JOptionPane.showMessageDialog(null, start.getValue()+".xml is Saved in DeskTop", "Complete", JOptionPane.OK_OPTION);
+			if(isSave == 0) {
+				JOptionPane.showMessageDialog(null, start.getValue()+".xml is Saved in DeskTop", "Complete", JOptionPane.INFORMATION_MESSAGE);
+				
+			}
+			if(isSave == 1) {
+				JOptionPane.showMessageDialog(null, "File is saved", "Complete", JOptionPane.INFORMATION_MESSAGE);
 				
 			}
 			
@@ -238,8 +242,8 @@ class WriteXMLFile {
 //			return false;
 		}
 //		catch (FileNotFoundException fnfe) {
-//			fnfe.printStackbTrace();
-////			return false;
+//			fnfe.printStackTrace();
+//////			return false;
 //		}
 //		return true;
 	}
@@ -251,7 +255,7 @@ class SaveButtonListener implements ActionListener{
 	private JFileChooser chooser;
 	private Data start, last;
 	private boolean isData;
-	private boolean isSave = false;
+	private int isSave;
 	private WriteXMLFile writeXML;
 	private String filePath, fileName;
 	
@@ -269,20 +273,23 @@ class SaveButtonListener implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e) {
 //		if(!isSave) {
-			chooser = new JFileChooser();
-			FileNameExtensionFilter filter = new FileNameExtensionFilter("XML 문서 파일", "xml");
-			chooser.setFileFilter(filter);
+//			chooser = new JFileChooser();
+//			FileNameExtensionFilter filter = new FileNameExtensionFilter("XML 문서 파일", "xml");
+//			chooser.setFileFilter(filter);
 			if(e.getActionCommand().equals("Save")) {
-				chooser.setDialogTitle("Save");
-				chooser.setApproveButtonText("Save");
-				filePath = System.getProperty("user.home") + "/Desktop/";
+//				chooser.setDialogTitle("Save");
+//				chooser.setApproveButtonText("Save");
+				filePath = System.getProperty("user.home") + "\\Desktop\\";
 //				filePath = "C:\\Users\\박해영\\Desktop\\"; // 파일 경로명 리턴
 				
-				writeXML = new WriteXMLFile(filePath, start, last, true);
+				writeXML = new WriteXMLFile(filePath, start, last, 0);
 				writeXML.WriteFile(this.isData);
 				
 			}
 			else {
+				chooser = new JFileChooser();
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("XML 문서 파일", "xml");
+				chooser.setFileFilter(filter);
 				chooser.setDialogTitle("Save as...");
 				chooser.setApproveButtonText("Save as...");
 				
@@ -294,7 +301,7 @@ class SaveButtonListener implements ActionListener{
 				filePath = chooser.getSelectedFile().getAbsolutePath(); // 파일 경로명 리턴
 				fileName = chooser.getSelectedFile().getName(); // 파일의 이름.확장자
 				
-				writeXML = new WriteXMLFile(filePath, fileName, start, last, false);
+				writeXML = new WriteXMLFile(filePath, fileName, start, last, 1);
 				writeXML.WriteFile(this.isData);
 			}
 			
@@ -361,7 +368,8 @@ class ReadXMLFile {
     	System.out.println(textAreaStr);
     	String fixedStr = textAreaStr.toString();
     	textEdit.setText(fixedStr);
-    	ButtonListener treeButton = new ButtonListener(attributeFieldPane, textEdit, mindmapSection, b, saveListener);
+    	mindmapSection.drawNodePanel.datas.clear();
+    	ButtonListener treeButton = new ButtonListener(attributeFieldPane, textEdit, mindmapSection, b, false);
     	treeButton.ApplyButtonFunc();
     	this.tree = treeButton.getTree();
     	System.out.println("테스트 과정@@@@@@@@@@@@@@@@@@@@@@@@@@");
@@ -369,6 +377,7 @@ class ReadXMLFile {
     	Data k = tree.getStart();
     	Data kLast = tree.getLast();
     	mindmapSection.drawNodePanel.reset();
+//    	mindmapSection.drawNodePanel.datas.add(0, tree.getStart());
     	int i=0;
     	while(true) {
     		nNode = nList.item(i);
@@ -392,6 +401,7 @@ class ReadXMLFile {
     		k.getLabel().setLocation(k.getX(),k.getY());//////////////////////////////////////////////////////////
     		k.getLabel().setSize(k.getW(), k.getH());
     		mindmapSection.drawNodePanel.getLabels2drawing(k.getParent(),k);
+    		mindmapSection.drawNodePanel.datas.add(k);
     		if(k.getChild() != null) {
     			k = k.getChild();
     		}
@@ -415,6 +425,9 @@ class ReadXMLFile {
     		i++;
 //    		k.setW(Integer.parseInt(getTagValue("Color", eElement)));
     	}
+    	
+    	
+    	
     	mindmapSection.drawNodePanel.setVisible(false);
     	mindmapSection.drawNodePanel.setVisible(true);
 //    	System.out.println("테스트 해보자 : " + k.getValue());
@@ -444,14 +457,14 @@ class OpenButtonListener implements ActionListener{
 	private SaveButtonListener saveListener;
 	private Bar b;
 	
-	public OpenButtonListener(JPanel attributeFieldPane, JTextArea textEdit, Mindmap mindmapSection, Bar b, SaveButtonListener saveListener) {
+	public OpenButtonListener(JPanel attributeFieldPane, JTextArea textEdit, Mindmap mindmapSection, Bar b) {
 		chooser = new JFileChooser();
 		chooser.setDialogTitle("Open");
 		chooser.setApproveButtonText("Open");
 		this.textEdit = textEdit;
 		this.mindmapSection = mindmapSection;
 		this.attributeFieldPane = attributeFieldPane;
-		this.saveListener = saveListener;
+//		this.saveListener = saveListener;
 		this.b = b;
 	}
 	

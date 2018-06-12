@@ -183,9 +183,12 @@ class Text extends Elements {
 		applyBtn.setHorizontalAlignment(SwingConstants.CENTER);
 		textEditorPanel.add(applyBtn, BorderLayout.SOUTH);
 		
-		ButtonListener applyListener = new ButtonListener(attributeSection.attributePanel, textEditor, mindmapSection, b, saveListener);
+//		ButtonListener applyListener = new ButtonListener(attributeSection.attributePanel, textEditor, mindmapSection, b, saveListener);
+//		NewButtonListener newListener=new NewButtonListener(attributeSection.attributePanel, mindmapSection.drawNodePanel,textEditor);
+//		OpenButtonListener openListener = new OpenButtonListener(attributeSection.attributePanel, textEditor, mindmapSection, b, saveListener);
+		ButtonListener applyListener = new ButtonListener(attributeSection.attributePanel, textEditor, mindmapSection, b, true);
 		NewButtonListener newListener=new NewButtonListener(attributeSection.attributePanel, mindmapSection.drawNodePanel,textEditor);
-		OpenButtonListener openListener = new OpenButtonListener(attributeSection.attributePanel, textEditor, mindmapSection, b, saveListener);
+		OpenButtonListener openListener = new OpenButtonListener(attributeSection.attributePanel, textEditor, mindmapSection, b);
 		
 		// 적용 버튼
 		applyBtn.addActionListener(applyListener); 
@@ -198,16 +201,16 @@ class Text extends Elements {
 		JButton toolBtnNew = b.getToolButton(0);
 		menuItemNew.addActionListener(newListener); 
 		toolBtnNew.addActionListener(newListener);  
-		// Save 버튼
-		JMenuItem menuItemSave = b.getMenuItem(2);
-		JButton toolBtnSave = b.getToolButton(2);
-		menuItemSave.addActionListener(saveListener); 
-		toolBtnSave.addActionListener(saveListener);  
-		// Save As... 버튼
-		JMenuItem menuItemSaveAs = b.getMenuItem(3);
-		JButton toolBtnSaveAs = b.getToolButton(3);
-		menuItemSaveAs.addActionListener(saveListener); 
-		toolBtnSaveAs.addActionListener(saveListener);  
+//		// Save 버튼
+//		JMenuItem menuItemSave = b.getMenuItem(2);
+//		JButton toolBtnSave = b.getToolButton(2);
+//		menuItemSave.addActionListener(saveListener); 
+//		toolBtnSave.addActionListener(saveListener);  
+//		// Save As... 버튼
+//		JMenuItem menuItemSaveAs = b.getMenuItem(3);
+//		JButton toolBtnSaveAs = b.getToolButton(3);
+//		menuItemSaveAs.addActionListener(saveListener); 
+//		toolBtnSaveAs.addActionListener(saveListener);  
 		// Open 버튼
 		JMenuItem menuItemOpen = b.getMenuItem(1);
 		JButton toolBtnOpen = b.getToolButton(1);
