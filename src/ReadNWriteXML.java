@@ -405,6 +405,7 @@ class ReadXMLFile {
     		k.setColorR(Integer.parseInt(getTagValue("ColorR", eElement)));
     		k.setColorG(Integer.parseInt(getTagValue("ColorG", eElement)));
     		k.setColorB(Integer.parseInt(getTagValue("ColorB", eElement)));
+    		k.setColorStrRGB();
     		k.getLabel().setBackground(new Color(k.getColorR(),k.getColorG(),k.getColorB()));
     		k.getLabel().setLocation(k.getX(),k.getY());//////////////////////////////////////////////////////////
     		k.getLabel().setSize(k.getW(), k.getH());
