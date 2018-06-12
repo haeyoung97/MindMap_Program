@@ -415,6 +415,7 @@ class ButtonListener implements ActionListener { //버튼 이벤트
 			((JTextComponent) attributeFieldPane.getComponent(5)).setText(""+k.getY());
 			((JTextComponent) attributeFieldPane.getComponent(7)).setText(k.getStrW());
 			((JTextComponent) attributeFieldPane.getComponent(9)).setText(k.getStrH());
+			((JTextComponent) attributeFieldPane.getComponent(11)).setText("0x"+k.getColorStrRGB());
 			System.out.println(((JTextComponent) attributeFieldPane.getComponent(1)).getText());
 			System.out.println(((JTextComponent) attributeFieldPane.getComponent(3)).getText());
 			System.out.println(((JTextComponent) attributeFieldPane.getComponent(5)).getText());
@@ -822,6 +823,11 @@ class JLabelListener extends MouseAdapter {
 			lbs[2].setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
 			lbs[3].setLocation(child.getX()-7+child.getW()/2+3,child.getY()-10+child.getH()+10);
 			lbs[3].setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
+//			child.setColorR(Math.abs(child.getColorR()-255));
+//			child.setColorG(Math.abs(child.getColorR()-255));
+//			child.setColorB(Math.abs(child.getColorR()-255));
+//			label.setBackground(new Color(child.getColorR(),child.getColorG(),child.getColorB()));
+//			child.setColorStrRGB();
 			label.setBackground(new Color(Math.abs(child.getColorR()-255),Math.abs(child.getColorG()-255),Math.abs(child.getColorB()-255)));
 			child.setDots(lbs);
 			
