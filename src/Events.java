@@ -806,8 +806,9 @@ class JLabelListener extends MouseAdapter {
 //					lbs[i].setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
 //				}
 //				else {
-//					lbs[i].setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
+//					lbs[i].setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
 //				}
+//				lbs[i].setVisible(true);
 				DotListener labelListen=new DotListener(i,lbs[i], panel, child,attributeFieldPane);
 				lbs[i].addMouseListener(labelListen);
 				lbs[i].addMouseMotionListener(labelListen);
@@ -816,13 +817,17 @@ class JLabelListener extends MouseAdapter {
 			}	
 			System.out.println("여기에 도달을 하나요????????????????????????????????????????????");
 			lbs[0].setLocation(child.getX()-7+child.getW()/2+3, child.getY()-7);
-			lbs[0].setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
+//			lbs[0].setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
 			lbs[1].setLocation(child.getX()-7, child.getY()-7+child.getH()/2+3);
-			lbs[1].setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
+//			lbs[1].setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
 			lbs[2].setLocation(child.getX()-7+child.getW()+7, child.getY()-7+child.getH()/2+3);	
-			lbs[2].setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
+//			lbs[2].setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
 			lbs[3].setLocation(child.getX()-7+child.getW()/2+3,child.getY()-10+child.getH()+10);
-			lbs[3].setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
+//			lbs[3].setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
+			
+			
+			
+			
 //			child.setColorR(Math.abs(child.getColorR()-255));
 //			child.setColorG(Math.abs(child.getColorR()-255));
 //			child.setColorB(Math.abs(child.getColorR()-255));
