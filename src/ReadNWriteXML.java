@@ -327,15 +327,18 @@ class ReadXMLFile {
 	private Mindmap mindmapSection;
 	private Bar b;
 	private Tree tree;
-	public ReadXMLFile(JPanel attributeFieldPane, String path, JTextArea textEdit, Mindmap mindmapSection, Bar b, SaveButtonListener saveListener) {
+	private ButtonListener applyListener;
+	public ReadXMLFile(JPanel attributeFieldPane, String path, JTextArea textEdit, Mindmap mindmapSection, Bar b, SaveButtonListener saveListener,ButtonListener applyListener) {
 		this.path = path;
 		this.textEdit = textEdit;
 		this.mindmapSection = mindmapSection;
 		this.b = b;
-		ReadFile(attributeFieldPane, saveListener);
+		this.applyListener=applyListener;
+		ReadFile(attributeFieldPane, saveListener, applyListener);
+		
 	}
 	
-    void ReadFile(JPanel attributeFieldPane, SaveButtonListener saveListener) {
+    void ReadFile(JPanel attributeFieldPane, SaveButtonListener saveListener, ButtonListener applyListener) {
   
       try {
         File fXmlFile = new File(path);
@@ -369,9 +372,14 @@ class ReadXMLFile {
     	String fixedStr = textAreaStr.toString();
     	textEdit.setText(fixedStr);
     	mindmapSection.drawNodePanel.datas.clear();
-    	ButtonListener treeButton = new ButtonListener(attributeFieldPane, textEdit, mindmapSection, b, false);
-    	treeButton.ApplyButtonFunc();
-    	this.tree = treeButton.getTree();
+    	
+//    	ButtonListener treeButton = new ButtonListener(attributeFieldPane, textEdit, mindmapSection, b, false);
+//    	treeButton.ApplyButtonFunc();
+    	
+//    	this.tree = treeButton.getTree();
+    	applyListener.ApplyButtonFunc();
+    	this.tree = applyListener.getTree();
+//    	this.tree=mindmapSection.drawNodePanel.getTree();
     	System.out.println("테스트 과정@@@@@@@@@@@@@@@@@@@@@@@@@@");
     	tree.print();
     	Data k = tree.getStart();
@@ -456,8 +464,8 @@ class OpenButtonListener implements ActionListener{
 	private JPanel attributeFieldPane;
 	private SaveButtonListener saveListener;
 	private Bar b;
-	
-	public OpenButtonListener(JPanel attributeFieldPane, JTextArea textEdit, Mindmap mindmapSection, Bar b) {
+	private ButtonListener applyListener;
+	public OpenButtonListener(JPanel attributeFieldPane, JTextArea textEdit, Mindmap mindmapSection, Bar b,ButtonListener applyListener) {
 		chooser = new JFileChooser();
 		chooser.setDialogTitle("Open");
 		chooser.setApproveButtonText("Open");
@@ -466,6 +474,9 @@ class OpenButtonListener implements ActionListener{
 		this.attributeFieldPane = attributeFieldPane;
 //		this.saveListener = saveListener;
 		this.b = b;
+		
+		this.applyListener=applyListener;
+		
 	}
 	
 	public void actionPerformed(ActionEvent e) {
@@ -479,7 +490,7 @@ class OpenButtonListener implements ActionListener{
 		}
 		
 		String filePath = chooser.getSelectedFile().getPath(); // 파일 경로명 리턴
-		new ReadXMLFile(attributeFieldPane, filePath, textEdit, mindmapSection, b, saveListener);
+		new ReadXMLFile(attributeFieldPane, filePath, textEdit, mindmapSection, b, saveListener,applyListener);
 //		String fileName = chooser.getSelectedFile().getName(); // 파일의 이름.확장자
 		
 	}

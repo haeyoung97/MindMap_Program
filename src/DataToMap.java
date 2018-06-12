@@ -23,6 +23,11 @@ class JDrawPanel extends JPanel{
 	ArrayList<Data> datas;
 	private ArrayList<Integer> group4s=new ArrayList<Integer>();
 	private Data SLabel=null;
+	private Tree tree;
+	
+	void setTree(Tree tree) {this.tree=tree;}
+	Tree getTree() {return tree;}
+	
 	JDrawPanel(){
 		super();
 		datas=new ArrayList<Data>();
@@ -161,6 +166,7 @@ class JDrawPanel extends JPanel{
 		C.setLineNum(vlocation.size()-1);
 		
 	}
+	
 	
 	ArrayList<Data> getArray(){return datas;}
 	public void paintComponent(Graphics g) {
@@ -326,6 +332,7 @@ class Tree extends MakeToLabel{
 	Tree(JDrawPanel panel, JPanel attributeFieldPane) {
 		super(panel, attributeFieldPane);
 		this.panel=panel;
+		
 	}
 	
 	boolean MakeTree(String [] member) {
