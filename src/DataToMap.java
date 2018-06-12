@@ -190,16 +190,13 @@ class Data{
 	private int h, nodeH, nodeW;
 	private int r,g,b; 		// color RGB
 	private String colorRGB;// color 문자열로 표현
-	private JLabel label;
-	private boolean isSelected=false;
-	private JLabel[] Dots;
-	private int line4parent;
-	private updateLine ul;
-	private int [] finalLimit;
-	private int childcnt;
-	
-	void setchildcnt(int childcnt) {this.childcnt=childcnt;}
-	int getchildcnt() {return childcnt;}
+	private JLabel label;	//label
+	private boolean isSelected=false; //선택 여부
+	private JLabel[] Dots; //크기 조절을 위한 점
+	private int line4parent;//부모 노드와 연결되는 선 인덱스
+	private updateLine ul;//해당 노드를 위한 라인업데이트
+	private int [] finalLimit;//노드 구역 제한
+
 	
 	void setLM(int [] limit) {this.finalLimit=limit;}
 	int [] getLM() {return finalLimit;}
@@ -390,7 +387,7 @@ class Tree extends MakeToLabel{
 					cnt++;
 				}
 				catch(NullPointerException e) {					//예외처리 : 트리 이상하게 적을 경우 생기는 NullPointerException
-					JOptionPane.showMessageDialog(null, "형식에 맞추어 작성해주십시오(잘못된 계층)\nroot는 1개만 가능\nTab으로 계층 구분", "잘못된 입력", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "형식에 맞추어 작성해주십시오\nroot는 1개만 가능\nTab으로 계층 구분", "잘못된 입력", JOptionPane.ERROR_MESSAGE);
 					this.Default();
 					return false;
 				}
