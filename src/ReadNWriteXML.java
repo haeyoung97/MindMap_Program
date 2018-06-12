@@ -445,8 +445,13 @@ class ReadXMLFile {
 //        	}
 //        	System.out.println("tree.start : " + start);
 //        }
-      } catch (Exception e) {
-        e.printStackTrace();
+      } 
+      catch (FileNotFoundException e) {
+    	  JOptionPane.showMessageDialog(null, "지정된 파일을 찾을 수 없습니다.", "No Search file", JOptionPane.ERROR_MESSAGE);
+			return;
+      }
+      catch (Exception e) {
+    	  return;
       }
   }
   
