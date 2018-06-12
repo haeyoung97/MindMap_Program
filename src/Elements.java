@@ -5,12 +5,16 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -49,7 +53,9 @@ class Bar extends Elements{
 	private JToolBar ToolBar;
 	private String[] arrMenu = {"New", "Open", "Save", "Save As..", "Apply", "Change", "Close"};
 	JMenu menu = new JMenu("Menu");
+	JMenu help = new JMenu("help");
 	JMenuItem[] menuOp = new JMenuItem[7];
+	JMenuItem helpOp = new JMenuItem("TextEditor form");
 	
 	Bar(Container c, Mindmap mindmapSection) {
 		// menuBar & toolBar 구성
@@ -65,8 +71,30 @@ class Bar extends Elements{
 			ToolBar.add(toolOp[i]);
 			ToolBar.addSeparator();
 		}
+		help.add(helpOp);
 		MenuBar.add(menu);
-
+		MenuBar.add(help);
+		
+		helpOp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+//				if(e.getActionCommand().equals("Close") ) {
+//					System.exit(0);
+//				}
+				String st="어서오세요. Park의 마인드 맵 프로그램 입니다.\r\n" + 
+						"\r\n" + 
+						"<입력 주의 사항>\r\n" +
+						"하나의 노드에 하나의 행이 해당됩니다.\r\n" + 
+						"입력하고자 하는 문자열에는 Tab을 입력해서는 안됩니다.\r\n" + 
+						"Tab은 오직 계층을 구분하는 용도로 입력해주십시오.\r\n" + 
+						"루트 노드는 하나만 가능합니다.\r\n" + 
+						"적용 버튼을 통해 입력값이 Mind Map 위에 시각화됩니다.\r\n";
+				JOptionPane.showMessageDialog(null,
+					    st,
+					    "How to input datas to TextEditor",
+					    JOptionPane.PLAIN_MESSAGE);
+			}
+		});
+		
 		ToolBar.setFloatable(false);
 		menuPanel = new JPanel();
 		menuPanel.setLayout(new GridLayout(2,1));
