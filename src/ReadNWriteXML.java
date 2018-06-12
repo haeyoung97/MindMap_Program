@@ -275,7 +275,8 @@ class SaveButtonListener implements ActionListener{
 			if(e.getActionCommand().equals("Save")) {
 				chooser.setDialogTitle("Save");
 				chooser.setApproveButtonText("Save");
-				filePath = "C:\\Users\\박해영\\Desktop\\"; // 파일 경로명 리턴
+				filePath = System.getProperty("user.home") + "/Desktop/";
+//				filePath = "C:\\Users\\박해영\\Desktop\\"; // 파일 경로명 리턴
 				
 				writeXML = new WriteXMLFile(filePath, start, last, true);
 				writeXML.WriteFile(this.isData);

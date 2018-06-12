@@ -25,9 +25,7 @@ class JDrawPanel extends JPanel{
 	private Data SLabel=null;
 	JDrawPanel(){
 		super();
-		System.out.println("생서왕뇰!");
 		datas=new ArrayList<Data>();
-		System.out.println(datas.isEmpty());
 	}
 	
 	void setSData(Data SLabel) {this.SLabel=SLabel;}
@@ -85,8 +83,7 @@ class JDrawPanel extends JPanel{
 					width=(px+pL/2-(x+cL))*2;
 					height=(py-(y+cH/2))*2;
 					Fx=px+pL/2-width;
-					Fy=y+cH/2;
-					System.out.println("그림2 "+P.getValue()+"의 자식: "+C.getValue());
+					Fy=y+cH/2;	// println("그림2 "+P.getValue()+"의 자식: "+C.getValue());
 				}
 				else {
 					startAngle=90;
@@ -94,8 +91,7 @@ class JDrawPanel extends JPanel{
 					width=(px-x-cL/2)*2;
 					height=(y-(py+pH/2))*2;
 					Fx=x+cL/2;
-					Fy=py+pH/2;
-					System.out.println("그림3 "+P.getValue()+"의 자식: "+C.getValue());
+					Fy=py+pH/2;	// println("그림3 "+P.getValue()+"의 자식: "+C.getValue());
 				}
 			}
 			else {
@@ -105,8 +101,7 @@ class JDrawPanel extends JPanel{
 					width=(x-px-pL/2)*2;
 					height=(y+cH/2-py-pH)*2;
 					Fx=px+pL/2;
-					Fy=y+cH/2-height;
-					System.out.println("그림4 "+P.getValue()+"의 자식: "+C.getValue());
+					Fy=y+cH/2-height;	// println("그림4 "+P.getValue()+"의 자식: "+C.getValue());
 				}
 				else {
 					startAngle=270;
@@ -114,8 +109,7 @@ class JDrawPanel extends JPanel{
 					width=(x+cL/2-px-pL)*2;
 					height=(py+pH/2-y-cH)*2;
 					Fx=x+cL/2-width;
-					Fy=py+pH/2-height;
-					System.out.println("그림1 "+P.getValue()+"의 자식: "+C.getValue());
+					Fy=py+pH/2-height;	// println("그림1 "+P.getValue()+"의 자식: "+C.getValue());
 				}
 			}		
 		}
@@ -127,8 +121,7 @@ class JDrawPanel extends JPanel{
 					width=(px-(x+cL/2))*2;
 					height=(py+pH/2-(y+cH))*2;
 					Fx=x+cL/2;
-					Fy=py+pH/2-height;
-					System.out.println("그림2 "+P.getValue()+"의 자식: "+C.getValue());
+					Fy=py+pH/2-height;	// println("그림2 "+P.getValue()+"의 자식: "+C.getValue());
 				}
 				else {
 					startAngle=270;
@@ -136,8 +129,7 @@ class JDrawPanel extends JPanel{
 					width=(px+pL/2-(x+cL))*2;
 					height=(y+cH/2-(py+pH))*2;
 					Fx=px+pL/2-width;
-					Fy=y+cH/2-height;
-					System.out.println("그림3 "+P.getValue()+"의 자식: "+C.getValue());
+					Fy=y+cH/2-height;	// println("그림3 "+P.getValue()+"의 자식: "+C.getValue());
 				}
 			}
 			else {
@@ -147,8 +139,7 @@ class JDrawPanel extends JPanel{
 					width=(x+cL/2-(px+pL))*2;
 					height=(y-(py+pH/2))*2;
 					Fx=x+cL/2-width;
-					Fy=py+pH/2;
-					System.out.println("그림4 "+P.getValue()+"의 자식: "+C.getValue());
+					Fy=py+pH/2;		// println("그림4 "+P.getValue()+"의 자식: "+C.getValue());
 				}
 				else {
 					startAngle=90;
@@ -156,8 +147,7 @@ class JDrawPanel extends JPanel{
 					width=(x-(px+pL/2))*2;
 					height=(py-(y+cH/2))*2;
 					Fx=px+pL/2;
-					Fy=y+cH/2;
-					System.out.println("그림1 "+P.getValue()+"의 자식: "+C.getValue());
+					Fy=y+cH/2;		// println("그림1 "+P.getValue()+"의 자식: "+C.getValue());
 				}
 			}
 		}
@@ -167,18 +157,8 @@ class JDrawPanel extends JPanel{
 		vlocation.add(location.getLocation());
 		vsize.add(size.getLocation());
 		vangle.add(angle.getLocation());
-		
-		
-//		
-//asd		for(int i=0; i<vlocation.size(); i++ {
-//			 Point s = vlocation.elementAt(i);
-//			 Point e = vsize.elementAt(i);
-//			 Point a= vangle.elementAt(i);
-//asd		}//
-		
+	
 		C.setLineNum(vlocation.size()-1);
-		System.out.println("시발 시험 좆망 시벟ㄹ탱 좆같앗<<<<<<<<<<<<<<<<<<<<<"+(vlocation.size()-1));
-		
 		
 	}
 	
@@ -186,13 +166,10 @@ class JDrawPanel extends JPanel{
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.setColor(Color.black);
-//		System.out.println("//***?"+vlocation.size());
-		
 		for(int i=0; i<vlocation.size(); i++) {
 			 Point s = vlocation.elementAt(i);
 			 Point e = vsize.elementAt(i);
 			 Point a= vangle.elementAt(i);
-//			 System.out.println((int)s.getX()+ " "+(int)s.getY()+ " "+(int)e.getX()+ " "+(int)e.getY()+" "+(int)a.getX()+" "+ (int)a.getY());
 			 g.drawArc((int)s.getX(), (int)s.getY(),(int)e.getX(),(int)e.getY(),(int)a.getX(), (int)a.getY());
 		}
 	}
@@ -225,7 +202,7 @@ class Data{
 	void setul(updateLine ul) {this.ul=ul;}
 	updateLine getul() {return ul;}
 	
-	void setLineNum(int num) {this.line4parent=line4parent;}
+	void setLineNum(int num) {this.line4parent = num;}
 	int getLineNum() {return line4parent;}
 	
 	public Data(String value) {this.value=value; child=null; sibling=null; parent=null;}
@@ -300,9 +277,6 @@ class Data{
 	int getColorB() { return b; }
 	String getColorStrRGB() { return colorRGB; }
 	
-//	void setColor(int nodeH) { this.nodeH = nodeH; }
-//	String getStrH() { return ""+nodeH; }
-	
 	void setS(int s) { this.s = s; }
 	
 	int getS() { return s; }
@@ -358,10 +332,7 @@ class Tree extends MakeToLabel{
 		int k=1;
 		int h=0;
 		int cnt=-1;
-		int tc=0;
 		for(int i=0;i<member.length;i++) {
-			
-			
 			if(start==null && member[0].charAt(0)!='\t') { //첫 성분이 루트 (\t으로 시작 안한다.)
 				start=new Data(member[0]);
 				start.setHeight(0);
@@ -386,27 +357,12 @@ class Tree extends MakeToLabel{
 						obj.setParent(last.getParent());
 						obj.setHeight(last.getHeight());
 						last.setSibling(obj);
-//						if(tc>3) {
-//							if(obj.getParent()!=start) {
-//								JOptionPane.showMessageDialog(null, "일반 노드 자식 최대 3개", "자식 수 제한", JOptionPane.WARNING_MESSAGE);
-//								this.Default();
-//								return false;
-//							}
-//							else {
-//								if(tc>4) {
-//									JOptionPane.showMessageDialog(null, "루트 자식 최대 4개", "자식 수 제한", JOptionPane.WARNING_MESSAGE);	
-//									this.Default();
-//									return false;
-//								}
-//							}
-//						}
 					}
 					else if(nowTab-lastTab==1) { //자식노드 추가
 						obj.setParent(last);
 						obj.setHeight(last.getHeight()+1);
 						setTotalH(obj.getHeight());
 						last.setChild(obj);
-						tc++;
 					}
 					else { //last가 마지막 자식, 새로 추가된 녀석은 ... last보다 높은 계층
 						h=last.getHeight();
@@ -420,23 +376,57 @@ class Tree extends MakeToLabel{
 								break;
 							}
 						}
-						tc=0;
 					}
 					k++;
 					panel.getArray().add(obj);
 					last=obj;
-					System.out.println("make tree ;  " + k);
 					cnt++;
 				}
 				catch(NullPointerException e) {					//예외처리 : 트리 이상하게 적을 경우 생기는 NullPointerException
-					JOptionPane.showMessageDialog(null, "형식에 맞추어 작성해주십시오(잘못된 계층)", "NullPointerException", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "형식에 맞추어 작성해주십시오(잘못된 계층)\nroot는 1개만 가능\nTab으로 계층 구분", "잘못된 입력", JOptionPane.ERROR_MESSAGE);
 					this.Default();
 					return false;
 				}
 			}
+			
 		}
+		Data cK = start;
+		while(true) {
+			if(cK.getChild() != null) {
+				cK = cK.getChild();
+			}
+			else if(cK.getSibling() != null) {
+				cK = cK.getSibling();
+			}
+			else {
+				if(cK==last) {
+					break;
+				}
+				while(true) {
+					cK = cK.getParent();
+					if(cK.getSibling()!=null) {
+						cK = cK.getSibling();
+						break;
+					}
+				}
+			}
+			if(getSiblingIndex(cK) == 4 ) {
+				if(cK.getParent() != start) {
+					JOptionPane.showMessageDialog(null, "root node의 child = 최대 4개\nexternel node = 최대 3개", "잘못된 입력", JOptionPane.ERROR_MESSAGE);
+					this.Default();
+					return false;
+				}
+			}
+			else if(getSiblingIndex(cK) > 4) {
+				JOptionPane.showMessageDialog(null, "root node의 child = 최대 4개\nexternel node = 최대 3개", "잘못된 입력", JOptionPane.ERROR_MESSAGE);
+				this.Default();
+				return false;
+			}
+		}
+		
 		return true;
 	}
+	
 	
 	public Data getStart() {
 		return this.start;
@@ -448,16 +438,13 @@ class Tree extends MakeToLabel{
 
 	void print() {
 		Data k=start;
-		System.out.println(k.getHeight()+" "+start.toString() + "    " + getSiblingIndex(k));
 			
 		while(true) {
 			if(k.getChild()!=null) {
 				k=k.getChild();
-				System.out.println(k.getHeight()+" "+k.toString()+ "    " + getSiblingIndex(k));
 			}
 			else if(k.getSibling()!=null) {
 				k=k.getSibling();
-				System.out.println(k.getHeight()+" "+k.toString()+ "    " + getSiblingIndex(k));
 			}
 			else {
 				if(k==last) {
@@ -467,7 +454,6 @@ class Tree extends MakeToLabel{
 					k=k.getParent();
 					if(k.getSibling()!=null) {
 						k=k.getSibling();
-						System.out.println(k.getHeight()+" "+k.toString()+ "    " + getSiblingIndex(k));
 						break;
 					}
 				}
@@ -502,7 +488,6 @@ class Tree extends MakeToLabel{
 		k.setColorG(colorRGB.getGreen());
 		k.setColorB(colorRGB.getBlue());
 		k.setColorStrRGB();
-		System.out.println("RGB test : " + k.getColorR()+"  RGB test : " + k.getColorG()+"  RGB test : " + k.getColorB()+"  RGB test : " + k.getColorStrRGB());
 		start.setLabel(rootLabel);
 		Panel.add(rootLabel);
 		
@@ -513,11 +498,9 @@ class Tree extends MakeToLabel{
 		k.setH(rootLabel.getHeight());
 		k.setW(rootLabel.getWidth());
 		k.setS(0);
-		k.setLabel(rootLabel);/////////////////////////////////////////////////////////////////////////////
+		k.setLabel(rootLabel);
 		
 		rootLabel.setLocation(k.getX(), k.getY());
-		System.out.println("##### root의 x : " + k.getX() + " y : " + k.getY());
-		System.out.println("##### test의 x : " + 800*(totalH+1)/2 + " y : " + 600*(totalH+1)/2);
 		
 		if(k == last)
 			return;
@@ -588,7 +571,6 @@ class Tree extends MakeToLabel{
 			k = k.getSibling();
 		}
 		else {
-			System.out.println("test : " + k.getValue() + "____" + k.getSibling());
 			x = k.getParent().getX();
 			y = k.getParent().getY();
 			s = k.getParent().getS();
@@ -631,8 +613,7 @@ class Tree extends MakeToLabel{
 		k.setColorG(colorRGB.getGreen());
 		k.setColorB(colorRGB.getBlue());
 		k.setColorStrRGB();
-		System.out.println("RGB test : " + k.getColorR()+"  RGB test : " + k.getColorG()+"  RGB test : " + k.getColorB());
-		Panel.add(childLabel);////////////////////////////////라벨올리기
+		Panel.add(childLabel);
 		k.setX(x);
 		k.setY(y);
 		k.setH(childLabel.getHeight());
@@ -678,7 +659,6 @@ class Tree extends MakeToLabel{
 				k.setColorG(colorRGB.getGreen());
 				k.setColorB(colorRGB.getBlue());
 				k.setColorStrRGB();
-				System.out.println("RGB test : " + k.getColorR()+"  RGB test : " + k.getColorG()+"  RGB test : " + k.getColorB());
 				Panel.add(childLabel);////////////////////////////////라벨올리기
 				k.setX(x);
 				k.setY(y);
