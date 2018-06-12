@@ -20,7 +20,7 @@ class JDrawPanel extends JPanel{
 	private Vector<Point> vlocation=new Vector<Point>();
 	private Vector<Point> vsize=new Vector<Point>();
 	private Vector<Point> vangle=new Vector<Point>();
-	private ArrayList<Data> datas;
+	ArrayList<Data> datas;
 	private ArrayList<Integer> group4s=new ArrayList<Integer>();
 	private Data SLabel=null;
 	JDrawPanel(){

@@ -134,8 +134,6 @@ public class DotListener extends JLabelListener {
 		int [] finalLimit = new int [4];
 		finalLimit= checkArea(label, child, child.getParent(), childs); //여기서 라벨 위치 조정.
  		if(isDragged) {
- 			System.out.println("x,y == "+x+" , "+y);
- 			System.out.println("EEEx,y == "+e.getX()+" , "+e.getY());
  			offX=e.getX()+dot.getX()-x;
  			offY=e.getY()+dot.getY()-y;
 			switch(site) {
