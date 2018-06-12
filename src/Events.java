@@ -258,6 +258,7 @@ class ButtonListener implements ActionListener { //버튼 이벤트
 		this.b = b;
 		this.attributeFieldPane = attributeFieldPane;
 		this.tree = new Tree(mindmapSection.drawNodePanel, attributeFieldPane);
+		mindmapSection.drawNodePanel.setTree(this.tree);
 	}
 	
 	// 적용버튼 생성자
@@ -267,11 +268,10 @@ class ButtonListener implements ActionListener { //버튼 이벤트
 		this.attributeFieldPane = attributeFieldPane;
 //		this.saveListener = saveListener;
 		this.tree = new Tree(mindmapSection.drawNodePanel, attributeFieldPane);
+		mindmapSection.drawNodePanel.setTree(this.tree);
 		this.check = check;
 		this.b = b;
 	}
-	
-	
 	Tree getTree() {
 		return tree;
 	}
@@ -313,16 +313,18 @@ class ButtonListener implements ActionListener { //버튼 이벤트
 //			// Save 버튼
 			JMenuItem menuItemSave = b.getMenuItem(2);
 			JButton toolBtnSave = b.getToolButton(2);
-//			menuItemSave.removeActionListener(saveListener); 
-//			toolBtnSave.removeActionListener(saveListener); 
+			
 //			// SaveAs 버튼
 			JMenuItem menuItemSaveAs = b.getMenuItem(3);
 			JButton toolBtnSaveAs = b.getToolButton(3);
-//			menuItemSaveAs.removeActionListener(saveListener); 
-//			toolBtnSaveAs.removeActionListener(saveListener); 
+			
 //			System.out.println("testtesttest : " + tree.getStart().toString());
 //			
 			if(check) {
+				menuItemSave.removeActionListener(saveListener); 
+				toolBtnSave.removeActionListener(saveListener); 
+				menuItemSaveAs.removeActionListener(saveListener); 
+				toolBtnSaveAs.removeActionListener(saveListener); 
 				saveListener = new SaveButtonListener(tree.getStart(), tree.getLast());
 				menuItemSave.addActionListener(saveListener); 
 				toolBtnSave.addActionListener(saveListener); 
