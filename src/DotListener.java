@@ -73,7 +73,7 @@ public class DotListener extends JLabelListener {
 		isDragged=true;
 		
 	}
-	public void mouseReleased(MouseEvent e){//////////////////////////////////////////////
+	public void mouseReleased(MouseEvent e){
 		//마우스 버튼이 릴리즈되면 드래그 모드 종료
 		isDragged = false;
 
@@ -88,11 +88,10 @@ public class DotListener extends JLabelListener {
 	    ((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(7)).setText(child.getStrW());
 	    ((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(9)).setText(child.getStrH());
 		JLabel [] dots= child.getDots();
-		dots[0].setLocation(label.getX()+label.getWidth()/2-dots[0].getWidth()/2,label.getY()-dots[0].getHeight());
-		dots[1].setLocation(label.getX()-dots[1].getHeight(),label.getY()+label.getHeight()/2-dots[1].getHeight()/2);
-		dots[2].setLocation(label.getX()+label.getWidth(),label.getY()+label.getHeight()/2-dots[1].getHeight()/2);
-		dots[3].setLocation(label.getX()+label.getWidth()/2-dots[0].getWidth()/2,label.getY()+label.getHeight());
-
+		dots[0].setLocation(child.getX()-7+child.getW()/2+3, child.getY()-7);
+		dots[1].setLocation(child.getX()-7, child.getY()-7+child.getH()/2+3);
+		dots[2].setLocation(child.getX()-7+child.getW()+7, child.getY()-7+child.getH()/2+3);
+		dots[3].setLocation(child.getX()-7+child.getW()/2+3,child.getY()-10+child.getH()+10);
 		panel.getVlocation().clear();
 		panel.getVsize().clear();
 		
@@ -207,19 +206,6 @@ public class DotListener extends JLabelListener {
  		}
  	}
 	
- 	public void mouseEntered(MouseEvent e) {
- 		dot=(JLabel)e.getSource();
- 		Cursor cursor = new Cursor(Cursor.N_RESIZE_CURSOR);
- 		dot.setCursor(cursor);
- 		dot.setVisible(false);
- 		dot.setVisible(true);
-////
-//// 		dot.setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
-// 		System.out.println(dot.getCursor());
-// 		
-//// 		dot.setCursor(Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR));
-// 		System.out.println("고인사이드");
- 	}
  	
  	public void mouseClicked(MouseEvent e) {
  		
