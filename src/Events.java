@@ -46,22 +46,18 @@ class updateLine{
 				case 1:
 					pointl.setLocation(pointl.getX(),-offY+pointl.getY());
 					points.setLocation(offX*2+points.getX(),offY*2+points.getY());
-					System.out.println("넘버포");
 					break;					//-----이것이 4사분면..!!!!!!!!!!!!!!
 				case 2:
 					pointl.setLocation(offX*2+pointl.getX(),offY+pointl.getY());
 					points.setLocation(-offX*2+points.getX(),-offY*2+points.getY());
-					System.out.println("넘버투");
 					break;
 				case 3:
 					pointl.setLocation(offX+pointl.getX(),pointl.getY());
 					points.setLocation(-offX*2+points.getX(),offY*2+points.getY());
-					System.out.println("넘버쓰리");
 					break;					//-----얘가 1사분면인듯?
 				case 4:
 					pointl.setLocation(-offX+pointl.getX(),offY*2+pointl.getY());
 					points.setLocation(offX*2+points.getX(),-offY*2+points.getY());
-					System.out.println("넘버원");					
 					break;
 			}
 		}
@@ -70,22 +66,18 @@ class updateLine{
 				case 4:
 					pointl.setLocation(pointl.getX(),offY+pointl.getY());
 					points.setLocation(offX*2+points.getX(),-offY*2+points.getY());
-					System.out.println("1");
 					break;
 				case 2:
 					pointl.setLocation(offX+pointl.getX(),offY*2+pointl.getY());
 					points.setLocation(-offX*2+points.getX(),-offY*2+points.getY());
-					System.out.println("2");
 					break;
 				case 3:
 					pointl.setLocation(offX*2+pointl.getX(),-offY+pointl.getY());
 					points.setLocation(-offX*2+points.getX(),offY*2+points.getY());
-					System.out.println("3");
 					break;
 				case 1:
 					pointl.setLocation(-offX+pointl.getX(),pointl.getY());
 					points.setLocation(offX*2+points.getX(),offY*2+points.getY());
-					System.out.println("4");						
 					break;
 			}
 		}
@@ -93,7 +85,6 @@ class updateLine{
 	
 	void modifychildren(ArrayList<Data> childs, ArrayList<Point> childLinesLc, ArrayList<Point> childLinesSz) {
 		int h=childs.get(0).getParent().getHeight();
-		System.out.println("미쳤니........>>"+h+ " "+childs.size()+" "+childLinesLc.size()+" "+childLinesSz.size());
 		for(int i=0;i<childs.size();i++) {
 			modifybyP(h,childs.get(i).getS(),childLinesLc.get(i),childLinesSz.get(i));
 		}	
@@ -125,24 +116,18 @@ class updateLine{
 				case 1:
 					pointl.setLocation(offX*2+pointl.getX(),-offY+pointl.getY());
 					points.setLocation(-offX*2+points.getX(),offY*2+points.getY());
-					System.out.println("----------------1");
-					
-
 					break;
 				case 2:
 					pointl.setLocation(-offX+pointl.getX(),pointl.getY());
 					points.setLocation(offX*2+points.getX(),offY*2+points.getY());
-					System.out.println("----------------2");
 					break;
 				case 3:
 					pointl.setLocation(pointl.getX(),offY+pointl.getY());
 					points.setLocation(offX*2+points.getX(),-offY*2+points.getY());
-					System.out.println("----------------3");
 					break;
 				case 4:
 					pointl.setLocation(offX+pointl.getX(),offY*2+pointl.getY());
 					points.setLocation(-offX*2+points.getX(),-offY*2+points.getY());
-					System.out.println("-----------------4");						
 					break;
 			}
 		}		
@@ -154,48 +139,37 @@ class updateLine{
 		JLabel p=data.getParent().getLabel();
 		Point tmpl,tmps;
 		tmpl=vl.get(data.getLineNum());
-		System.out.println("씨빨쎼끼야"+data.getValue());
-		System.out.println("미친년씨빨아"+data.getLineNum());
 		tmps=vl.get(data.getLineNum());
-		System.out.println(data.getLineNum());
 		
 		if(data.getParent().getHeight()%2==0) {
 			switch(s) {
 				case 1:
 					tmps.setLocation(l.getX()+l.getWidth()/2-p.getX()+p.getWidth()/2*2,p.getY()-(l.getY()+l.getHeight()));
 					tmpl.setLocation(l.getX()+l.getWidth()/2-tmps.x,p.getY()+p.getHeight()/2-tmps.y);
-					System.out.println("넘버포");
 					break;					//-----이것이 4사분면..!!!!!!!!!!!!!!
 				case 2:
 					tmps.setLocation((2*l.getX()+l.getWidth()/2-p.getX()+p.getWidth()/2),p.getY()-(l.getY()+l.getHeight()));
 					tmpl.setLocation(p.getX()+p.getWidth()/2-tmps.x*2,p.getY()+p.getHeight()/2-tmps.y);
-					System.out.println("넘버투");
 					break;
 				case 3:
 					tmps.setLocation(l.getX()+l.getWidth()/2-p.getX()+p.getWidth()/2*2,p.getY()-(l.getY()+l.getHeight()));
 					tmpl.setLocation(l.getX()+l.getWidth()/2-tmps.x,p.getY()+p.getHeight()/2-tmps.y);
-					System.out.println("넘버쓰리");
 					break;					//-----얘가 1사분면인듯?
 				case 4:
 					tmps.setLocation(l.getX()+l.getWidth()/2-p.getX()+p.getWidth()/2*2,p.getY()-(l.getY()+l.getHeight()));
 					tmpl.setLocation(l.getX()+l.getWidth()/2-tmps.x,p.getY()+p.getHeight()/2-tmps.y);
-					System.out.println("넘버원");					
 					break;
 			}
 		}
 		else {
 			switch(s) {
 				case 4:
-					System.out.println("1");
 					break;
 				case 2:
-					System.out.println("2");
 					break;
 				case 3:
-					System.out.println("3");
 					break;
 				case 1:
-					System.out.println("4");						
 					break;
 			}
 		}
@@ -318,8 +292,6 @@ class ButtonListener implements ActionListener { //버튼 이벤트
 			JMenuItem menuItemSaveAs = b.getMenuItem(3);
 			JButton toolBtnSaveAs = b.getToolButton(3);
 			
-//			System.out.println("testtesttest : " + tree.getStart().toString());
-//			
 			if(check) {
 				menuItemSave.removeActionListener(saveListener); 
 				toolBtnSave.removeActionListener(saveListener); 
@@ -401,7 +373,6 @@ class ButtonListener implements ActionListener { //버튼 이벤트
 				
 				if(k.getSelected()) {
 					k.getLabel().setBackground(new Color(Math.abs(k.getColorR()-255),Math.abs(k.getColorG()-255),Math.abs(k.getColorB()-255)));
-					System.out.println("컬러 업데이팅");
 				}
 				
 				else{k.getLabel().setBackground(new Color(k.getColorR(), k.getColorG(), k.getColorB()));}
@@ -413,10 +384,10 @@ class ButtonListener implements ActionListener { //버튼 이벤트
 			k.getLabel().setLocation(k.getX(),k.getY());
 			k.getLabel().setSize(k.getW(), k.getH());
 			JLabel [] lbs=k.getDots();
-	        lbs[0].setLocation(k.getX()-7+k.getW()/2,k.getY()-7);  // 위
-	        lbs[1].setLocation(k.getX()-7,k.getY()+k.getH()/2);  // 왼
-	        lbs[2].setLocation(k.getX()-7+k.getW()/2,k.getY()+k.getH()); // 아래
-	        lbs[3].setLocation(k.getX()+k.getW(),k.getY()+k.getH()/2); // 오
+			lbs[0].setLocation(k.getX()-7+k.getW()/2+3, k.getY()-7);
+			lbs[1].setLocation(k.getX()-7, k.getY()-7+k.getH()/2+3);
+	        lbs[2].setLocation(k.getX()-7+k.getW()+7, k.getY()-7+k.getH()/2+3);   
+	        lbs[3].setLocation(k.getX()-7+k.getW()/2+3,k.getY()-10+k.getH()+10);
 			mindmapSection.drawNodePanel.setVisible(false);
 			mindmapSection.drawNodePanel.setVisible(true);
 			((JTextComponent) attributeFieldPane.getComponent(3)).setText(""+k.getX());
@@ -424,12 +395,6 @@ class ButtonListener implements ActionListener { //버튼 이벤트
 			((JTextComponent) attributeFieldPane.getComponent(7)).setText(k.getStrW());
 			((JTextComponent) attributeFieldPane.getComponent(9)).setText(k.getStrH());
 			((JTextComponent) attributeFieldPane.getComponent(11)).setText("0x"+k.getColorStrRGB());
-			System.out.println(((JTextComponent) attributeFieldPane.getComponent(1)).getText());
-			System.out.println(((JTextComponent) attributeFieldPane.getComponent(3)).getText());
-			System.out.println(((JTextComponent) attributeFieldPane.getComponent(5)).getText());
-			System.out.println(((JTextComponent) attributeFieldPane.getComponent(7)).getText());
-			System.out.println(((JTextComponent) attributeFieldPane.getComponent(9)).getText());
-			System.out.println(((JTextComponent) attributeFieldPane.getComponent(11)).getText());
 			k = datas.get(0);
 			i = 0;
 			mindmapSection.drawNodePanel.reset();
@@ -548,7 +513,6 @@ class JLabelListener extends MouseAdapter {
 				for(int j=0;j<panel.getComponentCount();j++) {
 					
 					if(parent.toString()==((JLabel)panel.getComponent(j)).getText()){
-						System.out.println("ㅌ"+((JLabel)panel.getComponent(j)).getText());
 						Plabel=(JLabel)(panel.getComponent(j));
 						break; //for for
 					}				
@@ -727,9 +691,7 @@ class JLabelListener extends MouseAdapter {
  				limit[childs.get(i).getS()-1].setLocation(tmpPoint.x+tmpLabel.getWidth(),tmpPoint.y+childs.get(i).getLabel().getHeight());
  			}
  			if(childs.get(i).getS()-1==2) {
- 				limit[childs.get(i).getS()-1].setLocation(tmpPoint.x+tmpLabel.getWidth(),tmpPoint.y);
- 				System.out.println(tmpPoint.x);
- 				System.out.println(limit[childs.get(i).getS()-1].x);	
+ 				limit[childs.get(i).getS()-1].setLocation(tmpPoint.x+tmpLabel.getWidth(),tmpPoint.y);	
  			}
  		}
  		
@@ -810,71 +772,20 @@ class JLabelListener extends MouseAdapter {
 				lbs[i].setSize(7,7);
 				lbs[i].setBackground(Color.BLACK);
 				lbs[i].setOpaque(true);
-//				if(i == 0 || i == 3) {
-//					lbs[i].setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
-//				}
-//				else {
-//					lbs[i].setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
-//				}
-//				lbs[i].setVisible(true);
 				DotListener labelListen=new DotListener(i,lbs[i], panel, child,attributeFieldPane);
 				lbs[i].addMouseListener(labelListen);
 				lbs[i].addMouseMotionListener(labelListen);
-//				child.setDots(lbs);
 				panel.add(lbs[i]);
 			}	
-			System.out.println("여기에 도달을 하나요????????????????????????????????????????????");
 			lbs[0].setLocation(child.getX()-7+child.getW()/2+3, child.getY()-7);
-//			lbs[0].setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
 			lbs[1].setLocation(child.getX()-7, child.getY()-7+child.getH()/2+3);
-//			lbs[1].setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
 			lbs[2].setLocation(child.getX()-7+child.getW()+7, child.getY()-7+child.getH()/2+3);	
-//			lbs[2].setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
 			lbs[3].setLocation(child.getX()-7+child.getW()/2+3,child.getY()-10+child.getH()+10);
-//			lbs[3].setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
-			
-			
-			
-			
-//			child.setColorR(Math.abs(child.getColorR()-255));
-//			child.setColorG(Math.abs(child.getColorR()-255));
-//			child.setColorB(Math.abs(child.getColorR()-255));
-//			label.setBackground(new Color(child.getColorR(),child.getColorG(),child.getColorB()));
-//			child.setColorStrRGB();
+
 			label.setBackground(new Color(Math.abs(child.getColorR()-255),Math.abs(child.getColorG()-255),Math.abs(child.getColorB()-255)));
 			child.setDots(lbs);
 			
 		}
-//		for(int i=0;i<lbs.length;i++) {
-//			lbs[i] = new JLabel();
-//			lbs[i].setSize(7,7);
-//			lbs[i].setBackground(Color.BLACK);
-//			lbs[i].setOpaque(true);
-////			if(i == 0 || i == 3) {
-////				lbs[i].setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
-////			}
-////			else {
-////				lbs[i].setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
-////			}
-//			DotListener labelListen=new DotListener(i,lbs[i], panel, child,attributeFieldPane);
-//			lbs[i].addMouseListener(labelListen);
-//			lbs[i].addMouseMotionListener(labelListen);
-//			child.setDots(lbs);
-//			panel.add(lbs[i]);
-//		}	
-//		System.out.println("여기에 도달을 하나요????????????????????????????????????????????");
-//		lbs[0].setLocation(child.getX()-7+child.getW()/2+3, child.getY()-7);
-//		lbs[0].setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
-//		lbs[1].setLocation(child.getX()-7, child.getY()-7+child.getH()/2+3);
-//		lbs[1].setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
-//		lbs[2].setLocation(child.getX()-7+child.getW()+7, child.getY()-7+child.getH()/2+3);	
-//		lbs[2].setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
-//		lbs[3].setLocation(child.getX()-7+child.getW()/2+3,child.getY()-10+child.getH()+10);
-//		lbs[3].setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
-//		label.setBackground(new Color(Math.abs(child.getColorR()-255),Math.abs(child.getColorG()-255),Math.abs(child.getColorB()-255)));
-//		
-//		
-		
 		
 		panel.repaint();
 		((JTextField)((JPanel)attributeFieldPane.getComponent(1)).getComponent(1)).setText(child.getValue());

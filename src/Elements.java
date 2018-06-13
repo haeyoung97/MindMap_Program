@@ -1,15 +1,12 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -56,6 +53,8 @@ class Bar extends Elements{
 	JMenu help = new JMenu("help");
 	JMenuItem[] menuOp = new JMenuItem[7];
 	JMenuItem helpOp = new JMenuItem("TextEditor form");
+	JMenuItem SaveOp = new JMenuItem("Using save Option");
+	JMenuItem ColorOp = new JMenuItem("Using Color Change");
 	
 	Bar(Container c, Mindmap mindmapSection) {
 		// menuBar & toolBar 구성
@@ -72,14 +71,13 @@ class Bar extends Elements{
 			ToolBar.addSeparator();
 		}
 		help.add(helpOp);
+		help.add(SaveOp);
+		help.add(ColorOp);
 		MenuBar.add(menu);
 		MenuBar.add(help);
 		
 		helpOp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				if(e.getActionCommand().equals("Close") ) {
-//					System.exit(0);
-//				}
 				String st="어서오세요. Park의 마인드 맵 프로그램 입니다.\r\n" + 
 						"\r\n" + 
 						"<입력 주의 사항>\r\n" +
@@ -91,6 +89,38 @@ class Bar extends Elements{
 				JOptionPane.showMessageDialog(null,
 					    st,
 					    "How to input datas to TextEditor",
+					    JOptionPane.PLAIN_MESSAGE);
+			}
+		});
+		
+		SaveOp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String st="Save Button이 활성화 되지 않을 경우\r\n" + 
+						"\r\n" + 
+						"<활성화 하기 위한 방안>\r\n" +
+						"TextEditor에 data를 작성한 후\r\n" + 
+						"적용 or Apply Button을 클릭하셔야\r\n" + 
+						"Save 또는 Save As Button을 사용하실수 있습니다.\r\n" + 
+						"이는 사용자가 data를 입력해야만 가능합니다.\r\n" + 
+						"(입력 data가 없다면 저장되지 않습니다.)\r\n";
+				JOptionPane.showMessageDialog(null,
+					    st,
+					    "How to using save button",
+					    JOptionPane.PLAIN_MESSAGE);
+			}
+		});
+
+		ColorOp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String st="Color Change input form\r\n" + 
+						"\r\n" + 
+						"<Color input form>\r\n" +
+						"-------------------------------\r\n" + 
+						"color : 6자리 16진수(hex)\r\n" + 
+						" ( user input form : 0x______ ) \r\n" ;
+				JOptionPane.showMessageDialog(null,
+					    st,
+					    "How to input color to Attribute Editor",
 					    JOptionPane.PLAIN_MESSAGE);
 			}
 		});
@@ -211,9 +241,6 @@ class Text extends Elements {
 		applyBtn.setHorizontalAlignment(SwingConstants.CENTER);
 		textEditorPanel.add(applyBtn, BorderLayout.SOUTH);
 		
-//		ButtonListener applyListener = new ButtonListener(attributeSection.attributePanel, textEditor, mindmapSection, b, saveListener);
-//		NewButtonListener newListener=new NewButtonListener(attributeSection.attributePanel, mindmapSection.drawNodePanel,textEditor);
-//		OpenButtonListener openListener = new OpenButtonListener(attributeSection.attributePanel, textEditor, mindmapSection, b, saveListener);
 		ButtonListener applyListener = new ButtonListener(attributeSection.attributePanel, textEditor, mindmapSection, b, true);
 		NewButtonListener newListener=new NewButtonListener(attributeSection.attributePanel, mindmapSection.drawNodePanel,textEditor);
 		OpenButtonListener openListener = new OpenButtonListener(attributeSection.attributePanel, textEditor, mindmapSection, b,applyListener);
@@ -229,16 +256,6 @@ class Text extends Elements {
 		JButton toolBtnNew = b.getToolButton(0);
 		menuItemNew.addActionListener(newListener); 
 		toolBtnNew.addActionListener(newListener);  
-//		// Save 버튼
-//		JMenuItem menuItemSave = b.getMenuItem(2);
-//		JButton toolBtnSave = b.getToolButton(2);
-//		menuItemSave.addActionListener(saveListener); 
-//		toolBtnSave.addActionListener(saveListener);  
-//		// Save As... 버튼
-//		JMenuItem menuItemSaveAs = b.getMenuItem(3);
-//		JButton toolBtnSaveAs = b.getToolButton(3);
-//		menuItemSaveAs.addActionListener(saveListener); 
-//		toolBtnSaveAs.addActionListener(saveListener);  
 		// Open 버튼
 		JMenuItem menuItemOpen = b.getMenuItem(1);
 		JButton toolBtnOpen = b.getToolButton(1);

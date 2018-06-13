@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -51,19 +50,8 @@ class WriteXMLFile {
 	}
 
 	void WriteFile(boolean isData) {
-		System.out.println("연결된당!");
-		System.out.println(filePath);
-		System.out.println(Name);
-//		System.out.println(start.toString());
-//		if(start == null) {
-//			JOptionPane.showMessageDialog(null, "저장할 데이터가 없습니다.", "Not Saved", JOptionPane.ERROR_MESSAGE);
-//			return;
-//		}
-		if(!isData) {
-			JOptionPane.showMessageDialog(null, "적용버튼을 클릭 한 후 저장할 수 있습니다.", "Not Saved", JOptionPane.ERROR_MESSAGE);
-			return;
-		}
-		else if(start == null) {
+		
+		if(start == null) {
 			JOptionPane.showMessageDialog(null, "저장할 데이터가 없습니다.", "Not Saved", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
@@ -83,7 +71,6 @@ class WriteXMLFile {
 				// value 엘리먼트
 				Element node = doc.createElement("node");
 				fileName.appendChild(node);
-				System.out.println("node : "+k.getValue() + ", x : "+k.getStrX()+", y : "+k.getStrY()+", R : "+k.getStrS()+", H : "+k.getStrH()+", W : "+k.getStrW());
 				// string 엘리먼트
 				Element Value = doc.createElement("Value");
 				Value.appendChild(doc.createTextNode(k.getValue()));
@@ -222,30 +209,18 @@ class WriteXMLFile {
 				
 			}
 			
-			
-			// 파일로 쓰지 않고 콘솔에 찍어보고 싶을 경우 다음을 사용 (디버깅용)
-			// StreamResult result = new StreamResult(System.out);
-
 			transformer.transform(source, result);
 
-			System.out.println("File saved!");
 			
 		}
 		catch (ParserConfigurationException pce)
 		{
 			pce.printStackTrace();
-//			return false;
 		}
 		catch (TransformerException tfe)
 		{
 			tfe.printStackTrace();
-//			return false;
 		}
-//		catch (FileNotFoundException fnfe) {
-//			fnfe.printStackTrace();
-//////			return false;
-//		}
-//		return true;
 	}
 	
 }
@@ -268,19 +243,12 @@ class SaveButtonListener implements ActionListener{
 		this.start = start;
 		this.last = last;
 		isData = true;
-		System.out.println("start : " + start);
+		
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-//		if(!isSave) {
-//			chooser = new JFileChooser();
-//			FileNameExtensionFilter filter = new FileNameExtensionFilter("XML 문서 파일", "xml");
-//			chooser.setFileFilter(filter);
 			if(e.getActionCommand().equals("Save")) {
-//				chooser.setDialogTitle("Save");
-//				chooser.setApproveButtonText("Save");
 				filePath = System.getProperty("user.home") + "\\Desktop\\";
-//				filePath = "C:\\Users\\박해영\\Desktop\\"; // 파일 경로명 리턴
 				
 				writeXML = new WriteXMLFile(filePath, start, last, 0);
 				writeXML.WriteFile(this.isData);
@@ -305,20 +273,10 @@ class SaveButtonListener implements ActionListener{
 				writeXML.WriteFile(this.isData);
 			}
 			
-//			filePath = chooser.getSelectedFile().getAbsolutePath(); // 파일 경로명 리턴
-//			fileName = chooser.getSelectedFile().getName(); // 파일의 이름.확장자
-//			writeXML = new WriteXMLFile(filePath, fileName, start, last);
-//			writeXML.WriteFile(this.isData);
-//		}
-//		else
-//			isSave = writeXML.WriteFile(this.isData);
-////		
 		
 	}
 }
 
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class ReadXMLFile {
 	private String path;
@@ -347,9 +305,7 @@ class ReadXMLFile {
         Document doc = dBuilder.parse(fXmlFile);
         doc.getDocumentElement().normalize();
   
-        System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
         NodeList nList = doc.getElementsByTagName("node");
-        System.out.println("-----------------------");
         Node nNode = nList.item(0);
         Element eElement = (Element) nNode;
         for (int temp = 0; temp < nList.getLength(); temp++) {
@@ -368,37 +324,21 @@ class ReadXMLFile {
 
            }
         }
-    	System.out.println(textAreaStr);
     	String fixedStr = textAreaStr.toString();
     	textEdit.setText(fixedStr);
     	mindmapSection.drawNodePanel.datas.clear();
     	
-//    	ButtonListener treeButton = new ButtonListener(attributeFieldPane, textEdit, mindmapSection, b, false);
-//    	treeButton.ApplyButtonFunc();
-    	
-//    	this.tree = treeButton.getTree();
     	applyListener.ApplyButtonFunc();
     	this.tree = applyListener.getTree();
-//    	this.tree=mindmapSection.drawNodePanel.getTree();
-    	System.out.println("테스트 과정@@@@@@@@@@@@@@@@@@@@@@@@@@");
     	tree.print();
     	Data k = tree.getStart();
     	Data kLast = tree.getLast();
     	mindmapSection.drawNodePanel.reset();
-//    	mindmapSection.drawNodePanel.datas.add(0, tree.getStart());
     	int i=0;
     	while(true) {
     		nNode = nList.item(i);
             eElement = (Element) nNode;
-            System.out.println("-----------------------");
-            System.out.println("Value : " + getTagValue("Value", eElement));
-        	System.out.println("X : " + getTagValue("X", eElement));
-        	System.out.println("Y : " + getTagValue("Y", eElement));
-//        	System.out.println("R : " + getTagValue("R", eElement));
-        	System.out.println("H : " + getTagValue("H", eElement));
-        	System.out.println("W : " + getTagValue("W", eElement));
-//        	System.out.println("Color : " + getTagValue("Color", eElement));
-    		k.setX(Integer.parseInt(getTagValue("X", eElement)));
+            k.setX(Integer.parseInt(getTagValue("X", eElement)));
     		k.setY(Integer.parseInt(getTagValue("Y", eElement)));
     		k.setH(Integer.parseInt(getTagValue("H", eElement)));
     		k.setW(Integer.parseInt(getTagValue("W", eElement)));
@@ -432,19 +372,12 @@ class ReadXMLFile {
     		if(i == nList.getLength())
     			break;
     		i++;
-//    		k.setW(Integer.parseInt(getTagValue("Color", eElement)));
     	}
     	
     	
     	
     	mindmapSection.drawNodePanel.setVisible(false);
     	mindmapSection.drawNodePanel.setVisible(true);
-//    	System.out.println("테스트 해보자 : " + k.getValue());
-//        	while(true) {
-//        		
-//        	}
-//        	System.out.println("tree.start : " + start);
-//        }
       } 
       catch (FileNotFoundException e) {
     	  JOptionPane.showMessageDialog(null, "지정된 파일을 찾을 수 없습니다.", "No Search file", JOptionPane.ERROR_MESSAGE);
@@ -478,7 +411,6 @@ class OpenButtonListener implements ActionListener{
 		this.textEdit = textEdit;
 		this.mindmapSection = mindmapSection;
 		this.attributeFieldPane = attributeFieldPane;
-//		this.saveListener = saveListener;
 		this.b = b;
 		
 		this.applyListener=applyListener;
@@ -497,7 +429,6 @@ class OpenButtonListener implements ActionListener{
 		
 		String filePath = chooser.getSelectedFile().getPath(); // 파일 경로명 리턴
 		new ReadXMLFile(attributeFieldPane, filePath, textEdit, mindmapSection, b, saveListener,applyListener);
-//		String fileName = chooser.getSelectedFile().getName(); // 파일의 이름.확장자
 		
 	}
 }
